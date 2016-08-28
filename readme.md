@@ -1,4 +1,6 @@
-## Foundation for API-centric Architecture with Lumen
+# Lumen - API
+
+**Foundation for API-centric Architecture with Lumen.**
 
 Kick-start your development for an api-centric web application with 
 this repository! Built with OAuth2 for authorization and authentication.
