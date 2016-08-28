@@ -1,0 +1,9 @@
+/vendor
+/node_modules
+Homestead.yaml
+Homestead.json
+.env
+.idea
+.vagrant
+Thumbs.db
+_ide_helper.php
