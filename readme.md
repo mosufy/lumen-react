@@ -21,7 +21,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 1. Download and install VirtualBox and Vagrant
 
-   **Vagrant** - Contains VM installation instructions to closely mimic the production box
+   **Vagrant** - Contains VM installation instructions to closely mimic the production box  
    **VirtualBox** - Allows us to run a VM on our local machine
     
    This version of VirtualBox and Vagrant works well on Mac OS X El Capitan Version 10.11.6. Newer versions might work too as long as both VirtualBox and Vagrant are compatible to each other.
