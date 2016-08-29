@@ -99,12 +99,12 @@ $ vim /etc/hosts
 ...
 ```
     
-You should now be able to access the local web app by typing https://api.lumenapi.local:8080
+You should now be able to access the local web app by typing https://api.lumenapi.local
 
-Ping test endpoint: https://api.lumenapi.local:8080/v1/service/ping
+Ping test endpoint: https://api.lumenapi.local/v1/service/ping
 
-```bash
-
+```json
+{"data":[{"type":"timestamp","id":null,"attributes":{"timestamp":{"date":"2016-08-29 17:38:37.000000","timezone_type":3,"timezone":"UTC"}}}]}
 ```
 
 ## Accessing the Database
@@ -116,7 +116,7 @@ Refer to the `.env` for the DB ip address. In any case, below is the DB credenti
 ```
 MySQL Host: 127.0.0.1
 Username: lumenapi
-Password: lumenapi
+Password: password
 Database: lumenapi
 Port: 3306
 SSH Host: 10.1.2.100
