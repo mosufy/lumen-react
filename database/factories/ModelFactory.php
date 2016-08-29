@@ -11,9 +11,21 @@
 |
 */
 
-$factory->define(App\User::class, function ($faker) {
+// Seed web users
+$factory->define(\App\Models\User::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->email,
+        'email'    => $faker->safeEmail,
+        'name'     => $faker->userName,
+        'password' => (new \Illuminate\Hashing\BcryptHasher())->make('password'),
+        'uid'      => Faker\Provider\Uuid::uuid()
+    ];
+});
+
+// Seed oauth client
+$factory->define(\App\Models\OAuthClient::class, function (Faker\Generator $faker) {
+    return [
+        'id'     => str_replace('-', '', $faker->uuid),
+        'secret' => str_replace('-', '', $faker->uuid),
+        'name'   => $faker->domainName
     ];
 });
