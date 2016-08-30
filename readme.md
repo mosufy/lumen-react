@@ -10,7 +10,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] Built on Lumen 5.2
 - [x] MVC with Repository pattern
 - [x] RESTful endpoints
-- [ ] OAuth2 for authorization
+- [x] OAuth2 for authorization
 - [ ] PHPDocumentor
 - [ ] Codeception Code Coverage and API Tester
 - [ ] Jenkins-ready deployment
