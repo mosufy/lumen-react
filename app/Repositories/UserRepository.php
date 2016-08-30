@@ -9,7 +9,10 @@
 
 namespace App\Repositories;
 
+use App\Exceptions\UserException;
+use App\Models\AppLog;
 use App\Models\User;
+use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 /**
  * Class UserRepository
@@ -19,15 +22,51 @@ use App\Models\User;
 class UserRepository
 {
     /**
-     * Get User data by user_uid
+     * Get User by resource owner id
+     *
+     * @return User
+     */
+    public function getUserByResourceOwnerId()
+    {
+        $user_id = Authorizer::getResourceOwnerId();
+        return $this->getUser($user_id);
+    }
+
+    /**
+     * Get User by uid
      *
      * @param string $user_uid
      * @return User
      */
     public function getUserByUid($user_uid)
     {
-        $user = User::where('uid', $user_uid)->first();
+        return $this->getUser($user_uid);
+    }
 
-        return $user;
+    /**
+     * Get User by users.id or users.uid
+     *
+     * @param int|string $identifier
+     * @return User
+     * @throws UserException
+     */
+    public function getUser($identifier)
+    {
+        if (filter_var($identifier, FILTER_VALIDATE_INT) !== false) {
+            $user = User::find($identifier);
+        } else {
+            $user = User::where('uid', $identifier)->first();
+        }
+
+        if (!empty($user)) {
+            return $user;
+        }
+
+        AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+            'User not found', [
+            'identifier' => $identifier
+        ]);
+
+        throw new UserException('User not found', 40401001);
     }
 }

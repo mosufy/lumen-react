@@ -27,10 +27,6 @@ class ServiceController extends Controller
     public function ping()
     {
         try {
-            AppLog::info(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
-                'This is a log', [
-                'timestamp' => Carbon::now()
-            ]);
             return $this->responseSuccess('timestamp', ['timestamp' => Carbon::now()]);
         } catch (\Exception $e) {
             return $this->responseError('Oops... Something went wrong', $e->getMessage(), $e->getCode());

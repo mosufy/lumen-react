@@ -31,14 +31,10 @@ class AccountController extends Controller
      *
      * This resource should only be restricted to the actual owner of the account.
      *
-     * @param Request $request
-     * @param string $user_uid
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request, $user_uid)
+    public function index()
     {
-        $user = $this->userRepository->getUserByUid($user_uid);
-
-        return $this->responseSuccess('user', $user);
+        return $this->responseSuccess('user', $this->userRepository->getUserByResourceOwnerId());
     }
 }

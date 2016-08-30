@@ -21,7 +21,7 @@ $app->group(['prefix' => 'v1'], function () use ($app) {
 
 // Protected endpoints
 $app->group(['prefix' => 'v1', 'middleware' => 'oauth'], function () use ($app) {
-    $app->get('/account/{user_uid}', ['as' => 'account.index', 'uses' => '\App\Http\Controllers\AccountController@index']);
+    $app->get('/account', ['as' => 'account.index', 'uses' => '\App\Http\Controllers\AccountController@index']);
 });
 
 $app->get('/', ['as' => 'home.index', 'uses' => 'ServiceController@ping']);
