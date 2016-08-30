@@ -11,20 +11,13 @@
 |
 */
 
-$app->group(['prefix' => 'v1'], function () use ($app) {
-    $app->get('/', ['as' => 'services.index', 'uses' => '\App\Http\Controllers\ServiceController@ping']);
+$app->post('/v1/oauth/client_access_token', ['as' => 'oauth.clientAccessToken', 'uses' => 'OAuthController@accessToken']);
+
+$app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.app'], function () use ($app) {
     $app->get('/services/ping', ['as' => 'services.ping', 'uses' => '\App\Http\Controllers\ServiceController@ping']);
-
-    $app->post('/oauth/client_access_token', ['as' => 'oauth.clientAccessToken', 'uses' => '\App\Http\Controllers\OAuthController@accessToken']);
-});
-
-$app->group(['prefix' => 'v1', 'middleware' => 'oauth:generateAccessToken'], function () use ($app) {
     $app->post('/oauth/access_token', ['as' => 'oauth.accessToken', 'uses' => '\App\Http\Controllers\OAuthController@accessToken']);
 });
 
-// Protected endpoints
-$app->group(['prefix' => 'v1', 'middleware' => 'oauth:resourceOwnerAccount'], function () use ($app) {
+$app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () use ($app) {
     $app->get('/account', ['as' => 'account.index', 'uses' => '\App\Http\Controllers\AccountController@index']);
 });
-
-$app->get('/', ['as' => 'home.index', 'uses' => 'ServiceController@ping']);

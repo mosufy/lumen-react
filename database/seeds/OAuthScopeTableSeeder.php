@@ -24,13 +24,13 @@ class OAuthScopeTableSeeder extends Seeder
     public function run()
     {
         factory(App\Models\OAuthScope::class)->create([
-            'id'          => 'generateAccessToken',
-            'description' => 'Generate access token'
+            'id'          => 'role.app',
+            'description' => 'App Role'
         ]);
 
         factory(App\Models\OAuthScope::class)->create([
-            'id'          => 'resourceOwnerAccount',
-            'description' => 'Resource Owner Account'
+            'id'          => 'role.user',
+            'description' => 'User Role'
         ]);
     }
 }
