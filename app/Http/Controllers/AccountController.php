@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 /**
@@ -18,6 +19,13 @@ use Illuminate\Http\Request;
  */
 class AccountController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Fetch own account details
      *
@@ -29,6 +37,8 @@ class AccountController extends Controller
      */
     public function index(Request $request, $user_uid)
     {
-        return $this->responseSuccess('user', []);
+        $user = $this->userRepository->getUserByUid($user_uid);
+
+        return $this->responseSuccess('user', $user);
     }
 }

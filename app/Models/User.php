@@ -1,4 +1,11 @@
 <?php
+/**
+ * Class User
+ *
+ * @date      28/8/2016
+ * @author    Mosufy <mosufy@gmail.com>
+ * @copyright Copyright (c) Mosufy
+ */
 
 namespace App\Models;
 
