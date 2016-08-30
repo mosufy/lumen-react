@@ -1,8 +1,8 @@
 <?php
 /**
- * Class ApiKey
+ * Class OAuthScope
  *
- * @date      27/8/2016
+ * @date      30/8/2016
  * @author    Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
  */
@@ -12,14 +12,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * ApiKey model
+ * Class OAuthScope
+ *
+ * Database generated from oauth2-server-laravel package.
  */
-class ApiKey extends Model
+class OAuthScope extends Model
 {
     /**
      * Set table name on database
      *
      * @var string
      */
-    protected $table = 'apikeys';
+    protected $table = 'oauth_scopes';
 }
