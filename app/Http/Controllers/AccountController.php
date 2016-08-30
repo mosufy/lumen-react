@@ -9,6 +9,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 
 /**
@@ -18,17 +19,22 @@ use Illuminate\Http\Request;
  */
 class AccountController extends Controller
 {
+    protected $userRepository;
+
+    public function __construct(UserRepository $userRepository)
+    {
+        $this->userRepository = $userRepository;
+    }
+
     /**
      * Fetch own account details
      *
      * This resource should only be restricted to the actual owner of the account.
      *
-     * @param Request $request
-     * @param string $user_uid
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function index(Request $request, $user_uid)
+    public function index()
     {
-        return $this->responseSuccess('user', []);
+        return $this->responseSuccess('user', $this->userRepository->getUserByResourceOwnerId());
     }
 }

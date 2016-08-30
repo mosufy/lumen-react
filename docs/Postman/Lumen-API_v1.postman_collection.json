@@ -1,0 +1,115 @@
+{
+	"id": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+	"name": "Lumen-API v1",
+	"description": "Lumen API-centric Architecture with OAuth2",
+	"order": [],
+	"folders": [
+		{
+			"id": "b87fe712-4657-4d17-5307-813bc390bef9",
+			"name": "Account",
+			"description": "",
+			"order": [
+				"f8a55ec0-d655-20fd-c96e-eb2495dc939b"
+			],
+			"owner": "177556"
+		},
+		{
+			"id": "ac3c6d51-2aee-b4a8-b284-0f136d692035",
+			"name": "OAuth",
+			"description": "",
+			"order": [
+				"0c40a341-bd4d-7add-041f-a92a42fdb303",
+				"7b0f6de0-91ec-dad4-2c94-53e4beda0f6a",
+				"e9444411-7e3b-c541-5b5c-f16f459a7427"
+			],
+			"owner": "177556",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac"
+		}
+	],
+	"timestamp": 1472359753565,
+	"owner": "177556",
+	"public": false,
+	"published": false,
+	"requests": [
+		{
+			"id": "0c40a341-bd4d-7add-041f-a92a42fdb303",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{site_url}}/oauth/client_access_token",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1472575548888,
+			"name": "oauth/client_access_token",
+			"description": "Request for Client access token. Client access token is required to access Client specific resources (i.e;  generate user access token)",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"responses": [],
+			"rawModeData": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"role.app\"\n}"
+		},
+		{
+			"id": "7b0f6de0-91ec-dad4-2c94-53e4beda0f6a",
+			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/json\n",
+			"url": "{{site_url}}/oauth/access_token",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1472575562826,
+			"name": "oauth/access_token",
+			"description": "Request for User access token using user's username and password",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"responses": [],
+			"rawModeData": "{\n    \"username\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"role.user\"\n}"
+		},
+		{
+			"id": "e9444411-7e3b-c541-5b5c-f16f459a7427",
+			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/json\n",
+			"url": "{{site_url}}/oauth/access_token",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1472573336111,
+			"name": "oauth/access_token (Refresh Token)",
+			"description": "Request for new access token using refresh token",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"responses": [],
+			"rawModeData": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"{{refresh_token}}\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\"\n}"
+		},
+		{
+			"id": "f8a55ec0-d655-20fd-c96e-eb2495dc939b",
+			"headers": "Authorization: Bearer {{access_token}}\nContent-Type: application/json\n",
+			"url": "{{site_url}}/account",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "GET",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1472570927775,
+			"name": "account",
+			"description": "Get user's account details",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"responses": [],
+			"rawModeData": "{\n    \"username\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\"\n}"
+		}
+	]
+}

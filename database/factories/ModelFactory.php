@@ -29,3 +29,11 @@ $factory->define(\App\Models\OAuthClient::class, function (Faker\Generator $fake
         'name'   => $faker->domainName
     ];
 });
+
+// Seed oauth scope
+$factory->define(\App\Models\OAuthScope::class, function (Faker\Generator $faker) {
+    return [
+        'id'          => $faker->safeColorName,
+        'description' => $faker->sentences()
+    ];
+});
