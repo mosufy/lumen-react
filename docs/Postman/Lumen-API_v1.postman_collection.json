@@ -24,6 +24,15 @@
 			],
 			"owner": "177556",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac"
+		},
+		{
+			"id": "0e1041ef-fd4f-3d81-025a-1771f97366df",
+			"name": "Services",
+			"description": "Services endpoint",
+			"order": [
+				"2b093a4c-c4d1-eb14-d1e1-0f988a536300"
+			],
+			"owner": "177556"
 		}
 	],
 	"timestamp": 1472359753565,
@@ -50,6 +59,28 @@
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
 			"responses": [],
 			"rawModeData": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"role.app\"\n}"
+		},
+		{
+			"id": "2b093a4c-c4d1-eb14-d1e1-0f988a536300",
+			"headers": "Content-Type: application/json\n",
+			"url": "{{site_url}}/services/ping",
+			"pathVariables": {},
+			"preRequestScript": "",
+			"method": "GET",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"data": [],
+			"dataMode": "raw",
+			"name": "{{site_url}}/services/ping",
+			"description": "Ping test",
+			"descriptionFormat": "html",
+			"time": 1472650224659,
+			"version": 2,
+			"responses": [],
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"folder": "0e1041ef-fd4f-3d81-025a-1771f97366df",
+			"rawModeData": "{\n    \"username\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\"\n}"
 		},
 		{
 			"id": "7b0f6de0-91ec-dad4-2c94-53e4beda0f6a",

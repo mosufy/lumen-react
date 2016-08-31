@@ -1,0 +1,10 @@
+class_name: ApiTester
+modules:
+    enabled:
+        - REST:
+            url: /v1
+            depends: Lumen
+        - \Helper\Api
+    config:
+        - Lumen:
+            environment_file: .env.testing
