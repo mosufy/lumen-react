@@ -12,10 +12,11 @@
 */
 
 $app->get('/v1/services/ping', ['as' => 'services.ping', 'uses' => 'ServiceController@ping']);
-$app->post('/v1/oauth/client_access_token', ['as' => 'oauth.clientAccessToken', 'uses' => 'OAuthController@accessToken']);
+$app->post('/v1/oauth/client_access_token', ['as' => 'oauth.clientAccessToken', 'uses' => 'OAuthController@clientAccessToken']);
 
 $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.app'], function () use ($app) {
     $app->post('/oauth/access_token', ['as' => 'oauth.accessToken', 'uses' => '\App\Http\Controllers\OAuthController@accessToken']);
+    $app->post('/oauth/refresh_token', ['as' => 'oauth.refreshToken', 'uses' => '\App\Http\Controllers\OAuthController@refreshToken']);
 });
 
 $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () use ($app) {
