@@ -7,12 +7,14 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 ## Basic Features
 
-- [x] Built on Lumen 5.2
-- [x] MVC with Repository pattern
+- [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
+- [x] MVC with Repository Pattern
 - [x] RESTful endpoints
-- [x] OAuth2 for authorization
-- [ ] PHPDocumentor
-- [ ] Codeception Code Coverage and API Tester
+- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
+- [x] [Based on JSON API Specification](http://jsonapi.org/)
+- [ ] [PHPDocumentor](https://www.phpdoc.org/)
+- [ ] [Codeception Code Coverage and API Tester](http://codeception.com/)
+- [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
 - [ ] Multi-environment
