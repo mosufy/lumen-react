@@ -101,9 +101,9 @@ $ vim /etc/hosts
 ...
 ```
     
-You should now be able to access the local web app by typing https://api.lumenapi.local
+You should now be able to access the local web app by typing http://api.lumenapi.local
 
-Ping test endpoint: https://api.lumenapi.local/v1/service/ping
+Ping test endpoint: http://api.lumenapi.local/v1/services/ping
 
 ```json
 {"data":[{"type":"timestamp","id":null,"attributes":{"timestamp":{"date":"2016-08-29 17:38:37.000000","timezone_type":3,"timezone":"UTC"}}}]}
