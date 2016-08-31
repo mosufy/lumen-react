@@ -115,7 +115,7 @@ It is recommended to download and use SequelPro to access the database.
 
 Refer to the `.env` for the DB ip address. In any case, below is the DB credentials:
 
-```
+```bash
 MySQL Host: 127.0.0.1
 Username: lumenapi
 Password: password
@@ -126,6 +126,32 @@ SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
 
+## Codeception Test Cases
+
+Full suite testing the elegant and efficient way.
+
+### To run test cases
+
+```bash
+$ vendor/bin/codecept run
+```
+
+### To run test cases with code coverage
+
+1. Install Xdebug
+
+   ```bash
+   $ sudo yum install php56w-pecl-xdebug
+   ```
+
+2. Run test with code coverage
+
+   ```bash
+   $ vendor/bin/codecept run --coverage --coverage-xml --coverage-html
+   ```
+   
+   To view code coverage report, the file is located in `tests/_output/coverage/index.html`
+
 ## Author
 
 For any issues with installation or getting this to work, send an email to: [mosufy@gmail.com](mailto:mosufy@gmail.com)
@@ -134,6 +160,6 @@ For any issues with installation or getting this to work, send an email to: [mos
 
 Fork and merge request!
 
-### License
+## License
 
 This codebase is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT)
