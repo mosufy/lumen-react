@@ -33,6 +33,8 @@ class AccessLogRepository
             return;
         }
 
+        // @codeCoverageIgnoreStart
+
         $client_id    = Authorizer::getClientId();
         $owner_type   = Authorizer::getResourceOwnerType();
         $owner_id     = ($owner_type == 'client') ? null : Authorizer::getResourceOwnerId();
@@ -93,6 +95,6 @@ class AccessLogRepository
                 'Failed to write to accesslogs db', [
                 'request' => $request
             ]);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 }

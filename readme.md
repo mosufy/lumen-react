@@ -22,9 +22,9 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
-- [ ] API access logs for possible rate limiting
+- [x] API access logs for possible rate limiting
 - [x] App logs saved to daily log file & database
-- [ ] Multi-environment
+- [ ] Multi-tenant environment
 
 ## Installation Instructions
 
@@ -133,7 +133,7 @@ SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
 
-## Codeception Test Cases
+## Codeception Testing
 
 Full suite testing the elegant and efficient way.
 
