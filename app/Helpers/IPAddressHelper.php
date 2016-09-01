@@ -72,7 +72,7 @@ class IPAddressHelper
 
         Cache::put($key, $data, $expire);
 
-        return $data;
+        return $data[$ip_address];
     }
 
     /**
