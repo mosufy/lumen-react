@@ -9,14 +9,20 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 - [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
-- [x] RESTful endpoints
-- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
-- [x] [Based on JSON API Specification](http://jsonapi.org/)
+- [x] RESTful API endpoints
+- [ ] Event-driven design
+- [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
+- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
+- [ ] [In-memory cache with Redis](https://lumen.laravel.com/docs/5.2/cache)
+- [ ] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
+- [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
+- [ ] API access logs for possible rate limiting
+- [x] App logs saved to daily log file & database
 - [ ] Multi-environment
 
 ## Installation Instructions
