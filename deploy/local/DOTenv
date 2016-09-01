@@ -2,30 +2,21 @@ APP_ENV=local
 APP_DEBUG=true
 APP_KEY=FoNrCM7ZQo9Vvj7c5H8568m7xa81DI7P
 
-DOMAIN_APP=lumenapi.local
-DOMAIN_API=api.lumenapi.local
-
+DB_CONNECTION=mysql
 DB_HOST=localhost
+DB_PORT=3306
 DB_DATABASE=lumenapi
 DB_USERNAME=lumenapi
 DB_PASSWORD=password
+DBA_PASSWORD=rootpassword
 
 CACHE_DRIVER=memcached
 SESSION_DRIVER=memcached
 QUEUE_DRIVER=redis
 
-MAIL_DRIVER=mailgun
-MAIL_HOST=smtp.mailgun.org
-MAIL_PORT=587
-MAIL_ENCRYPTION=null
-MAIL_PRETEND=false
+# Comma-delimited ip address of trusted proxies
+TRUSTED_PROXIES=
 
-MAILGUN_DOMAIN=mailgun.lumenapi.local
-MAILGUN_SECRET=key-secretkeyfrommailgun
-
-S3_KEY=SOMEKEY
-S3_SECRET=SOMESECRETKEY
-S3_REGION=ap-southeast-1
-S3_BUCKET=lumen-api
-
-PHOTO_URL=https://s3-ap-southeast-1.amazonaws.com/lumen-api/photos/
+# Swtiches to set below here
+QUEUE_SWITCH=off
+ACCESSLOG_SWITCH=on

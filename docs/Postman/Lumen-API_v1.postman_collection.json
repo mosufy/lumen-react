@@ -19,8 +19,8 @@
 			"description": "",
 			"order": [
 				"0c40a341-bd4d-7add-041f-a92a42fdb303",
-				"7b0f6de0-91ec-dad4-2c94-53e4beda0f6a",
-				"e9444411-7e3b-c541-5b5c-f16f459a7427"
+				"aea3b2c4-053c-8d4a-6ebe-01798ad53ef4",
+				"a010ec5b-c448-347f-e58f-75f0566809f6"
 			],
 			"owner": "177556",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac"
@@ -42,23 +42,47 @@
 	"requests": [
 		{
 			"id": "0c40a341-bd4d-7add-041f-a92a42fdb303",
-			"headers": "Content-Type: application/json\n",
-			"url": "{{site_url}}/oauth/client_access_token",
+			"headers": "Content-Type: application/x-www-form-urlencoded\n",
+			"url": "{{site_url}}/oauth/access_token/client",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "client_credentials",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "{{client_id}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "{{client_secret}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "scope",
+					"value": "role.app",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1472575548888,
-			"name": "oauth/client_access_token",
-			"description": "Request for Client access token. Client access token is required to access Client specific resources (i.e;  generate user access token)",
+			"time": 1472695437667,
+			"name": "oauth/access_token/client",
+			"description": "Request for Client access token. Client access token is required to access application specific resources (i.e;  login via OAuth2 Password Grant)",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
-			"responses": [],
-			"rawModeData": "{\n    \"grant_type\": \"client_credentials\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"role.app\"\n}"
+			"responses": []
 		},
 		{
 			"id": "2b093a4c-c4d1-eb14-d1e1-0f988a536300",
@@ -83,44 +107,104 @@
 			"rawModeData": "{\n    \"username\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\"\n}"
 		},
 		{
-			"id": "7b0f6de0-91ec-dad4-2c94-53e4beda0f6a",
-			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/json\n",
+			"id": "a010ec5b-c448-347f-e58f-75f0566809f6",
+			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/x-www-form-urlencoded\n",
 			"url": "{{site_url}}/oauth/access_token",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
+			"data": [
+				{
+					"key": "grant_type",
+					"value": "refresh_token",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "refresh_token",
+					"value": "{{refresh_token}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "{{client_id}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "{{client_secret}}",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1472575562826,
-			"name": "oauth/access_token",
-			"description": "Request for User access token using user's username and password",
+			"time": 1472696874768,
+			"name": "oauth/access_token (Refresh Token)",
+			"description": "Refresh User access token. Refresh token generally lasts longer than access token and thus should be used to request for a new User access token.",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
-			"responses": [],
-			"rawModeData": "{\n    \"username\": \"{{email}}\",\n    \"password\": \"{{password}}\",\n    \"grant_type\": \"password\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\",\n    \"scope\": \"role.user\"\n}"
+			"responses": []
 		},
 		{
-			"id": "e9444411-7e3b-c541-5b5c-f16f459a7427",
-			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/json\n",
+			"id": "aea3b2c4-053c-8d4a-6ebe-01798ad53ef4",
+			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/x-www-form-urlencoded\n",
 			"url": "{{site_url}}/oauth/access_token",
 			"preRequestScript": "",
 			"pathVariables": {},
 			"method": "POST",
-			"data": [],
-			"dataMode": "raw",
+			"data": [
+				{
+					"key": "username",
+					"value": "{{email}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "password",
+					"value": "{{password}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "grant_type",
+					"value": "password",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_id",
+					"value": "{{client_id}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "client_secret",
+					"value": "{{client_secret}}",
+					"type": "text",
+					"enabled": true
+				},
+				{
+					"key": "scope",
+					"value": "role.user",
+					"type": "text",
+					"enabled": true
+				}
+			],
+			"dataMode": "urlencoded",
 			"version": 2,
 			"tests": "",
 			"currentHelper": "normal",
 			"helperAttributes": {},
-			"time": 1472573336111,
-			"name": "oauth/access_token (Refresh Token)",
-			"description": "Request for new access token using refresh token",
+			"time": 1472696483768,
+			"name": "oauth/access_token",
+			"description": "Request for User access token. User access token is required to access user specific resources (i.e; account resource via OAuth2 Client Resource Grant)",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
-			"responses": [],
-			"rawModeData": "{\n    \"grant_type\": \"refresh_token\",\n    \"refresh_token\": \"{{refresh_token}}\",\n    \"client_id\": \"{{client_id}}\",\n    \"client_secret\": \"{{client_secret}}\"\n}"
+			"responses": []
 		},
 		{
 			"id": "f8a55ec0-d655-20fd-c96e-eb2495dc939b",

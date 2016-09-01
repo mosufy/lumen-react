@@ -9,7 +9,10 @@
 
 namespace App\Http\Controllers;
 
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use App\Exceptions\OAuthException;
+use App\Repositories\OAuthRepository;
+use App\Traits\ResponseTrait;
+use Illuminate\Http\Request;
 
 /**
  * Class OAuthController
@@ -18,13 +21,34 @@ use LucaDegasperi\OAuth2Server\Facades\Authorizer;
  */
 class OAuthController extends Controller
 {
+    use ResponseTrait;
+
+    protected $oauthRepository;
+
+    public function __construct(OAuthRepository $oauthRepository)
+    {
+        $this->oauthRepository = $oauthRepository;
+    }
+
     /**
-     * Validate user credentials in exchange of access_token
+     * Generate client access token
      *
+     * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function accessToken()
+    public function clientAccessToken(Request $request)
     {
-        return response()->json(Authorizer::issueAccessToken());
+            return response()->json($this->oauthRepository->issueClientAccessToken($request));
+    }
+
+    /**
+     * Generate or refresh user access token
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function accessToken(Request $request)
+    {
+        return response()->json($this->oauthRepository->issueUserAccessToken($request));
     }
 }

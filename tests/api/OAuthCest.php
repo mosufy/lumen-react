@@ -24,7 +24,7 @@ class OAuthCest
     public function testGenerateClientAccessToken(ApiTester $I)
     {
         $I->wantTo('test generate client access token');
-        $I->sendPOST('/oauth/client_access_token', [
+        $I->sendPOST('/oauth/access_token/client', [
             "grant_type"    => "client_credentials",
             "client_id"     => Fixtures::get('client_id'),
             "client_secret" => Fixtures::get('client_secret'),
@@ -41,7 +41,7 @@ class OAuthCest
     public function testGenerateClientAccessTokenWithInvalidSecret(ApiTester $I)
     {
         $I->wantTo('test generate client access token with invalid client_secret');
-        $I->sendPOST('/oauth/client_access_token', [
+        $I->sendPOST('/oauth/access_token/client', [
             "grant_type"    => "client_credentials",
             "client_id"     => Fixtures::get('client_id'),
             "client_secret" => Fixtures::get('client_secret') . 'XXX',

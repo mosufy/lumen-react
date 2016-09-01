@@ -7,5 +7,6 @@
 class_name: FunctionalTester
 modules:
     enabled:
-        # add framework module here
         - \Helper\Functional
+        - Lumen:
+            environment_file: .env.testing

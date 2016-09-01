@@ -9,15 +9,22 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 - [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
-- [x] RESTful endpoints
-- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
-- [x] [Based on JSON API Specification](http://jsonapi.org/)
+- [x] RESTful API endpoints
+- [ ] Event-driven design
+- [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
+- [ ] Mailgun transactional email integration with queues
+- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
+- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
+- [ ] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
+- [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
-- [ ] Multi-environment
+- [x] API access logs for possible rate limiting
+- [x] App logs saved to daily log file & database
+- [ ] Multi-tenant environment
 
 ## Installation Instructions
 
@@ -101,9 +108,9 @@ $ vim /etc/hosts
 ...
 ```
     
-You should now be able to access the local web app by typing https://api.lumenapi.local
+You should now be able to access the local web app by typing http://api.lumenapi.local
 
-Ping test endpoint: https://api.lumenapi.local/v1/service/ping
+Ping test endpoint: http://api.lumenapi.local/v1/services/ping
 
 ```json
 {"data":[{"type":"timestamp","id":null,"attributes":{"timestamp":{"date":"2016-08-29 17:38:37.000000","timezone_type":3,"timezone":"UTC"}}}]}
@@ -126,7 +133,7 @@ SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
 
-## Codeception Test Cases
+## Codeception Testing
 
 Full suite testing the elegant and efficient way.
 

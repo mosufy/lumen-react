@@ -36,7 +36,7 @@ class IPAddressHelper
      *
      * @return string
      */
-    public static function getClientIpAddress()
+    public static function getClientIpAddress() // @codeCoverageIgnoreStart
     {
         $trustedProxies    = env('TRUSTED_PROXIES');
         $trustedProxiesArr = explode(',', $trustedProxies);
@@ -45,7 +45,7 @@ class IPAddressHelper
         Request::setTrustedProxies($trustedProxiesArr);
 
         return Request::getClientIp();
-    }
+    } // @codeCoverageIgnoreEnd
 
     /**
      * Get client hostname
@@ -66,13 +66,13 @@ class IPAddressHelper
             if (array_key_exists($ip_address, $data)) {
                 return $data[$ip_address];
             }
-        }
+        } // @codeCoverageIgnore
 
         $data[$ip_address] = gethostbyaddr($ip_address);
 
         Cache::put($key, $data, $expire);
 
-        return $data;
+        return $data[$ip_address];
     }
 
     /**
@@ -105,10 +105,6 @@ class IPAddressHelper
     public static function getGeoIP($ip_address)
     {
         try {
-            if (app()->environment('testing', 'local')) {
-                return [];
-            }
-
             $key    = 'geoIP_byIP';
             $expire = 1440; // 24 hours
             $data   = [];
@@ -118,10 +114,10 @@ class IPAddressHelper
                 if (array_key_exists($ip_address, $data)) {
                     return $data[$ip_address];
                 }
-            }
+            } // @codeCoverageIgnore
 
             $client = new Client();
-            $res    = $client->get('http://freegeoip.net/json/');
+            $res    = $client->get('http://freegeoip.net/json/' . $ip_address);
             $result = json_decode($res->getBody(), true);
 
             $data[$ip_address] = $result;

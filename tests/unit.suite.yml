@@ -5,5 +5,7 @@
 class_name: UnitTester
 modules:
     enabled:
-        - Asserts
         - \Helper\Unit
+        - Lumen:
+            environment_file: .env.testing
+        - Asserts
