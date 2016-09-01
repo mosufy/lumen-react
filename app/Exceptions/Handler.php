@@ -64,10 +64,6 @@ class Handler extends ExceptionHandler
             return $this->responseError('Be right back', 'The service is temporary down for maintenance', 50300000, 503);
         }
 
-        if (substr(get_class($e),0,30) == 'League\OAuth2\Server\Exception') {
-            return $this->responseError('OAuth authorization fail', $e->getMessage(), 40000000, 400);
-        }
-
         return parent::render($request, $e);
     }
 }

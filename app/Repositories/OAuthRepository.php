@@ -18,7 +18,7 @@ use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 /**
  * Class OAuthRepository
  *
- * Authorization Server with Password Grant.
+ * Authorization Server.
  *
  * @see https://github.com/lucadegasperi/oauth2-server-laravel
  */
@@ -35,10 +35,8 @@ class OAuthRepository
      */
     public function issueClientAccessToken($request)
     {
-        if ($request->get('scope') !== 'role.app') {
-            throw new OAuthException('Invalid scope provided', 40001001);
-        }
-
+        // Overwrite the scope to use pre-defined scope
+        $request->merge(['scope' => 'role.app']);
         return $this->issueAccessToken();
     }
 
@@ -53,21 +51,8 @@ class OAuthRepository
      */
     public function issueUserAccessToken($request)
     {
-        if ($request->get('scope') !== 'role.user') {
-            throw new OAuthException('Invalid scope provided', 40001001);
-        }
-
-        return $this->issueAccessToken();
-    }
-
-    /**
-     * Refresh user access token
-     *
-     * @return array
-     * @throws OAuthException
-     */
-    public function refreshUserAccessToken()
-    {
+        // Overwrite the scope to use pre-defined scope
+        $request->merge(['scope' => 'role.user']);
         return $this->issueAccessToken();
     }
 

@@ -13,7 +13,6 @@ use App\Exceptions\OAuthException;
 use App\Repositories\OAuthRepository;
 use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 /**
  * Class OAuthController
@@ -39,39 +38,17 @@ class OAuthController extends Controller
      */
     public function clientAccessToken(Request $request)
     {
-        try {
-            return $this->responseSuccess('oauth2', $this->oauthRepository->issueClientAccessToken($request));
-        } catch (OAuthException $e) {
-            return $this->responseError('Failed to generate access token', $e->getMessage(), $e->getCode());
-        }
+            return response()->json($this->oauthRepository->issueClientAccessToken($request));
     }
 
     /**
-     * Generate user access token
+     * Generate or refresh user access token
      *
      * @param Request $request
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function accessToken(Request $request)
     {
-        try {
-            return $this->responseSuccess('oauth2', $this->oauthRepository->issueUserAccessToken($request));
-        } catch (OAuthException $e) {
-            return $this->responseError('Failed to generate access token', $e->getMessage(), $e->getCode());
-        }
-    }
-
-    /**
-     * Refresh user access token
-     *
-     * @return \Symfony\Component\HttpFoundation\Response
-     */
-    public function refreshToken()
-    {
-        try {
-            return $this->responseSuccess('oauth2', $this->oauthRepository->refreshUserAccessToken());
-        } catch (OAuthException $e) {
-            return $this->responseError('Failed to refresh access token', $e->getMessage(), $e->getCode());
-        }
+        return response()->json($this->oauthRepository->issueUserAccessToken($request));
     }
 }
