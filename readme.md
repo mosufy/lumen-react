@@ -14,8 +14,9 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
+- [ ] Mailgun transactional email integration with queues
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
-- [ ] [In-memory cache with Redis](https://lumen.laravel.com/docs/5.2/cache)
+- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
 - [ ] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
 - [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] ReactJS for views
