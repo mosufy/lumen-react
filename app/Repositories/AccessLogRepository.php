@@ -40,10 +40,11 @@ class AccessLogRepository
         $owner_id     = ($owner_type == 'client') ? null : Authorizer::getResourceOwnerId();
         $access_token = Authorizer::getAccessToken();
 
-        $endpoint    = '/' . $request->path();
-        $method      = $request->method();
-        $status_code = $response->getStatusCode();
-        $response    = $response->getContent();
+        $endpoint       = '/' . $request->path();
+        $method         = $request->method();
+        $status_code    = $response->getStatusCode();
+        $request_string = json_encode($request->except('_url', '_token', 'password'));
+        $response       = $response->getContent();
 
         try {
             $ip_address      = IPAddressHelper::getClientIpAddress();
@@ -76,6 +77,7 @@ class AccessLogRepository
             $accessLog->endpoint         = $endpoint;
             $accessLog->method           = $method;
             $accessLog->status_code      = $status_code;
+            $accessLog->request          = $request_string;
             $accessLog->response         = $response;
             $accessLog->access_token     = $access_token;
             $accessLog->ip_address       = isset($ip_address) ? $ip_address : '';
@@ -93,6 +95,10 @@ class AccessLogRepository
         } catch (\Exception $e) {
             AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 'Failed to write to accesslogs db', [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
                 'request' => $request
             ]);
         } // @codeCoverageIgnoreEnd
