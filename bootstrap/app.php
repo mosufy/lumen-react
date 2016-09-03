@@ -102,6 +102,7 @@ $app->register(Illuminate\Mail\MailServiceProvider::class);
 
 // Load the mail config
 $app->configure('mail');
+$app->configure('services');
 
 /*
 |--------------------------------------------------------------------------
