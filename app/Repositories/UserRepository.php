@@ -85,7 +85,7 @@ class UserRepository
     {
         try {
             $user           = new User;
-            $user->uid      = Uuid::generate(4);
+            $user->uid      = (string)Uuid::generate(4);
             $user->email    = $params['email'];
             $user->password = Hash::make($params['password']);
             $user->name     = $params['name'];

@@ -26,8 +26,10 @@ class UserEventSubscriber
      */
     public function onUserCreated($event)
     {
-        $job = (new SendMailer($event->user, 'activationEmail'))->onQueue('high');
-        dispatch($job);
+        // Send activation email
+        dispatch((new SendMailer($event->user, 'activationEmail'))->onQueue('high'));
+
+        // do something else
     }
 
     /**
