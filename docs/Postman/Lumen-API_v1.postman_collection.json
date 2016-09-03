@@ -9,7 +9,8 @@
 			"name": "Account",
 			"description": "",
 			"order": [
-				"f8a55ec0-d655-20fd-c96e-eb2495dc939b"
+				"f8a55ec0-d655-20fd-c96e-eb2495dc939b",
+				"e31c336f-40cd-bee0-4fb7-c74b47a21759"
 			],
 			"owner": "177556"
 		},
@@ -205,6 +206,26 @@
 			"description": "Request for User access token. User access token is required to access user specific resources (i.e; account resource via OAuth2 Client Resource Grant)",
 			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
 			"responses": []
+		},
+		{
+			"id": "e31c336f-40cd-bee0-4fb7-c74b47a21759",
+			"headers": "Authorization: Bearer {{client_access_token}}\nContent-Type: application/json\n",
+			"url": "{{site_url}}/account",
+			"preRequestScript": "",
+			"pathVariables": {},
+			"method": "POST",
+			"data": [],
+			"dataMode": "raw",
+			"version": 2,
+			"tests": "",
+			"currentHelper": "normal",
+			"helperAttributes": {},
+			"time": 1472914729868,
+			"name": "account",
+			"description": "Create new account (user)",
+			"collectionId": "e20261e7-4efb-6f6f-886a-1accd34215ac",
+			"responses": [],
+			"rawModeData": "{\n    \"email\": \"mail2@email.com\",\n    \"password\": \"password\"\n}"
 		},
 		{
 			"id": "f8a55ec0-d655-20fd-c96e-eb2495dc939b",
