@@ -10,14 +10,14 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
 - [x] RESTful API endpoints
-- [ ] Event-driven design
+- [x] Event-driven design
 - [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
-- [ ] Mailgun transactional email integration with queues
+- [x] Mailgun transactional email integration with queues
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
-- [ ] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
+- [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
 - [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
@@ -132,6 +132,27 @@ SSH Host: 10.1.2.100
 SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
+
+## Running Queued Jobs
+
+Tasks that require a significant amount of time to process (like sending
+out an email), should be  handled asynchronously. This can be handled 
+by utilising Laravel Queues. To see events and queues in action, create 
+an account by send a `POST` request to `/account` (see Postman collection).
+
+Notice that the account has been created but the email is not sent. This
+is because the job is being sent to the queue. Run the queue listener:
+
+```
+$ php artisan queue:listen --queue=high,default,low
+```
+
+You will start to observe `Processed: App\Jobs\SendMailer`, indicating
+that the queued job has now been processed. No email has been sent out
+as the `MAIL_PRETEND` in .env is set to `true`.
+
+Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.2/queues) 
+to understand more of how Queue works.
 
 ## Codeception Testing
 
