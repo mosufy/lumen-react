@@ -9,10 +9,14 @@
 
 namespace App\Repositories;
 
+use App\Events\UserCreated;
 use App\Exceptions\UserException;
 use App\Models\AppLog;
 use App\Models\User;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Hash;
 use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class UserRepository
@@ -68,5 +72,53 @@ class UserRepository
         ]);
 
         throw new UserException('User not found', 40401001);
+    }
+
+    /**
+     * Create user account
+     *
+     * @param array $params
+     * @return User
+     * @throws UserException
+     */
+    public function createUser($params)
+    {
+        try {
+            $user           = new User;
+            $user->uid      = Uuid::generate(4);
+            $user->email    = $params['email'];
+            $user->password = Hash::make($params['password']);
+            $user->save();
+
+            event(new UserCreated($user));
+
+            return $user;
+        } catch (QueryException $e) {
+            AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'params'  => $params
+            ]);
+
+            if ($e->getCode() == 23000) {
+                // Integrity constraint violation: 1062 Duplicate entry
+                throw new UserException('Email already exist. Please try a different email', 40000000);
+            }
+
+            throw new UserException('Exception thrown while trying to create user', 50001001);
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'params'  => $params
+            ]);
+            throw new UserException('Exception thrown while trying to create user', 50001001);
+        }
     }
 }

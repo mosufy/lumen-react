@@ -14,9 +14,15 @@ CACHE_DRIVER=memcached
 SESSION_DRIVER=memcached
 QUEUE_DRIVER=redis
 
-# Comma-delimited ip address of trusted proxies
-TRUSTED_PROXIES=
+MAIL_DRIVER=mailgun
+MAIL_PRETEND=true
 
-# Swtiches to set below here
-QUEUE_SWITCH=off
+# Mailgun domain and api-key
+MAILGUN_DOMAIN=
+MAILGUN_SECRET=
+
+# Comma-delimited ip address of trusted proxies
+TRUSTED_PROXIES=10.1.2.100
+
+# Switches to set below here
 ACCESSLOG_SWITCH=on

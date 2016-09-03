@@ -20,8 +20,8 @@ class CreateUsersTable extends Migration
             $table->string('name')->default('');
             $table->timestamps();
 
-            $table->index('uid');
-            $table->index('email');
+            $table->unique('uid');
+            $table->unique('email');
         });
     }
 

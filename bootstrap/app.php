@@ -94,9 +94,15 @@ $app->routeMiddleware([
 // $app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\LogServiceProvider::class);
-$app->register(\LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
-$app->register(\LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class);
-$app->register(\Jenssegers\Agent\AgentServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
+$app->register(LucaDegasperi\OAuth2Server\OAuth2ServerServiceProvider::class);
+$app->register(Illuminate\Redis\RedisServiceProvider::class);
+$app->register(Jenssegers\Agent\AgentServiceProvider::class);
+$app->register(Illuminate\Mail\MailServiceProvider::class);
+
+// Load the mail config
+$app->configure('mail');
+$app->configure('services');
 
 /*
 |--------------------------------------------------------------------------

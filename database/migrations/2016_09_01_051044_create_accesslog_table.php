@@ -20,6 +20,7 @@ class CreateAccesslogTable extends Migration
             $table->string('endpoint')->default('');
             $table->string('method', 8)->default('');
             $table->string('status_code', 3)->default('');
+            $table->text('request')->default('');
             $table->longText('response')->default('');
             $table->string('access_token', 40)->default('');
             $table->string('ip_address', 32)->default('');
