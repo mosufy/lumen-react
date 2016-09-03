@@ -38,4 +38,14 @@ class AccountController extends Controller
     {
         return $this->responseSuccess('user', $this->userRepository->getUserByResourceOwnerId());
     }
+
+    public function store(Request $request)
+    {
+        try {
+            $user = $this->userRepository->createUser($request->all());
+            return $this->responseSuccess('user', $user);
+        } catch (\Exception $e) {
+            return $this->responseError('Failed to create user', $e->getMessage(), $e->getCode());
+        }
+    }
 }
