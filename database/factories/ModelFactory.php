@@ -37,3 +37,25 @@ $factory->define(\App\Models\OAuthScope::class, function (Faker\Generator $faker
         'description' => $faker->sentences()
     ];
 });
+
+// Seed category
+$factory->define(\App\Models\Category::class, function (Faker\Generator $faker) {
+    $name = $faker->safeColorName;
+    return [
+        'name'        => $name,
+        'slug'        => str_slug($name),
+        'description' => $faker->sentences(),
+        'user_id'     => 1
+    ];
+});
+
+// Seed todos
+$factory->define(\App\Models\Todo::class, function (Faker\Generator $faker) {
+    return [
+        'uid'         => Faker\Provider\Uuid::uuid(),
+        'title'       => $faker->company,
+        'description' => $faker->sentences(),
+        'category_id' => 1,
+        'user_id'     => 1
+    ];
+});
