@@ -10,6 +10,7 @@
 namespace App\Repositories;
 
 use App\Events\TodoCreated;
+use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
 use App\Models\AppLog;
@@ -58,10 +59,20 @@ class TodoRepository
      * @param string           $todo_uid
      * @param \App\Models\User $user
      * @return Todo
+     * @throws TodoException
      */
     public function getTodoByUid($todo_uid, $user)
     {
         $todo = Todo::where('uid', $todo_uid)->where('user_id', $user->id)->first();
+
+        if (empty($todo)) {
+            AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                'Todo not found', [
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id
+            ]);
+            throw new TodoException('Todo not found', 40000000);
+        }
 
         return $todo;
     }
@@ -123,6 +134,18 @@ class TodoRepository
             event(new TodoUpdated($todo));
 
             return $todo;
+        } catch (TodoException $e) {
+            AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id,
+                'params'   => $params
+            ]);
+            throw $e;
         } catch (\Exception $e) {
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
@@ -135,6 +158,48 @@ class TodoRepository
                 'params'   => $params
             ]);
             throw new TodoException('Exception thrown while trying to update todo', 50001001);
+        }
+    }
+
+    /**
+     * Delete existing Todos
+     *
+     * @param string           $todo_uid
+     * @param \App\Models\User $user
+     * @throws TodoException
+     * @return Todo
+     */
+    public function deleteTodo($todo_uid, $user)
+    {
+        try {
+            $todo = $this->getTodoByUid($todo_uid, $user);
+            $todo->delete();
+
+            event(new TodoDeleted($todo));
+
+            return $todo;
+        } catch (TodoException $e) {
+            AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id
+            ]);
+            throw $e;
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id
+            ]);
+            throw new TodoException('Exception thrown while trying to delete todo', 50001001);
         }
     }
 }
