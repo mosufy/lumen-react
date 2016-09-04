@@ -57,4 +57,40 @@ class TodoRepository
 
         return $todo;
     }
+
+    /**
+     * Create new Todos
+     *
+     * @param \App\Models\User $user
+     * @param array            $params
+     * @throws TodoException
+     * @return Todo
+     */
+    public function createTodo($user, $params)
+    {
+        try {
+            $todo              = new Todo;
+            $todo->uid         = (string)Uuid::generate(4);
+            $todo->title       = $params['title'];
+            $todo->description = $params['description'];
+            $todo->category_id = $params['category_id'];
+            $todo->user_id     = $user->id;
+            $todo->save();
+
+            event(new TodoCreated($todo));
+
+            return $todo;
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'user_id' => $user->id,
+                'params'  => $params
+            ]);
+            throw new TodoException('Exception thrown while trying to create todo', 50001001);
+        }
+    }
 }

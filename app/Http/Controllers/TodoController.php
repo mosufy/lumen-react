@@ -9,11 +9,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CommonHelper;
 use App\Repositories\TodoRepository;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
 
 /**
  * Class TodoController
@@ -64,6 +62,18 @@ class TodoController extends Controller
             return $this->responseSuccess('todo', $todo);
         } catch (\Exception $e) {
             return $this->responseError('Failed to fetch todo', $e->getMessage(), $e->getCode());
+        }
+    }
+
+    public function store(Request $request)
+    {
+        try {
+            $user = $this->userRepository->getCurrentUser();
+            $todo = $this->todoRepository->createTodo($user, $request->all());
+
+            return $this->responseSuccess('todo', $todo);
+        } catch (\Exception $e) {
+            return $this->responseError('Failed to insert todo', $e->getMessage(), $e->getCode());
         }
     }
 }
