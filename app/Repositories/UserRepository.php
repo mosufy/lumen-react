@@ -75,6 +75,26 @@ class UserRepository
     }
 
     /**
+     * Get current user requesting resource
+     *
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+        return User::find($this->getCurrentUserId());
+    }
+
+    /**
+     * Get current user id requesting the resource
+     *
+     * @return int
+     */
+    public function getCurrentUserId()
+    {
+        return Authorizer::getResourceOwnerId();
+    }
+
+    /**
      * Create user account
      *
      * @param array $params
