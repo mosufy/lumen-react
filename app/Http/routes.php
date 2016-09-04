@@ -23,4 +23,11 @@ $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.app'], function () us
 
 $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () use ($app) {
     $app->get('/account', ['as' => 'account.index', 'uses' => '\App\Http\Controllers\AccountController@index']);
+
+    // to-do resource endpoints
+    $app->get('/todos/{todo_uid}', ['as' => 'todo.show', 'uses' => '\App\Http\Controllers\TodoController@show']);
+    $app->get('/todos', ['as' => 'todo.index', 'uses' => '\App\Http\Controllers\TodoController@index']);
+    $app->post('/todos', ['as' => 'todo.store', 'uses' => '\App\Http\Controllers\ToDoController@store']);
+    $app->put('/todos/{todo_uid}', ['as' => 'todo.update', 'uses' => '\App\Http\Controllers\TodoController@update']);
+    $app->delete('/todos/{todo_uid}', ['as' => 'todo.destroy', 'uses' => '\App\Http\Controllers\TodoController@destroy']);
 });
