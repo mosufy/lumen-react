@@ -167,7 +167,7 @@ class TodoRepository
      * @param string           $todo_uid
      * @param \App\Models\User $user
      * @throws TodoException
-     * @return Todo
+     * @return null
      */
     public function deleteTodo($todo_uid, $user)
     {
@@ -177,7 +177,7 @@ class TodoRepository
 
             event(new TodoDeleted($todo));
 
-            return $todo;
+            return null;
         } catch (TodoException $e) {
             AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
