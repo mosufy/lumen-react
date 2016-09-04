@@ -10,6 +10,7 @@
 namespace App\Listeners;
 
 use App\Events\TodoCreated;
+use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use Illuminate\Support\Facades\Cache;
 
@@ -47,6 +48,19 @@ class TodoEventSubscriber
     }
 
     /**
+     * Handle todos deleted events.
+     *
+     * @param TodoDeleted $event
+     */
+    public function onTodoDeleted($event)
+    {
+        // Clear user's Todos caches
+        Cache::forget('todosByUserId_' . $event->todo->user_id);
+
+        // do something else
+    }
+
+    /**
      * Register the listeners for the subscriber.
      *
      * @param \Illuminate\Events\Dispatcher $events
@@ -61,6 +75,11 @@ class TodoEventSubscriber
         $events->listen(
             'App\Events\TodoUpdated',
             'App\Listeners\TodoEventSubscriber@onTodoUpdated'
+        );
+
+        $events->listen(
+            'App\Events\TodoDeleted',
+            'App\Listeners\TodoEventSubscriber@onTodoDeleted'
         );
     }
 }

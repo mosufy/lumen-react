@@ -87,6 +87,7 @@ class TodoController extends Controller
      * Update existing Todos
      *
      * @param Request $request
+     * @param string  $todo_uid
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function update(Request $request, $todo_uid)
@@ -98,6 +99,25 @@ class TodoController extends Controller
             return $this->responseSuccess('todo', $todo);
         } catch (\Exception $e) {
             return $this->responseError('Failed to update todo', $e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Delete Todos
+     *
+     * @param Request $request
+     * @param string  $todo_uid
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function destroy(Request $request, $todo_uid)
+    {
+        try {
+            $user = $this->userRepository->getCurrentUser();
+            $todo = $this->todoRepository->deleteTodo($todo_uid, $user);
+
+            return $this->responseSuccess('todo', $todo);
+        } catch (\Exception $e) {
+            return $this->responseError('Failed to delete todo', $e->getMessage(), $e->getCode());
         }
     }
 }
