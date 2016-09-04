@@ -9,9 +9,12 @@
 
 namespace App\Repositories;
 
+use App\Events\TodoCreated;
+use App\Exceptions\TodoException;
+use App\Models\AppLog;
 use App\Models\Todo;
 use App\Traits\RepositoryTraits;
-use Illuminate\Support\Facades\DB;
+use Webpatser\Uuid\Uuid;
 
 /**
  * Class TodoRepository
@@ -31,21 +34,25 @@ class TodoRepository
      */
     public function getAllTodos($user, $params)
     {
+        $key    = 'todosByUserId_' . $user->id;
+        $subKey = json_encode($params);
+
+        if ($cached = $this->getCache($key, $subKey)) {
+            return $cached;
+        }
+
         $todos = Todo::where('user_id', $user->id);
 
-        // Get total count
-        $total_count = DB::table('todos')
-            ->where('user_id', $user->id)
-            ->select(DB::raw('count(*) as count'))->value('count');
-
         // Get paginated data
-        $paginated = $this->getPaginated($todos, $params, $total_count);
+        $paginated = $this->getPaginated($todos, $params);
+
+        $this->putCache($key, $paginated, 30, $subKey);
 
         return $paginated;
     }
 
     /**
-     * Get todo by uid
+     * Get todos by uid
      *
      * @param string           $todo_uid
      * @param \App\Models\User $user
