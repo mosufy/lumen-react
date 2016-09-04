@@ -65,6 +65,12 @@ class TodoController extends Controller
         }
     }
 
+    /**
+     * Insert Todos
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function store(Request $request)
     {
         try {
@@ -74,6 +80,24 @@ class TodoController extends Controller
             return $this->responseSuccess('todo', $todo);
         } catch (\Exception $e) {
             return $this->responseError('Failed to insert todo', $e->getMessage(), $e->getCode());
+        }
+    }
+
+    /**
+     * Update existing Todos
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function update(Request $request, $todo_uid)
+    {
+        try {
+            $user = $this->userRepository->getCurrentUser();
+            $todo = $this->todoRepository->updateTodo($todo_uid, $user, $request->all());
+
+            return $this->responseSuccess('todo', $todo);
+        } catch (\Exception $e) {
+            return $this->responseError('Failed to update todo', $e->getMessage(), $e->getCode());
         }
     }
 }

@@ -10,6 +10,7 @@
 namespace App\Repositories;
 
 use App\Events\TodoCreated;
+use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
 use App\Models\AppLog;
 use App\Models\Todo;
@@ -98,6 +99,42 @@ class TodoRepository
                 'params'  => $params
             ]);
             throw new TodoException('Exception thrown while trying to create todo', 50001001);
+        }
+    }
+
+    /**
+     * Update existing Todos
+     *
+     * @param string           $todo_uid
+     * @param \App\Models\User $user
+     * @param array            $params
+     * @throws TodoException
+     * @return Todo
+     */
+    public function updateTodo($todo_uid, $user, $params)
+    {
+        try {
+            $todo              = $this->getTodoByUid($todo_uid, $user);
+            $todo->title       = $params['title'];
+            $todo->description = $params['description'];
+            $todo->category_id = $params['category_id'];
+            $todo->save();
+
+            event(new TodoUpdated($todo));
+
+            return $todo;
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id,
+                'params'   => $params
+            ]);
+            throw new TodoException('Exception thrown while trying to update todo', 50001001);
         }
     }
 }
