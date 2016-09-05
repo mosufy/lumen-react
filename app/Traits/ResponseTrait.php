@@ -9,12 +9,14 @@
 
 namespace App\Traits;
 
+use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Collection;
 
 /**
- * Class ResponseTrait
+ * Trait ResponseTrait
  *
  * Contains methods to generate API Responses.
  */
@@ -30,11 +32,17 @@ trait ResponseTrait
      */
     public function responseSuccess($type = '', $data = [], $extra = [])
     {
+        if ($data instanceof LengthAwarePaginator) {
+            return $this->responsePaginate($type, $data, $extra);
+        }
+
         $jsonapi = [];
 
-        if (Request::method() == 'GET' && !empty(Request::except('_url'))) {
+        $params = CommonHelper::unsetInternalParams(Request::all());
+
+        if (Request::method() == 'GET' && !empty($params)) {
             $jsonapi['meta'] = [
-                'filter' => Request::except('_url')
+                'filter' => $params
             ];
         }
 
@@ -144,18 +152,17 @@ trait ResponseTrait
     /**
      * Return paginated response
      *
-     * @param string $type
-     * @param array  $data
-     * @param array  $extra
+     * @param string               $type
+     * @param LengthAwarePaginator $data
+     * @param array                $extra
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function responsePaginate($type = '', $data = [], $extra = [])
+    public function responsePaginate($type, $data, $extra = [])
     {
-        $data->setPath(url() . '/' . Request::path())->appends(Request::except('_url'));
         $data = $data->toArray();
 
         $jsonapi['meta'] = [
-            'filter' => Request::except('_url', '_token')
+            'filter' => CommonHelper::unsetInternalParams(Request::all())
         ];
 
         if (!empty($data['data'])) {

@@ -75,6 +75,26 @@ class UserRepository
     }
 
     /**
+     * Get current user requesting resource
+     *
+     * @return User
+     */
+    public function getCurrentUser()
+    {
+        return User::find($this->getCurrentUserId());
+    }
+
+    /**
+     * Get current user id requesting the resource
+     *
+     * @return int
+     */
+    public function getCurrentUserId()
+    {
+        return Authorizer::getResourceOwnerId();
+    }
+
+    /**
      * Create user account
      *
      * @param array $params
@@ -85,9 +105,10 @@ class UserRepository
     {
         try {
             $user           = new User;
-            $user->uid      = Uuid::generate(4);
+            $user->uid      = (string)Uuid::generate(4);
             $user->email    = $params['email'];
             $user->password = Hash::make($params['password']);
+            $user->name     = $params['name'];
             $user->save();
 
             event(new UserCreated($user));

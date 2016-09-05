@@ -101,6 +101,6 @@ class AccessLogRepository
                 'line'    => $e->getLine(),
                 'request' => $request
             ]);
-        } // @codeCoverageIgnoreEnd
-    }
+        }
+    } // @codeCoverageIgnoreEnd
 }

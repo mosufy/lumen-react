@@ -19,6 +19,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
 - [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
 - [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
+- [x] Example TODO API resource endpoints
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox

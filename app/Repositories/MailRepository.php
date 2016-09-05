@@ -10,6 +10,7 @@
 namespace App\Repositories;
 
 use App\Models\AppLog;
+use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 
 /**
@@ -19,24 +20,34 @@ use Illuminate\Support\Facades\Mail;
  */
 class MailRepository
 {
+    /**
+     * Send activation email
+     *
+     * @param User $user
+     */
     public function activationEmail($user)
     {
-        $this->sendMail($user, 'emails.activation', 'Activate your account!', 'activation');
+        $this->sendMail($user, 'emails.activation', 'Activate your account!', 'activation', [
+            'activation_url' => 'https://github.com/mosufy/lumen-api'
+        ]);
     }
 
     /**
+     * Send email
+     *
      * @param \App\Models\User $user
      * @param string           $template
      * @param string           $subject
      * @param string           $tag
+     * @param array            $data
      * @param string           $from
      * @param string           $from_name
      * @throws \Exception
      */
-    protected function sendMail($user, $template, $subject, $tag = '', $from = 'hello@app.com', $from_name = 'My app')
+    protected function sendMail($user, $template, $subject, $tag = '', $data = [], $from = 'hello@app.com', $from_name = 'My app')
     {
         try {
-            Mail::send($template, ['user' => $user], function ($m) use ($user, $subject, $tag, $from, $from_name) {
+            Mail::send($template, ['user' => $user, 'data' => $data], function ($m) use ($user, $subject, $tag, $from, $from_name) {
                 $m->from($from, $from_name);
                 $m->to($user->email, $user->name)->subject($subject);
 

@@ -59,14 +59,6 @@ $app->singleton(
 |
 */
 
-// $app->middleware([
-//    App\Http\Middleware\ExampleMiddleware::class
-// ]);
-
-// $app->routeMiddleware([
-//     'auth' => App\Http\Middleware\Authenticate::class,
-// ]);
-
 $app->middleware([
     \LucaDegasperi\OAuth2Server\Middleware\OAuthExceptionHandlerMiddleware::class,
     \App\Http\Middleware\AccessLogMiddleware::class
@@ -100,9 +92,11 @@ $app->register(Illuminate\Redis\RedisServiceProvider::class);
 $app->register(Jenssegers\Agent\AgentServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 
-// Load the mail config
+// Load the configs
 $app->configure('mail');
 $app->configure('services');
+$app->configure('oauth2');
+$app->configure('queue');
 
 /*
 |--------------------------------------------------------------------------
