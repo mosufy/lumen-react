@@ -71,7 +71,7 @@ class TodoRepository
                 'todo_uid' => $todo_uid,
                 'user_id'  => $user->id
             ]);
-            throw new TodoException('Todo not found', 40000000);
+            throw new TodoException('Todo not found', 40400000);
         }
 
         return $todo;

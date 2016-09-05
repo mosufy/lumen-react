@@ -67,6 +67,7 @@ class TodoEventSubscriber
      */
     public function subscribe($events)
     {
+        // @codeCoverageIgnoreStart
         $events->listen(
             'App\Events\TodoCreated',
             'App\Listeners\TodoEventSubscriber@onTodoCreated'
@@ -81,5 +82,6 @@ class TodoEventSubscriber
             'App\Events\TodoDeleted',
             'App\Listeners\TodoEventSubscriber@onTodoDeleted'
         );
+        // @codeCoverageIgnoreEnd
     }
 }

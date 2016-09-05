@@ -39,9 +39,11 @@ class UserEventSubscriber
      */
     public function subscribe($events)
     {
+        // @codeCoverageIgnoreStart
         $events->listen(
             'App\Events\UserCreated',
             'App\Listeners\UserEventSubscriber@onUserCreated'
         );
+        // @codeCoverageIgnoreEnd
     }
 }
