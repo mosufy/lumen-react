@@ -38,7 +38,7 @@ class TodoController extends Controller
     {
         try {
             $user  = $this->userRepository->getCurrentUser();
-            $todos = $this->todoRepository->getAllTodos($user, $request->all());
+            $todos = $this->todoRepository->getTodos($user, $request->all());
 
             return $this->responseSuccess('todo', $todos);
         } catch (\Exception $e) {

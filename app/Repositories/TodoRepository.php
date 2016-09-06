@@ -28,13 +28,13 @@ class TodoRepository
     use RepositoryTraits;
 
     /**
-     * Get all todos
+     * Get todos
      *
      * @param \App\Models\User $user
      * @param array            $params
      * @return mixed
      */
-    public function getAllTodos($user, $params)
+    public function getTodos($user, $params)
     {
         $key    = 'todosByUserId_' . $user->id;
         $subKey = json_encode($params);
