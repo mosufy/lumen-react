@@ -12,7 +12,7 @@ namespace App\Listeners;
 use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
  * Class TodoEventSubscriber
@@ -21,6 +21,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class TodoEventSubscriber
 {
+    protected $cache;
+
+    public function __construct(Cache $cache)
+    {
+        $this->cache = $cache;
+    }
+
     /**
      * Handle todos created events.
      *
@@ -29,8 +36,7 @@ class TodoEventSubscriber
     public function onTodoCreated($event)
     {
         // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
-
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
         // do something else
     }
 
@@ -42,8 +48,7 @@ class TodoEventSubscriber
     public function onTodoUpdated($event)
     {
         // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
-
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
         // do something else
     }
 
@@ -55,8 +60,7 @@ class TodoEventSubscriber
     public function onTodoDeleted($event)
     {
         // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
-
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
         // do something else
     }
 

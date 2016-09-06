@@ -49,11 +49,10 @@ class TodoController extends Controller
     /**
      * Get todos by uid
      *
-     * @param Request $request
      * @param string  $todo_uid
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function show(Request $request, $todo_uid)
+    public function show($todo_uid)
     {
         try {
             $user = $this->userRepository->getCurrentUser();
@@ -109,7 +108,7 @@ class TodoController extends Controller
      * @param string  $todo_uid
      * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function destroy(Request $request, $todo_uid)
+    public function destroy($todo_uid)
     {
         try {
             $user = $this->userRepository->getCurrentUser();

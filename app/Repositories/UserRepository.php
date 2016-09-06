@@ -13,10 +13,10 @@ use App\Events\UserCreated;
 use App\Exceptions\UserException;
 use App\Models\AppLog;
 use App\Models\User;
+use Illuminate\Contracts\Hashing\Hasher;
 use Illuminate\Database\QueryException;
-use Illuminate\Support\Facades\Hash;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
-use Webpatser\Uuid\Uuid;
+use LucaDegasperi\OAuth2Server\Authorizer;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class UserRepository
@@ -25,6 +25,13 @@ use Webpatser\Uuid\Uuid;
  */
 class UserRepository
 {
+    protected $hash;
+
+    public function __construct(Hasher $hash)
+    {
+        $this->hash = $hash;
+    }
+
     /**
      * Get User by resource owner id
      *
@@ -32,7 +39,7 @@ class UserRepository
      */
     public function getUserByResourceOwnerId()
     {
-        $user_id = Authorizer::getResourceOwnerId();
+        $user_id = $this->getAuthorizer()->getResourceOwnerId();
         return $this->getUser($user_id);
     }
 
@@ -91,7 +98,7 @@ class UserRepository
      */
     public function getCurrentUserId()
     {
-        return Authorizer::getResourceOwnerId();
+        return $this->getAuthorizer()->getResourceOwnerId();
     }
 
     /**
@@ -105,9 +112,9 @@ class UserRepository
     {
         try {
             $user           = new User;
-            $user->uid      = (string)Uuid::generate(4);
+            $user->uid      = Uuid::uuid4()->toString();
             $user->email    = $params['email'];
-            $user->password = Hash::make($params['password']);
+            $user->password = $this->hash->make($params['password']);
             $user->name     = $params['name'];
             $user->save();
 
@@ -141,5 +148,15 @@ class UserRepository
             ]);
             throw new UserException('Exception thrown while trying to create user', 50001001);
         }
+    }
+
+    /**
+     * Get the OAuth2 authorizer
+     *
+     * @return Authorizer
+     */
+    protected function getAuthorizer()
+    {
+        return app(Authorizer::class);
     }
 }

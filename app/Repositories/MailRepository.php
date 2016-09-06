@@ -11,7 +11,7 @@ namespace App\Repositories;
 
 use App\Models\AppLog;
 use App\Models\User;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Contracts\Mail\Mailer;
 
 /**
  * Class MailRepository
@@ -20,6 +20,13 @@ use Illuminate\Support\Facades\Mail;
  */
 class MailRepository
 {
+    protected $mail;
+
+    public function __construct(Mailer $mail)
+    {
+        $this->mail = $mail;
+    }
+
     /**
      * Send activation email
      *
@@ -47,7 +54,7 @@ class MailRepository
     protected function sendMail($user, $template, $subject, $tag = '', $data = [], $from = 'hello@app.com', $from_name = 'My app')
     {
         try {
-            Mail::send($template, ['user' => $user, 'data' => $data], function ($m) use ($user, $subject, $tag, $from, $from_name) {
+            $this->mail->send($template, ['user' => $user, 'data' => $data], function ($m) use ($user, $subject, $tag, $from, $from_name) {
                 $m->from($from, $from_name);
                 $m->to($user->email, $user->name)->subject($subject);
 

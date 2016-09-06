@@ -14,7 +14,7 @@
         "predis/predis": "^1.1",
         "illuminate/redis": "5.2.*",
         "illuminate/mail": "5.2.*",
-        "webpatser/laravel-uuid": "2.*"
+        "ramsey/uuid": "^3.5"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

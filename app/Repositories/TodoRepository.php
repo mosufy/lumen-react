@@ -16,7 +16,7 @@ use App\Exceptions\TodoException;
 use App\Models\AppLog;
 use App\Models\Todo;
 use App\Traits\RepositoryTraits;
-use Webpatser\Uuid\Uuid;
+use Ramsey\Uuid\Uuid;
 
 /**
  * Class TodoRepository
@@ -89,7 +89,7 @@ class TodoRepository
     {
         try {
             $todo              = new Todo;
-            $todo->uid         = (string)Uuid::generate(4);
+            $todo->uid         = Uuid::uuid4()->toString();
             $todo->title       = $params['title'];
             $todo->description = $params['description'];
             $todo->category_id = $params['category_id'];

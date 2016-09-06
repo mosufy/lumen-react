@@ -9,15 +9,16 @@
 
 namespace App\Models;
 
-use App\Helpers\IPAddressHelper;
+use App\Traits\IPAddressTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Facades\Log;
 
 /**
  * AppLog model
  */
 class AppLog extends Model
 {
+    use IPAddressTrait;
+
     /**
      * Set table name on database
      *
@@ -68,7 +69,7 @@ class AppLog extends Model
             ];
         }
 
-        $ipaddr = IPAddressHelper::getClientIpAddress();
+        $ipaddr = '';//static::getClientIpAddress();
 
         /*$api_key        = Request::header('php-auth-user');
         $createdby_user = Cache::remember('user_apiKey_' . $api_key, 30, function () use ($api_key) {
@@ -98,7 +99,8 @@ class AppLog extends Model
         }
 
         // Add lumen log
-        Log::$level($message, $context);
+        $log = app('log');
+        $log->$level($message, $context);
     }
 
     /**

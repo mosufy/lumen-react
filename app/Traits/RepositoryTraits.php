@@ -10,10 +10,8 @@
 namespace App\Traits;
 
 use App\Helpers\CommonHelper;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 
 /**
  * Trait RepositoryTrait
@@ -65,7 +63,7 @@ trait RepositoryTraits
      */
     protected function getPath()
     {
-        return Request::url();
+        return app('request')->url();
     }
 
     /**
@@ -111,6 +109,8 @@ trait RepositoryTraits
      */
     protected function getPaginated($object, $params)
     {
+        $db = app('db');
+
         $params = CommonHelper::unsetInternalParams($params);
 
         $params['page']  = $this->getPage($params);
@@ -131,7 +131,7 @@ trait RepositoryTraits
         }
 
         // Get total count
-        $total_count = $object->select(DB::raw('count(*) as count'))->value('count');
+        $total_count = $object->select($db->raw('count(*) as count'))->value('count');
 
         // Generate paginator
         $paginated = new LengthAwarePaginator($result, $total_count, $params['limit'], $params['page'], ['path' => $path]);
@@ -152,14 +152,14 @@ trait RepositoryTraits
     protected function putCache($key, $data, $expire = 30, $subKey = '')
     {
         if (empty($subKey)) {
-            Cache::put($key, $data, $expire);
+            $this->getCacheObject()->put($key, $data, $expire);
             return;
         }
 
-        $cached          = Cache::get($key);
+        $cached          = $this->getCacheObject()->get($key);
         $cached[$subKey] = $data;
 
-        Cache::put($key, $cached, $expire);
+        $this->getCacheObject()->put($key, $cached, $expire);
     }
 
     /**
@@ -171,8 +171,8 @@ trait RepositoryTraits
      */
     protected function getCache($key, $subKey = '')
     {
-        if (Cache::has($key)) {
-            $cached = Cache::get($key);
+        if ($this->getCacheObject()->has($key)) {
+            $cached = $this->getCacheObject()->get($key);
 
             if (is_array($cached)) {
                 if (!empty($cached[$subKey])) {
@@ -184,5 +184,15 @@ trait RepositoryTraits
         }
 
         return false;
+    }
+
+    /**
+     * Get Cached object
+     *
+     * @return Cache
+     */
+    protected function getCacheObject()
+    {
+        return app()->make(Cache::class);
     }
 }
