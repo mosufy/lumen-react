@@ -9,6 +9,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\Todo;
 use App\Services\ElasticsearchService;
 use Illuminate\Console\Command;
 
@@ -31,7 +32,7 @@ class ImportIndex extends Command
      *
      * @var string
      */
-    protected $signature = 'elasticsearch:importIndex {--index=}';
+    protected $signature = 'elasticsearch:importIndex {--index=} {--type=}';
 
     /**
      * The console command description.
@@ -48,17 +49,24 @@ class ImportIndex extends Command
      */
     public function handle(ElasticsearchService $elastic)
     {
-        $this->info('Preparing todos to be indexed');
+        $this->info('Preparing items to be indexed');
 
-        // array of allowable indexes
-        $allowedIndexes = ['todos'];
+        // array of allowable indexes and types
+        $allowedIndexes = ['todo'];
+        $allowedTypes   = ['todo'];
 
         $db        = app('db');
-        $table     = !empty($this->option('index')) ? $this->option('index') : 'todos';
-        $indexName = str_singular($table);
+        $indexName = !empty($this->option('index')) ? $this->option('index') : 'todo';
+        $typeName  = !empty($this->option('type')) ? $this->option('type') : 'todo';
+        $table     = str_plural($indexName);
 
-        if (!in_array($table, $allowedIndexes)) {
+        if (!in_array($indexName, $allowedIndexes)) {
             $this->info('No such index exists. ABORTED');
+            return;
+        }
+
+        if (!in_array($typeName, $allowedTypes)) {
+            $this->info('No such type exists. ABORTED');
             return;
         }
 
@@ -67,7 +75,7 @@ class ImportIndex extends Command
             $totalCount    = (int)$db->table($table)->selectRaw('COUNT(*) as `count`')->value('count');
             $this->counter = 0;
         } catch (\Exception $e) {
-            $this->info('No such index exists. ABORTED');
+            $this->info('No such table exists. ABORTED');
             return;
         }
 
@@ -75,37 +83,49 @@ class ImportIndex extends Command
 
         $bar = $this->output->createProgressBar($totalCount);
 
-        app('db')->table($table)->chunk(1, function ($items) use ($elastic, $bar, $indexName) {
-            foreach ($items as $item) {
-                try {
-                    $elastic->index([
-                        'index' => $indexName,
-                        'type'  => $indexName,
-                        'id'    => $item->id,
-                        'body'  => [
-                            'id'          => $item->id,
-                            'uid'         => $item->uid,
-                            'title'       => $item->title,
-                            'description' => $item->description,
-                            'category_id' => $item->category_id,
-                            'user_id'     => $item->user_id,
-                            'created_at'  => $item->created_at,
-                            'updated_at'  => $item->updated_at,
-                            'deleted_at'  => $item->deleted_at
-                        ]
-                    ]);
-                    $this->counter++;
-                    $bar->setMessage('Failed to index ' . $item->id . '. Skipping item.');
-                } catch (\Exception $e) {
-                    $bar->setMessage('Failed to index ' . $item->id . '. Skipping item.');
-                }
+        app('db')->table($table)->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName) {
+            if ($indexName == 'todo') {
+                foreach ($items as $item) {
+                    try {
+                        $elastic->index($this->prepareTodoParameter($item));
+                        $this->counter++;
+                    } catch (\Exception $e) {
+                        // skip
+                    }
 
-                $bar->advance(1);
+                    $bar->advance(1);
+                }
             }
         });
 
         $bar->finish();
 
         $this->info(PHP_EOL . $this->counter . '/' . $totalCount . ' indexes imported successfully!');
+    }
+
+    /**
+     * Prepare the item to be indexed
+     *
+     * @param Todo $item
+     * @return array
+     */
+    protected function prepareTodoParameter($item)
+    {
+        return [
+            'index' => 'todo_index',
+            'type'  => 'todo_type',
+            'id'    => $item->id,
+            'body'  => [
+                'id'          => $item->id,
+                'uid'         => $item->uid,
+                'title'       => $item->title,
+                'description' => $item->description,
+                'category_id' => $item->category_id,
+                'user_id'     => $item->user_id,
+                'created_at'  => $item->created_at,
+                'updated_at'  => $item->updated_at,
+                'deleted_at'  => $item->deleted_at
+            ]
+        ];
     }
 }

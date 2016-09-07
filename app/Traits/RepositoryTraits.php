@@ -105,9 +105,10 @@ trait RepositoryTraits
      *
      * @param mixed $object
      * @param array $params
+     * @param int   $total
      * @return LengthAwarePaginator
      */
-    protected function getPaginated($object, $params)
+    protected function getPaginated($object, $params, $total = '')
     {
         $db = app('db');
 
@@ -131,7 +132,7 @@ trait RepositoryTraits
         }
 
         // Get total count
-        $total_count = $object->select($db->raw('count(*) as count'))->value('count');
+        $total_count = is_numeric($total) ? (int)$total : $object->select($db->raw('count(*) as count'))->value('count');
 
         // Generate paginator
         $paginated = new LengthAwarePaginator($result, $total_count, $params['limit'], $params['page'], ['path' => $path]);

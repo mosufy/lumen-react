@@ -17,6 +17,7 @@ use App\Models\AppLog;
 use App\Models\Todo;
 use App\Services\ElasticsearchService;
 use App\Traits\RepositoryTraits;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Nord\Lumen\Elasticsearch\Contracts\ElasticsearchServiceContract;
 use Ramsey\Uuid\Uuid;
 
@@ -88,7 +89,7 @@ class TodoRepository
      *
      * @param array            $params
      * @param \App\Models\User $user
-     * @return Todo
+     * @return LengthAwarePaginator
      */
     public function getTodosBySearch($params, $user)
     {
@@ -101,7 +102,9 @@ class TodoRepository
             return $cached;
         }
 
-        $todos = Todo::whereIn($res);
+        $search = $this->searchTodo($params, $user);
+
+        $todos = Todo::whereIn('id', $search['ids']);
 
         // Get paginated data
         $paginated = $this->getPaginated($todos, $params);
@@ -255,22 +258,42 @@ class TodoRepository
         $q   = !empty($params['q']) ? $params['q'] : '';
 
         $parameters = [
-            'index' => 'todo',
-            'type'  => 'todo',
+            'index' => 'todo_index',
+            'type'  => 'todo_type',
             'body'  => [
-                'query' => [
+                'query'  => [ // How well does this document match this query clause?
                     'multi_match' => [
                         'query'     => $q,
                         'fuzziness' => 'AUTO',
                         'fields'    => ['uid', 'title', 'description'],
-                    ],
+                    ]
+                ],
+                'filter' => [ // Does this document match this query clause?
+                    'term' => [
+                        'user_id' => $user_id
+                    ]
                 ]
             ]
         ];
 
-        $elastic  = app(ElasticsearchService::class);
-        $response = $elastic->search($parameters);
+        $elastic = app(ElasticsearchService::class);
+        $res     = $elastic->search($parameters);
 
-        dd($response);
+        if ($res['hits']['total'] > 0) {
+            $ids = [];
+            foreach ($res['hits']['hits'] as $k => $v) {
+                $ids[] = $v['_id'];
+            }
+
+            return [
+                'total' => $res['hits']['total'],
+                'ids'   => $ids
+            ];
+        }
+
+        return [
+            'total' => 0,
+            'ids'   => []
+        ];
     }
 }

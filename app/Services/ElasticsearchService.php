@@ -56,6 +56,33 @@ class ElasticsearchService
     }
 
     /**
+     * Index multiple items
+     *
+     * This method normalises the 'bulk' method of the Elastic Search
+     * Client to have a signature more similar to 'index'.
+     *
+     * @param array $collection [[index, type, id, body], [index, type, id, body]...]
+     * @return array
+     */
+    public function indexMany(array $collection)
+    {
+        $parameters = [];
+
+        foreach ($collection as $item) {
+            $parameters['body'][] = [
+                "index" => [
+                    '_id'    => $item['id'],
+                    '_index' => $item['index'],
+                    '_type'  => $item['type'],
+                ]
+            ];
+            $parameters['body'][] = $item['body'];
+        }
+
+        return $this->client->bulk($parameters);
+    }
+
+    /**
      * Search index
      *
      * @param array $parameters
