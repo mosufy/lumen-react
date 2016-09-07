@@ -15,7 +15,9 @@ use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
 use App\Models\AppLog;
 use App\Models\Todo;
+use App\Services\ElasticsearchService;
 use App\Traits\RepositoryTraits;
+use Nord\Lumen\Elasticsearch\Contracts\ElasticsearchServiceContract;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -36,6 +38,10 @@ class TodoRepository
      */
     public function getTodos($user, $params)
     {
+        if (!empty($params['q'])) {
+            return $this->getTodosBySearch($params, $user);
+        }
+
         $key    = 'todosByUserId_' . $user->id;
         $subKey = json_encode($params);
 
@@ -75,6 +81,34 @@ class TodoRepository
         }
 
         return $todo;
+    }
+
+    /**
+     * Get todos by search query
+     *
+     * @param array            $params
+     * @param \App\Models\User $user
+     * @return Todo
+     */
+    public function getTodosBySearch($params, $user)
+    {
+        $res = $this->searchTodo($params, $user);
+
+        $key    = 'todoSearchByUserId_' . $user->id;
+        $subKey = json_encode($res);
+
+        if ($cached = $this->getCache($key, $subKey)) {
+            return $cached;
+        }
+
+        $todos = Todo::whereIn($res);
+
+        // Get paginated data
+        $paginated = $this->getPaginated($todos, $params);
+
+        $this->putCache($key, $paginated, 30, $subKey);
+
+        return $paginated;
     }
 
     /**
@@ -201,5 +235,42 @@ class TodoRepository
             ]);
             throw new TodoException('Exception thrown while trying to delete todo', 50001001);
         }
+    }
+
+    /**
+     * Search todos by Elasticsearch
+     *
+     * @param array            $params
+     * @param \App\Models\User $user
+     * @return array
+     */
+    protected function searchTodo($params, $user = null)
+    {
+        $limit = !empty($params['limit']) ? (int)$params['limit'] : 25;
+        $page  = !empty($params['page']) ? (int)$params['page'] : 1;
+
+        $user_id = !empty($user) ? $user->id : '';
+
+        $uid = !empty($params['uid']) ? $params['uid'] : '';
+        $q   = !empty($params['q']) ? $params['q'] : '';
+
+        $parameters = [
+            'index' => 'todo',
+            'type'  => 'todo',
+            'body'  => [
+                'query' => [
+                    'multi_match' => [
+                        'query'     => $q,
+                        'fuzziness' => 'AUTO',
+                        'fields'    => ['uid', 'title', 'description'],
+                    ],
+                ]
+            ]
+        ];
+
+        $elastic  = app(ElasticsearchService::class);
+        $response = $elastic->search($parameters);
+
+        dd($response);
     }
 }
