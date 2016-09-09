@@ -136,6 +136,24 @@ SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
 
+## Elasticsearch
+
+[Elasticsearch](https://www.elastic.co/products/elasticsearch) is a distributed, open source search and analytics engine.
+
+### Importing indexes
+
+Before we can begin to query, the index is required to be imported first.
+
+```
+$ php artisan elasticsearch:importIndex {--index=} {--type=}
+```
+
+### Accessing the GUI
+
+This build of vagrant comes with Elasticsearch GUI powered by [Jettro Coenradie](http://www.gridshore.nl/). 
+
+To access the GUI, simply access via `http://<vm_ip_address>:9200/_plugin/gui/index.html#/dashboard`.
+
 ## Running Queued Jobs
 
 Tasks that require a significant amount of time to process (like sending

@@ -238,6 +238,12 @@ chkconfig --add elasticsearch
 #
 sudo service elasticsearch restart
 
+#
+# Installing Elasticsearch plugin GUI
+#
+cd /usr/share/elasticsearch
+bin/plugin install jettro/elasticsearch-gui
+
 ##################################################################################
 #
 # Common section
