@@ -30,6 +30,8 @@ coverage:
             - app/Helpers/*
             - app/Events/*
             - app/Listeners/*
+            - app/Services/*
+            - app/Models/*
     blacklist:
         include:
             - vendor/*

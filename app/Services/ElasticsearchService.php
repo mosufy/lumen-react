@@ -90,7 +90,7 @@ class ElasticsearchService
         $index = $parameters['index'];
 
         $client = new Client();
-        $client->delete(env('ELASTICSEARCH_HOST', '10.1.2.100:9200') . '/' . $index);
+        $client->delete('http://' . env('ELASTICSEARCH_HOST', '10.1.2.100:9200') . '/' . $index);
     }
 
     /**

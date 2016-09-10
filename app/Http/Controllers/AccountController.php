@@ -38,6 +38,12 @@ class AccountController extends Controller
         return $this->responseSuccess('user', $this->userRepository->getUserByResourceOwnerId());
     }
 
+    /**
+     * Create new user account
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
     public function store(Request $request)
     {
         try {

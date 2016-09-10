@@ -36,5 +36,8 @@ php artisan db:seed
 # Clear cache again
 php artisan cache:clear
 
+# Import Elasticsearch indexes
+php artisan elasticsearch:importIndex
+
 echo "Done."
 
