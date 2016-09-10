@@ -9,6 +9,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\AppLog;
 use App\Models\Todo;
 use App\Services\ElasticsearchService;
 use Illuminate\Console\Command;
@@ -83,20 +84,31 @@ class ImportIndex extends Command
 
         $bar = $this->output->createProgressBar($totalCount);
 
-        app('db')->table($table)->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName) {
-            if ($indexName == 'todo') {
-                foreach ($items as $item) {
-                    try {
-                        $elastic->index($this->prepareTodoParameter($item));
-                        $this->counter++;
-                    } catch (\Exception $e) {
-                        // skip
-                    }
+        app('db')->table($table)
+            ->selectRaw('todos.*, users.name AS `user_name`, categories.name AS `category_name`')
+            ->leftJoin('users', 'users.id', '=', 'todos.user_id')
+            ->leftJoin('categories', 'categories.id', '=', 'todos.category_id')
+            ->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName) {
+                if ($indexName == 'todo') {
+                    foreach ($items as $item) {
+                        try {
+                            $elastic->index($this->prepareTodoParameter($item));
+                            $this->counter++;
+                        } catch (\Exception $e) {
+                            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                                get_class($e), [
+                                'message' => $e->getMessage(),
+                                'code'    => $e->getCode(),
+                                'file'    => $e->getFile(),
+                                'line'    => $e->getLine(),
+                                'item_id' => $item->id
+                            ]);
+                        }
 
-                    $bar->advance(1);
+                        $bar->advance(1);
+                    }
                 }
-            }
-        });
+            });
 
         $bar->finish();
 
@@ -114,17 +126,19 @@ class ImportIndex extends Command
         return [
             'index' => 'todo_index',
             'type'  => 'todo_type',
-            'id'    => $item->id,
+            'id'    => (int)$item->id,
             'body'  => [
-                'id'          => $item->id,
-                'uid'         => $item->uid,
-                'title'       => $item->title,
-                'description' => $item->description,
-                'category_id' => $item->category_id,
-                'user_id'     => $item->user_id,
-                'created_at'  => $item->created_at,
-                'updated_at'  => $item->updated_at,
-                'deleted_at'  => $item->deleted_at
+                'id'            => (int)$item->id,
+                'uid'           => $item->uid,
+                'title'         => $item->title,
+                'description'   => $item->description,
+                'category_id'   => (int)$item->category_id,
+                'category_name' => $item->category_name,
+                'user_id'       => (int)$item->user_id,
+                'user_name'     => $item->user_name,
+                'created_at'    => $item->created_at,
+                'updated_at'    => $item->updated_at,
+                'deleted_at'    => $item->deleted_at
             ]
         ];
     }

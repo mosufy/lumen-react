@@ -102,12 +102,14 @@ class TodoRepository
             return $cached;
         }
 
+        // Get results from Elasticsearch
         $search = $this->searchTodo($params, $user);
 
+        // Get actual response using the returned ids from Elasticsearch
         $todos = Todo::whereIn('id', $search['ids']);
 
         // Get paginated data
-        $paginated = $this->getPaginated($todos, $params);
+        $paginated = $this->getPaginated($todos, $params, $search['total'], true);
 
         $this->putCache($key, $paginated, 30, $subKey);
 
@@ -246,43 +248,121 @@ class TodoRepository
      * @param array            $params
      * @param \App\Models\User $user
      * @return array
+     * @throws TodoException
      */
     protected function searchTodo($params, $user = null)
     {
         $limit = !empty($params['limit']) ? (int)$params['limit'] : 25;
         $page  = !empty($params['page']) ? (int)$params['page'] : 1;
 
-        $user_id = !empty($user) ? $user->id : '';
+        $user_id = !empty($user) ? (int)$user->id : '';
 
         $uid = !empty($params['uid']) ? $params['uid'] : '';
         $q   = !empty($params['q']) ? $params['q'] : '';
+
+        $category_ids = [];
+        if (!empty($params['category_id'])) {
+            $category_ids[] = (int)$params['category_id'];
+        }
+
+        if (!empty($params['category_ids'])) {
+            $categoryIdArr = explode(',', $params['category_ids']);
+            $category_ids  = [];
+            foreach ($categoryIdArr as $k) {
+                $category_ids[] = (int)$k;
+            }
+        }
 
         $parameters = [
             'index' => 'todo_index',
             'type'  => 'todo_type',
             'body'  => [
-                'query'  => [ // How well does this document match this query clause?
-                    'multi_match' => [
-                        'query'     => $q,
-                        'fuzziness' => 'AUTO',
-                        'fields'    => ['uid', 'title', 'description'],
-                    ]
-                ],
-                'filter' => [ // Does this document match this query clause?
-                    'term' => [
-                        'user_id' => $user_id
+                'query' => [
+                    'filtered' => [ // This is a filtered query
+                        'query'  => [ // Query allow for a matched score search
+                            'multi_match' => [
+                                'query'     => $q,
+                                'fuzziness' => 'AUTO',
+                                'fields'    => ['uid', 'title', 'description', 'category_name'],
+                            ]
+                        ],
+                        'filter' => [ // Filter allow for a much faster query as it does not need to be scored
+                            'bool' => [
+                                'must' => [
+                                    [
+                                        'term' => [
+                                            'user_id' => $user_id
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
                     ]
                 ]
             ]
         ];
 
-        $elastic = app(ElasticsearchService::class);
-        $res     = $elastic->search($parameters);
+        if (!empty($uid)) {
+            $parameters['body']['query']['filtered']['filter']['bool']['must'][] = [
+                'term' => [
+                    'uid' => $uid
+                ]
+            ];
+        }
+
+        if (!empty($category_ids)) {
+            $parameters = array_merge_recursive($parameters, [
+                'body' => [
+                    'query' => [
+                        'filtered' => [
+                            'filter' => [
+                                'bool' => [
+                                    'should' => [
+                                        'terms' => [
+                                            'category_id' => $category_ids
+                                        ]
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+        }
+
+        // Add pagination
+        $parameters['size'] = $limit;
+        $parameters['from'] = ($page - 1) * $limit;
+
+        try {
+            $elastic = app(ElasticsearchService::class);
+            $res     = $elastic->search($parameters);
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'        => $e->getMessage(),
+                'code'           => $e->getCode(),
+                'file'           => $e->getFile(),
+                'line'           => $e->getLine(),
+                'dql_parameters' => $parameters,
+                'params'         => $params,
+                'user_id'        => $user->id
+            ]);
+            throw new TodoException('Elasticsearch exception thrown while search todo', 50001001);
+        }
+
+        AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+            'Elasticsearch response', [
+            'dql_parameters' => $parameters,
+            'params'         => $params,
+            'user_id'        => $user->id,
+            'response'       => $res
+        ]);
 
         if ($res['hits']['total'] > 0) {
             $ids = [];
             foreach ($res['hits']['hits'] as $k => $v) {
-                $ids[] = $v['_id'];
+                $ids[] = (int)$v['_id'];
             }
 
             return [
