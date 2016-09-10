@@ -13,6 +13,8 @@ use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Jobs\UpdateTodoSearchIndex;
+use App\Models\AppLog;
+use App\Repositories\TodoRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
@@ -64,8 +66,20 @@ class TodoEventSubscriber
      */
     public function onTodoDeleted($event)
     {
-        // Add to Elasticsearch index
+        // Delete search index
         dispatch((new UpdateTodoSearchIndex($event->todo, 'delete'))->onQueue('default'));
+
+        /*
+         * FIXME: Deleting queued job above does not seem to work. Will have to re-look into this.
+         */
+        $todoRepository = new TodoRepository();
+        $todoRepository->deleteSearchIndex($event->todo);
+        $this->cache->forget('todoSearchByUserId_' . $event->todo->user_id);
+        AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+            'Elasticsearch index deleted successfully', [
+            'todo_id' => $event->todo->id,
+            'action'  => 'delete'
+        ]);
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
