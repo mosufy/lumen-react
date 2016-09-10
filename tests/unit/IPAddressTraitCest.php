@@ -1,10 +1,11 @@
 <?php
 
-use App\Helpers\IPAddressHelper;
+use App\Traits\IPAddressTrait;
 use Codeception\Util\Fixtures;
 
-class IPAddressHelperCest
+class IPAddressTraitCest
 {
+    use IPAddressTrait;
 
     public function _before(UnitTester $I)
     {
@@ -17,23 +18,23 @@ class IPAddressHelperCest
     public function testGetClientHostname(UnitTester $I)
     {
         $I->wantTo('test getting client hostname by ip address');
-        $I->assertEquals(Fixtures::get('hostname'), IPAddressHelper::getClientHostname(Fixtures::get('ip_address')));
+        $I->assertEquals(Fixtures::get('hostname'), $this->getClientHostname(Fixtures::get('ip_address')));
 
         // test the cache
-        $I->assertEquals(Fixtures::get('hostname'), IPAddressHelper::getClientHostname(Fixtures::get('ip_address')));
+        $I->assertEquals(Fixtures::get('hostname'), $this->getClientHostname(Fixtures::get('ip_address')));
     }
 
     public function testGetGeoIP(UnitTester $I)
     {
         $I->wantTo('test getting geoip by ip address');
 
-        $geoip = IPAddressHelper::getGeoIP(Fixtures::get('ip_address'));
+        $geoip = $this->getGeoIP(Fixtures::get('ip_address'));
         $I->assertArrayHasKey('country_code', $geoip);
         $I->assertArrayHasKey('country_name', $geoip);
         $I->assertEquals($geoip['country_code'], Fixtures::get('ip_country_code'));
 
         // test the cache
-        $geoip = IPAddressHelper::getGeoIP(Fixtures::get('ip_address'));
+        $geoip = $this->getGeoIP(Fixtures::get('ip_address'));
         $I->assertArrayHasKey('country_code', $geoip);
         $I->assertArrayHasKey('country_name', $geoip);
         $I->assertEquals($geoip['country_code'], Fixtures::get('ip_country_code'));
@@ -43,11 +44,11 @@ class IPAddressHelperCest
     {
         $I->wantTo('test getting country name of ip address');
 
-        $country_name = IPAddressHelper::getIPCountry(Fixtures::get('ip_address'));
+        $country_name = $this->getIPCountry(Fixtures::get('ip_address'));
         $I->assertEquals($country_name, Fixtures::get('ip_country'));
 
         // test the cache
-        $country_name = IPAddressHelper::getIPCountry(Fixtures::get('ip_address'));
+        $country_name = $this->getIPCountry(Fixtures::get('ip_address'));
         $I->assertEquals($country_name, Fixtures::get('ip_country'));
     }
 
@@ -55,7 +56,7 @@ class IPAddressHelperCest
     {
         $I->wantTo('test getting country code of ip address');
 
-        $country_code = IPAddressHelper::getIPCountryCode(Fixtures::get('ip_address'));
+        $country_code = $this->getIPCountryCode(Fixtures::get('ip_address'));
         $I->assertEquals($country_code, Fixtures::get('ip_country_code'));
     }
 
@@ -63,7 +64,7 @@ class IPAddressHelperCest
     {
         $I->wantTo('test getting country name with invalid ip address');
 
-        $country_name = IPAddressHelper::getIPCountry('127.0.0.1');
+        $country_name = $this->getIPCountry('127.0.0.1');
         $I->assertEmpty($country_name);
     }
 
@@ -71,7 +72,7 @@ class IPAddressHelperCest
     {
         $I->wantTo('test getting country code with invalid ip address');
 
-        $country_code = IPAddressHelper::getIPCountryCode('127.0.0.1');
+        $country_code = $this->getIPCountryCode('127.0.0.1');
         $I->assertEmpty($country_code);
     }
 }

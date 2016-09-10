@@ -18,8 +18,10 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
 - [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
-- [ ] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
+- [x] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [x] Example TODO API resource endpoints
+- [x] [Facade-free implementation](http://taylorotwell.com/response-dont-use-facades/)
+- [ ] Eloquent-free implementation
 - [ ] ReactJS for views
 - [ ] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
@@ -134,6 +136,24 @@ SSH User: vagrant
 SSH Key: `<project_root>/.vagrant/machines/default/virtualbox/private_key`
 ```
 
+## Elasticsearch
+
+[Elasticsearch](https://www.elastic.co/products/elasticsearch) is a distributed, open source search and analytics engine.
+
+### Importing indexes
+
+Before we can begin to query, the index is required to be imported first.
+
+```
+$ php artisan elasticsearch:importIndex {--index=} {--type=}
+```
+
+### Accessing the GUI
+
+This build of vagrant comes with Elasticsearch GUI powered by [Jettro Coenradie](http://www.gridshore.nl/). 
+
+To access the GUI, simply access via `http://<vm_ip_address>:9200/_plugin/gui/index.html#/dashboard`.
+
 ## Running Queued Jobs
 
 Tasks that require a significant amount of time to process (like sending
@@ -180,6 +200,20 @@ $ vendor/bin/codecept run
    ```
    
    To view code coverage report, the file is located in `tests/_output/coverage/index.html`
+
+## Don't use Facades
+
+First commented as a Reddit post, and as agreed by Taylor Otwell himself 
+as a bad practice, Laravel 5.0 and above are now having lesser dependence 
+on facades. Taylor now provides alternatives to Facades in its 
+Documentations. Read the [original content](https://www.reddit.com/r/PHP/comments/1v0p6h/stop_using_facades/) 
+and Taylor's response [here](http://taylorotwell.com/response-dont-use-facades/).
+
+## Eloquent-free Implementation
+
+Eloquent and Facades are known to slow down the performance. That is why
+Lumen is shiped out with Facades and Eloquent disabled. In this feature,
+we will explore other alternatives like Doctrine2 and others.
 
 ## Author
 

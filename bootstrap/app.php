@@ -23,7 +23,7 @@ $app = new Laravel\Lumen\Application(
     realpath(__DIR__ . '/../')
 );
 
-$app->withFacades();
+//$app->withFacades();
 
 $app->withEloquent();
 
@@ -82,8 +82,8 @@ $app->routeMiddleware([
 |
 */
 
-// $app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
+//$app->register(App\Providers\AppServiceProvider::class);
+//$app->register(App\Providers\AuthServiceProvider::class);
 $app->register(App\Providers\EventServiceProvider::class);
 $app->register(App\Providers\LogServiceProvider::class);
 $app->register(LucaDegasperi\OAuth2Server\Storage\FluentStorageServiceProvider::class);
@@ -93,8 +93,8 @@ $app->register(Jenssegers\Agent\AgentServiceProvider::class);
 $app->register(Illuminate\Mail\MailServiceProvider::class);
 
 // Load the configs
-$app->configure('mail');
-$app->configure('services');
+//$app->configure('mail');
+//$app->configure('services');
 $app->configure('oauth2');
 $app->configure('queue');
 

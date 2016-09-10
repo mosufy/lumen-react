@@ -1,23 +1,22 @@
 <?php
 /**
- * Class IPAddressHelper
+ * Class IPAddressTrait
  *
  * @date      28/8/2016
  * @author    Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
  */
 
-namespace App\Helpers;
+namespace App\Traits;
 
 use App\Models\AppLog;
 use GuzzleHttp\Client;
-use Illuminate\Support\Facades\Request;
-use Illuminate\Support\Facades\Cache;
+use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
- * Class IPAddressHelper
+ * Class IPAddressTrait
  *
- * Contains static helper methods related to IP Addresses.
+ * Contains helper methods related to IP Addresses.
  *
  * ### Example Usage
  * ```
@@ -27,7 +26,7 @@ use Illuminate\Support\Facades\Cache;
  * }
  * ```
  */
-class IPAddressHelper
+trait IPAddressTrait
 {
     /**
      * Get client ip address
@@ -36,15 +35,15 @@ class IPAddressHelper
      *
      * @return string
      */
-    public static function getClientIpAddress() // @codeCoverageIgnoreStart
+    public function getClientIpAddress() // @codeCoverageIgnoreStart
     {
-        $trustedProxies    = env('TRUSTED_PROXIES');
+        $trustedProxies    = env('TRUSTED_PROXIES', '10.1.2.100');
         $trustedProxiesArr = explode(',', $trustedProxies);
 
         // Set the trusted proxies so that it does not get returned on $request->getClientIp()
-        Request::setTrustedProxies($trustedProxiesArr);
+        $this->getRequest()->setTrustedProxies($trustedProxiesArr);
 
-        return Request::getClientIp();
+        return $this->getRequest()->getClientIp();
     } // @codeCoverageIgnoreEnd
 
     /**
@@ -55,24 +54,33 @@ class IPAddressHelper
      * @param string $ip_address
      * @return string
      */
-    public static function getClientHostname($ip_address)
+    public function getClientHostname($ip_address)
     {
+        if (!is_string($ip_address)) {
+            return '';
+        }
+
         $key    = 'hostname_byIP';
+        $subKey = is_string($ip_address) ? str_slug($ip_address) : '';
         $expire = 30;
         $data   = [];
 
-        if (Cache::has($key)) {
-            $data = Cache::get($key);
-            if (array_key_exists($ip_address, $data)) {
-                return $data[$ip_address];
+        if ($this->getCacheObject()->has($key)) {
+            $data = $this->getCacheObject()->get($key);
+            if (array_key_exists($subKey, $data)) {
+                return $data[$subKey];
             }
         } // @codeCoverageIgnore
 
-        $data[$ip_address] = gethostbyaddr($ip_address);
+        try {
+            $data[$subKey] = gethostbyaddr($ip_address);
+        } catch (\Exception $e) {
+            // do nothing
+        }
 
-        Cache::put($key, $data, $expire);
+        $this->getCacheObject()->put($key, $data, $expire);
 
-        return $data[$ip_address];
+        return $data[$subKey];
     }
 
     /**
@@ -102,17 +110,18 @@ class IPAddressHelper
      *
      * @see https://fraeegeoip.net
      */
-    public static function getGeoIP($ip_address)
+    public function getGeoIP($ip_address)
     {
         try {
             $key    = 'geoIP_byIP';
+            $subKey = str_slug($ip_address);
             $expire = 1440; // 24 hours
             $data   = [];
 
-            if (Cache::has($key)) {
-                $data = Cache::get($key);
-                if (array_key_exists($ip_address, $data)) {
-                    return $data[$ip_address];
+            if ($this->getCacheObject()->has($key)) {
+                $data = $this->getCacheObject()->get($key);
+                if (array_key_exists($subKey, $data)) {
+                    return $data[$subKey];
                 }
             } // @codeCoverageIgnore
 
@@ -120,10 +129,10 @@ class IPAddressHelper
             $res    = $client->get('http://freegeoip.net/json/' . $ip_address);
             $result = json_decode($res->getBody(), true);
 
-            $data[$ip_address] = $result;
-            Cache::put($key, $data, $expire);
+            $data[$subKey] = $result;
+            $this->getCacheObject()->put($key, $data, $expire);
 
-            return $data[$ip_address];
+            return $data[$subKey];
         } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
@@ -143,9 +152,9 @@ class IPAddressHelper
      * @param string $ip_address
      * @return string
      */
-    public static function getIPCountry($ip_address)
+    public function getIPCountry($ip_address)
     {
-        $geoIP = static::getGeoIP($ip_address);
+        $geoIP = $this->getGeoIP($ip_address);
 
         if (!empty($geoIP['country_name'])) {
             return $geoIP['country_name'];
@@ -160,14 +169,34 @@ class IPAddressHelper
      * @param string $ip_address
      * @return string
      */
-    public static function getIPCountryCode($ip_address)
+    public function getIPCountryCode($ip_address)
     {
-        $geoIP = static::getGeoIP($ip_address);
+        $geoIP = $this->getGeoIP($ip_address);
 
         if (!empty($geoIP['country_code'])) {
             return $geoIP['country_code'];
         }
 
         return '';
+    }
+
+    /**
+     * Get request object
+     *
+     * @return \Illuminate\Http\Request
+     */
+    protected function getRequest()
+    {
+        return app('request');
+    }
+
+    /**
+     * Get Cached object
+     *
+     * @return Cache
+     */
+    protected function getCacheObject()
+    {
+        return app()->make(Cache::class);
     }
 }

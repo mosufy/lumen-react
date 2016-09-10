@@ -12,7 +12,10 @@ namespace App\Listeners;
 use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
-use Illuminate\Support\Facades\Cache;
+use App\Jobs\UpdateTodoSearchIndex;
+use App\Models\AppLog;
+use App\Repositories\TodoRepository;
+use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
  * Class TodoEventSubscriber
@@ -21,6 +24,13 @@ use Illuminate\Support\Facades\Cache;
  */
 class TodoEventSubscriber
 {
+    protected $cache;
+
+    public function __construct(Cache $cache)
+    {
+        $this->cache = $cache;
+    }
+
     /**
      * Handle todos created events.
      *
@@ -28,10 +38,11 @@ class TodoEventSubscriber
      */
     public function onTodoCreated($event)
     {
-        // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
+        // Add to Elasticsearch index
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'insert'))->onQueue('default'));
 
-        // do something else
+        // Clear user's Todos caches
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
     }
 
     /**
@@ -41,10 +52,11 @@ class TodoEventSubscriber
      */
     public function onTodoUpdated($event)
     {
-        // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
+        // Add to Elasticsearch index
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'update'))->onQueue('default'));
 
-        // do something else
+        // Clear user's Todos caches
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
     }
 
     /**
@@ -54,10 +66,23 @@ class TodoEventSubscriber
      */
     public function onTodoDeleted($event)
     {
-        // Clear user's Todos caches
-        Cache::forget('todosByUserId_' . $event->todo->user_id);
+        // Delete search index
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'delete'))->onQueue('default'));
 
-        // do something else
+        /*
+         * FIXME: Deleting queued job above does not seem to work. Will have to re-look into this.
+         */
+        $todoRepository = new TodoRepository();
+        $todoRepository->deleteSearchIndex($event->todo);
+        $this->cache->forget('todoSearchByUserId_' . $event->todo->user_id);
+        AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+            'Elasticsearch index deleted successfully', [
+            'todo_id' => $event->todo->id,
+            'action'  => 'delete'
+        ]);
+
+        // Clear user's Todos caches
+        $this->cache->forget('todosByUserId_' . $event->todo->user_id);
     }
 
     /**

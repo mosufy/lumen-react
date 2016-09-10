@@ -9,9 +9,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Exceptions\OAuthException;
 use App\Repositories\OAuthRepository;
-use App\Traits\ResponseTrait;
 use Illuminate\Http\Request;
 
 /**
@@ -21,8 +19,6 @@ use Illuminate\Http\Request;
  */
 class OAuthController extends Controller
 {
-    use ResponseTrait;
-
     protected $oauthRepository;
 
     public function __construct(OAuthRepository $oauthRepository)
@@ -38,7 +34,7 @@ class OAuthController extends Controller
      */
     public function clientAccessToken(Request $request)
     {
-            return response()->json($this->oauthRepository->issueClientAccessToken($request));
+        return response()->json($this->oauthRepository->issueClientAccessToken($request));
     }
 
     /**

@@ -11,7 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "bento/centos-6.7"
-  config.vm.provision :shell, :path => "deploy/local/build.sh"
+  config.vm.provision :shell, :path => "deploy/vagrant/build.sh"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs

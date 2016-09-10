@@ -9,7 +9,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\IPAddressHelper;
 use App\Repositories\UserRepository;
 use Illuminate\Http\Request;
 

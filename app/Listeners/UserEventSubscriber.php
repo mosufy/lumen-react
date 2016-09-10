@@ -28,7 +28,6 @@ class UserEventSubscriber
     {
         // Send activation email
         dispatch((new SendMailer($event->user, 'activationEmail'))->onQueue('high'));
-
         // do something else
     }
 

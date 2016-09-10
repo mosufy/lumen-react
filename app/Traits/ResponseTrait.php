@@ -12,7 +12,7 @@ namespace App\Traits;
 use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Collection;
 
 /**
@@ -38,9 +38,9 @@ trait ResponseTrait
 
         $jsonapi = [];
 
-        $params = CommonHelper::unsetInternalParams(Request::all());
+        $params = CommonHelper::unsetInternalParams($this->getRequest()->all());
 
-        if (Request::method() == 'GET' && !empty($params)) {
+        if ($this->getRequest()->method() == 'GET' && !empty($params)) {
             $jsonapi['meta'] = [
                 'filter' => $params
             ];
@@ -140,7 +140,7 @@ trait ResponseTrait
             array_merge([
                 'status' => (int)$status,
                 'code'   => $code,
-                'source' => '/' . Request::path(),
+                'source' => '/' . $this->getRequest()->path(),
                 'title'  => $title,
                 'detail' => $detail
             ], $metadata)
@@ -162,7 +162,7 @@ trait ResponseTrait
         $data = $data->toArray();
 
         $jsonapi['meta'] = [
-            'filter' => CommonHelper::unsetInternalParams(Request::all())
+            'filter' => CommonHelper::unsetInternalParams($this->getRequest()->all())
         ];
 
         if (!empty($data['data'])) {
@@ -183,5 +183,15 @@ trait ResponseTrait
         $jsonapi['meta'] = array_merge($jsonapi['meta'], $data);
 
         return response()->json($jsonapi);
+    }
+
+    /**
+     * Get current request
+     *
+     * @return Request
+     */
+    protected function getRequest()
+    {
+        return app('request');
     }
 }

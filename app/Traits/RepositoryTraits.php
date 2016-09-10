@@ -10,10 +10,8 @@
 namespace App\Traits;
 
 use App\Helpers\CommonHelper;
+use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Request;
 
 /**
  * Trait RepositoryTrait
@@ -65,7 +63,7 @@ trait RepositoryTraits
      */
     protected function getPath()
     {
-        return Request::url();
+        return app('request')->url();
     }
 
     /**
@@ -105,12 +103,16 @@ trait RepositoryTraits
     /**
      * Generate paginated data
      *
-     * @param mixed $object
-     * @param array $params
+     * @param mixed      $object
+     * @param array      $params
+     * @param int|string $total      Provide total if not required to be calculated, usually for Elasticsearch
+     * @param bool       $skipOffset Offset is usually not required if data is from Elasticsearch
      * @return LengthAwarePaginator
      */
-    protected function getPaginated($object, $params)
+    protected function getPaginated($object, $params, $total = '', $skipOffset = false)
     {
+        $db = app('db');
+
         $params = CommonHelper::unsetInternalParams($params);
 
         $params['page']  = $this->getPage($params);
@@ -121,17 +123,19 @@ trait RepositoryTraits
         $sortBy          = $this->getSortBy($params);
 
         // Fetch the scoped data
-        $result = $object->skip($offset)->limit($params['limit']);
+        if (!$skipOffset) {
+            $object = $object->skip($offset)->limit($params['limit']);
+        }
 
         // Check if require order by
         if (!empty($orderBy)) {
-            $result = $result->orderBy($orderBy, $sortBy)->get();
+            $result = $object->orderBy($orderBy, $sortBy)->get();
         } else {
-            $result = $result->get();
+            $result = $object->get();
         }
 
         // Get total count
-        $total_count = $object->select(DB::raw('count(*) as count'))->value('count');
+        $total_count = is_numeric($total) ? (int)$total : $object->select($db->raw('count(*) as count'))->value('count');
 
         // Generate paginator
         $paginated = new LengthAwarePaginator($result, $total_count, $params['limit'], $params['page'], ['path' => $path]);
@@ -152,14 +156,14 @@ trait RepositoryTraits
     protected function putCache($key, $data, $expire = 30, $subKey = '')
     {
         if (empty($subKey)) {
-            Cache::put($key, $data, $expire);
+            $this->getCacheObject()->put($key, $data, $expire);
             return;
         }
 
-        $cached          = Cache::get($key);
+        $cached          = $this->getCacheObject()->get($key);
         $cached[$subKey] = $data;
 
-        Cache::put($key, $cached, $expire);
+        $this->getCacheObject()->put($key, $cached, $expire);
     }
 
     /**
@@ -171,8 +175,8 @@ trait RepositoryTraits
      */
     protected function getCache($key, $subKey = '')
     {
-        if (Cache::has($key)) {
-            $cached = Cache::get($key);
+        if ($this->getCacheObject()->has($key)) {
+            $cached = $this->getCacheObject()->get($key);
 
             if (is_array($cached)) {
                 if (!empty($cached[$subKey])) {
@@ -184,5 +188,15 @@ trait RepositoryTraits
         }
 
         return false;
+    }
+
+    /**
+     * Get Cached object
+     *
+     * @return Cache
+     */
+    protected function getCacheObject()
+    {
+        return app()->make(Cache::class);
     }
 }

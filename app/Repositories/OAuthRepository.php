@@ -12,8 +12,8 @@ namespace App\Repositories;
 use App\Exceptions\OAuthException;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use LucaDegasperi\OAuth2Server\Authorizer;
+use Illuminate\Contracts\Hashing\Hasher;
 
 /**
  * Class OAuthRepository
@@ -24,6 +24,13 @@ use LucaDegasperi\OAuth2Server\Facades\Authorizer;
  */
 class OAuthRepository
 {
+    protected $hash;
+
+    public function __construct(Hasher $hash)
+    {
+        $this->hash = $hash;
+    }
+
     /**
      * Issue client access token
      *
@@ -69,7 +76,7 @@ class OAuthRepository
     {
         $user = User::where('email', $mail)->first();
 
-        if ($user && Hash::check($password, $user->password)) {
+        if ($user && $this->hash->check($password, $user->password)) {
             return $user->id;
         }
 
@@ -83,6 +90,7 @@ class OAuthRepository
      */
     protected function issueAccessToken()
     {
-        return Authorizer::issueAccessToken();
+        $authorizer = app(Authorizer::class);
+        return $authorizer->issueAccessToken();
     }
 }

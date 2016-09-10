@@ -202,28 +202,47 @@ EOF
 
 ##################################################################################
 #
-# Sphinx Server Section
+# Elasticsearch Server Section
 #
-# Only run this on a sphinx server -- i.e. not on a server that is going to be a
-# web server only and have a separate database server attached.
+# Only run this on an elasticsearch server -- i.e. not on a server that is going
+# to be a web server only and have a separate database server attached.
 #
 ##################################################################################
 
 #
-# Sphinx
+# OpenJDK
 #
 # Install yum repositories
 #
-yum localinstall -y http://sphinxsearch.com/files/sphinx-2.2.10-1.rhel6.x86_64.rpm
+yum install -y java-1.7.0-openjdk
 
 #
-# Setting up the conf file
+# Download and install the public signing key:
 #
-# Config files will be saved to /etc/sphinx/${APPNAME} from the root folder
+rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+
 #
-mv /etc/sphinx/sphinx.conf /etc/sphinx/sphinx.conf.bak
-ln -s /var/www/${APPNAME}/config/sphinx.conf /etc/sphinx/sphinx.conf
-mkdir /var/lib/sphinx/${APPNAME}
+# Elasticsearch
+#
+# Install Elasticsearch
+#
+yum install -y elasticsearch
+
+#
+# Configure to start Elasticsearch
+#
+chkconfig --add elasticsearch
+
+#
+# Restart Elasticsearch
+#
+service elasticsearch restart
+
+#
+# Installing Elasticsearch plugin GUI
+#
+cd /usr/share/elasticsearch
+bin/plugin install jettro/elasticsearch-gui
 
 ##################################################################################
 #
@@ -256,11 +275,11 @@ done
 echo "Create phpinfo page to test PHP Installation"
 echo "<?php phpinfo(); ?>" > /usr/share/nginx/html/info.php
 
-###################################################################################
-##
-## App specific section
-##
-###################################################################################
+##################################################################################
+#
+# App specific section
+#
+##################################################################################
 
 #
 # Install self-signed SSL Cert

@@ -9,17 +9,26 @@
 
 namespace App\Repositories;
 
-use App\Helpers\IPAddressHelper;
 use App\Models\AccessLog;
 use App\Models\AppLog;
-use Jenssegers\Agent\Facades\Agent;
-use LucaDegasperi\OAuth2Server\Facades\Authorizer;
+use App\Traits\IPAddressTrait;
+use LucaDegasperi\OAuth2Server\Authorizer;
+use Jenssegers\Agent\Agent;
 
 /**
  * Class AccessLogRepository
  */
 class AccessLogRepository
 {
+    use IPAddressTrait;
+
+    protected $authorizer, $agent;
+
+    public function __construct(Agent $agent)
+    {
+        $this->agent = $agent;
+    }
+
     /**
      * Insert into accesslogs table
      *
@@ -35,10 +44,12 @@ class AccessLogRepository
 
         // @codeCoverageIgnoreStart
 
-        $client_id    = Authorizer::getClientId();
-        $owner_type   = Authorizer::getResourceOwnerType();
-        $owner_id     = ($owner_type == 'client') ? null : Authorizer::getResourceOwnerId();
-        $access_token = Authorizer::getAccessToken();
+        $authorizer = app(Authorizer::class);
+
+        $client_id    = $authorizer->getClientId();
+        $owner_type   = $authorizer->getResourceOwnerType();
+        $owner_id     = ($owner_type == 'client') ? null : $authorizer->getResourceOwnerId();
+        $access_token = $authorizer->getAccessToken();
 
         $endpoint       = '/' . $request->path();
         $method         = $request->method();
@@ -47,10 +58,10 @@ class AccessLogRepository
         $response       = $response->getContent();
 
         try {
-            $ip_address      = IPAddressHelper::getClientIpAddress();
-            $ip_country      = IPAddressHelper::getIPCountry($ip_address);
-            $ip_country_code = IPAddressHelper::getIPCountryCode($ip_address);
-            $hostname        = IPAddressHelper::getClientHostname($ip_address);
+            $ip_address      = $this->getClientIpAddress();
+            $ip_country      = $this->getIPCountry($ip_address);
+            $ip_country_code = $this->getIPCountryCode($ip_address);
+            $hostname        = $this->getClientHostname($ip_address);
         } catch (\Exception $e) {
             AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 'Failed to fetch ip address fields', [
@@ -61,13 +72,13 @@ class AccessLogRepository
             ]);
         }
 
-        $platform         = Agent::isTablet() ? 'tablet' : (Agent::isMobile() ? 'mobile' : 'desktop');
-        $device           = Agent::device();
-        $browser          = Agent::browser();
-        $browser_version  = Agent::version($browser);
-        $browser_language = json_encode(Agent::languages());
-        $os               = Agent::platform();
-        $os_version       = Agent::version($os);
+        $platform         = $this->agent->isTablet() ? 'tablet' : ($this->agent->isMobile() ? 'mobile' : 'desktop');
+        $device           = $this->agent->device();
+        $browser          = $this->agent->browser();
+        $browser_version  = $this->agent->version($browser);
+        $browser_language = json_encode($this->agent->languages());
+        $os               = $this->agent->platform();
+        $os_version       = $this->agent->version($os);
 
         try {
             $accessLog                   = new AccessLog;
