@@ -12,7 +12,7 @@ namespace App\Listeners;
 use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
-use App\Jobs\AddTodoToSearch;
+use App\Jobs\UpdateTodoSearchIndex;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
@@ -37,7 +37,7 @@ class TodoEventSubscriber
     public function onTodoCreated($event)
     {
         // Add to Elasticsearch index
-        dispatch((new AddTodoToSearch($event->todo))->onQueue('low'));
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'insert'))->onQueue('default'));
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
@@ -50,9 +50,11 @@ class TodoEventSubscriber
      */
     public function onTodoUpdated($event)
     {
+        // Add to Elasticsearch index
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'update'))->onQueue('default'));
+
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
-        // do something else
     }
 
     /**
@@ -62,9 +64,11 @@ class TodoEventSubscriber
      */
     public function onTodoDeleted($event)
     {
+        // Add to Elasticsearch index
+        dispatch((new UpdateTodoSearchIndex($event->todo, 'delete'))->onQueue('default'));
+
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
-        // do something else
     }
 
     /**

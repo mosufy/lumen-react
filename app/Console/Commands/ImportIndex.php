@@ -73,13 +73,32 @@ class ImportIndex extends Command
             return;
         }
 
+        $this->comment('Deleting existing indexes');
+        try {
+            $elastic->drop(['index' => env('ELASTICSEARCH_INDEX', 'todo_index')]);
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                'Failed to drop index. Likely due to no such index found.', [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine()
+            ]);
+        }
+
         try {
             // Get total count to index
-            $totalCount    = (int)$db->table($table)->selectRaw('COUNT(*) as `count`')->value('count');
+            $this->comment('Existing indexes deleted successfully. Counting documents to index');
+            $totalCount    = (int)$db->table($table)->selectRaw('COUNT(*) as `count`')->whereNull('todos.deleted_at')->value('count');
             $this->counter = 0;
         } catch (\Exception $e) {
             $this->info('No such table exists. ABORTED');
             return;
+        }
+
+        if ($totalCount <= 0) {
+            $this->info('0 documents found to be indexed. ABORTED');
+            die();
         }
 
         $this->comment($totalCount . ' items found to be indexed.');
@@ -90,6 +109,7 @@ class ImportIndex extends Command
             ->selectRaw('todos.*, users.name AS `user_name`, categories.name AS `category_name`')
             ->leftJoin('users', 'users.id', '=', 'todos.user_id')
             ->leftJoin('categories', 'categories.id', '=', 'todos.category_id')
+            ->whereNull('todos.deleted_at')
             ->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName, $todoRepository) {
                 if ($indexName == 'todo') {
                     foreach ($items as $item) {

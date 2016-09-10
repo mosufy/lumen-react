@@ -19,7 +19,6 @@ use App\Models\Todo;
 use App\Services\ElasticsearchService;
 use App\Traits\RepositoryTraits;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Nord\Lumen\Elasticsearch\Contracts\ElasticsearchServiceContract;
 use Ramsey\Uuid\Uuid;
 
 /**
@@ -277,8 +276,8 @@ class TodoRepository
         }
 
         $parameters = [
-            'index' => 'todo_index',
-            'type'  => 'todo_type',
+            'index' => env('ELASTICSEARCH_INDEX', 'todo_index'),
+            'type'  => env('ELASTICSEARCH_TYPE', 'todo_type'),
             'body'  => [
                 'query' => [
                     'filtered' => [ // This is a filtered query,
@@ -349,7 +348,7 @@ class TodoRepository
         $parameters['from'] = ($page - 1) * $limit;
 
         try {
-            $elastic = app(ElasticsearchService::class);
+            $elastic = new ElasticsearchService();
             $res     = $elastic->search($parameters);
         } catch (\Exception $e) {
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
@@ -397,12 +396,12 @@ class TodoRepository
      * @param Todo $todo
      * @throws TodoException
      */
-    public function addToSearchIndex($todo)
+    public function addSearchIndex($todo)
     {
         $params = $this->prepareTodoParameter($todo);
 
         try {
-            $elastic = app(ElasticsearchService::class);
+            $elastic = new ElasticsearchService();
             $elastic->index($params);
         } catch (\Exception $e) {
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
@@ -418,6 +417,64 @@ class TodoRepository
     }
 
     /**
+     * Update existing index
+     *
+     * @param Todo $todo
+     * @throws TodoException
+     */
+    public function updateSearchIndex($todo)
+    {
+        try {
+            $elastic = new ElasticsearchService();
+
+            // Get existing document
+            $params    = $this->prepareIndexMeta($todo);
+            $todoIndex = $elastic->get($params);
+
+            // Update the parameters
+            $todoIndex['_source'] = $this->prepareIndexBody($todo);
+
+            // Update document
+            $params['body']['doc'] = $todoIndex['_source'];
+            $elastic->update($params);
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'todo_id' => $todo->id
+            ]);
+            throw new TodoException('Elasticsearch exception thrown while updating todo search index', 50001001);
+        }
+    }
+
+    /**
+     * Delete existing index
+     *
+     * @param Todo $todo
+     * @throws TodoException
+     */
+    public function deleteSearchIndex($todo)
+    {
+        try {
+            $elastic = new ElasticsearchService();
+            $elastic->delete($this->prepareIndexMeta($todo));
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'todo_id' => $todo->id
+            ]);
+            throw new TodoException('Elasticsearch exception thrown while deleting todo search index', 50001001);
+        }
+    }
+
+    /**
      * Prepare the item to be indexed
      *
      * @param Todo $item
@@ -425,23 +482,46 @@ class TodoRepository
      */
     public function prepareTodoParameter($item)
     {
+        return array_merge($this->prepareIndexMeta($item), [
+            'body' => $this->prepareIndexBody($item)
+        ]);
+    }
+
+    /**
+     * Prepare the metadata DQL
+     *
+     * @param Todo $item
+     * @return array
+     */
+    protected function prepareIndexMeta($item)
+    {
         return [
-            'index' => 'todo_index',
-            'type'  => 'todo_type',
-            'id'    => (int)$item->id,
-            'body'  => [
-                'id'            => (int)$item->id,
-                'uid'           => $item->uid,
-                'title'         => $item->title,
-                'description'   => $item->description,
-                'category_id'   => (int)$item->category_id,
-                'category_name' => $item->category_name,
-                'user_id'       => (int)$item->user_id,
-                'user_name'     => $item->user_name,
-                'created_at'    => (is_string($item->created_at) || empty($item->created_at)) ? $item->created_at : $item->created_at->toDateTimeString(),
-                'updated_at'    => (is_string($item->updated_at) || empty($item->updated_at)) ? $item->updated_at : $item->updated_at->toDateTimeString(),
-                'deleted_at'    => (is_string($item->deleted_at) || empty($item->deleted_at)) ? $item->deleted_at : $item->deleted_at->toDateTimeString()
-            ]
+            'index' => env('ELASTICSEARCH_INDEX', 'todo_index'),
+            'type'  => env('ELASTICSEARCH_TYPE', 'todo_type'),
+            'id'    => (int)$item->id
+        ];
+    }
+
+    /**
+     * Prepare the body for indexing
+     *
+     * @param Todo $item
+     * @return array
+     */
+    protected function prepareIndexBody($item)
+    {
+        return [
+            'id'            => (int)$item->id,
+            'uid'           => $item->uid,
+            'title'         => $item->title,
+            'description'   => $item->description,
+            'category_id'   => (int)$item->category_id,
+            'category_name' => $item->category_name,
+            'user_id'       => (int)$item->user_id,
+            'user_name'     => $item->user_name,
+            'created_at'    => (is_string($item->created_at) || empty($item->created_at)) ? $item->created_at : $item->created_at->toDateTimeString(),
+            'updated_at'    => (is_string($item->updated_at) || empty($item->updated_at)) ? $item->updated_at : $item->updated_at->toDateTimeString(),
+            'deleted_at'    => (is_string($item->deleted_at) || empty($item->deleted_at)) ? $item->deleted_at : $item->deleted_at->toDateTimeString()
         ];
     }
 }

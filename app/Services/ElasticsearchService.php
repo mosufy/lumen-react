@@ -10,6 +10,7 @@
 namespace App\Services;
 
 use Elasticsearch\ClientBuilder;
+use GuzzleHttp\Client;
 
 /**
  * Class ElasticsearchService
@@ -43,6 +44,28 @@ class ElasticsearchService
     }
 
     /**
+     * Get a single item
+     *
+     * @param array $parameters [index, type, id]
+     * @return array
+     */
+    public function get(array $parameters)
+    {
+        return $this->client->get($parameters);
+    }
+
+    /**
+     * Update a single item
+     *
+     * @param array $parameters [index, type, id, body]
+     * @return array
+     */
+    public function update(array $parameters)
+    {
+        return $this->client->update($parameters);
+    }
+
+    /**
      * Delete a single item
      *
      * @param array $parameters
@@ -51,6 +74,23 @@ class ElasticsearchService
     public function delete(array $parameters)
     {
         return $this->client->delete($parameters);
+    }
+
+    /**
+     * Delete entire index
+     *
+     * Currently there is no such delete index being supported.
+     * Replace with direct CURL request to delete index.
+     *
+     * @param array $parameters
+     * @return array
+     */
+    public function drop(array $parameters)
+    {
+        $index = $parameters['index'];
+
+        $client = new Client();
+        $client->delete(env('ELASTICSEARCH_HOST', '10.1.2.100:9200') . '/' . $index);
     }
 
     /**

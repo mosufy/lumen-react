@@ -1,6 +1,6 @@
 <?php
 /**
- * Class AddTodoToSearch
+ * Class UpdateTodoSearchIndex
  *
  * @date      10/9/2016
  * @author    Mosufy <mosufy@gmail.com>
@@ -14,22 +14,24 @@ use App\Repositories\TodoRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
 
 /**
- * Class AddTodoToSearch
+ * Class UpdateTodoSearchIndex
  *
- * Add Todos to Search Index.
+ * Add, update, delete Todos index.
  */
-class AddTodoToSearch extends Job
+class UpdateTodoSearchIndex extends Job
 {
-    protected $todo;
+    protected $todo, $action;
 
     /**
      * Create a new job instance.
      *
      * @param \App\Models\Todo $todo
+     * @param string           $action
      */
-    public function __construct($todo)
+    public function __construct($todo, $action)
     {
-        $this->todo = $todo;
+        $this->todo   = $todo;
+        $this->action = $action;
     }
 
     /**
@@ -49,7 +51,7 @@ class AddTodoToSearch extends Job
 
         if ($attempts > $retry_limit) {
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
-                'Deleting queued job for adding Todo to search index due to max attempt reached', [
+                'Deleting queued job for updating Todo search index due to max attempt reached', [
                 'queue'           => $this->queue,
                 'attempts'        => $attempts,
                 'next_retry_time' => $next_retry_time,
@@ -61,10 +63,22 @@ class AddTodoToSearch extends Job
         }
 
         try {
-            $todoRepository->addToSearchIndex($this->todo);
+            if ($this->action == 'insert') {
+                $todoRepository->addSearchIndex($this->todo);
+            } elseif ($this->action == 'update') {
+                $todoRepository->updateSearchIndex($this->todo);
+            } elseif ($this->action == 'delete') {
+                $todoRepository->deleteSearchIndex($this->todo);
+            }
 
             // Clear user's Todos caches
             $cache->forget('todoSearchByUserId_' . $this->todo->user_id);
+
+            AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                'Elasticsearch queued event update index document successfully executed', [
+                'todo_id' => $this->todo->id,
+                'action'  => $this->action
+            ]);
         } catch (\Exception $e) {
             AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 'Queued job add todo to search index failed to run. Will try again', [
