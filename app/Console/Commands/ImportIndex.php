@@ -11,6 +11,7 @@ namespace App\Console\Commands;
 
 use App\Models\AppLog;
 use App\Models\Todo;
+use App\Repositories\TodoRepository;
 use App\Services\ElasticsearchService;
 use Illuminate\Console\Command;
 
@@ -46,9 +47,10 @@ class ImportIndex extends Command
      * Execute the console command.
      *
      * @param ElasticsearchService $elastic
+     * @param TodoRepository       $todoRepository
      * @return void
      */
-    public function handle(ElasticsearchService $elastic)
+    public function handle(ElasticsearchService $elastic, TodoRepository $todoRepository)
     {
         $this->info('Preparing items to be indexed');
 
@@ -88,11 +90,11 @@ class ImportIndex extends Command
             ->selectRaw('todos.*, users.name AS `user_name`, categories.name AS `category_name`')
             ->leftJoin('users', 'users.id', '=', 'todos.user_id')
             ->leftJoin('categories', 'categories.id', '=', 'todos.category_id')
-            ->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName) {
+            ->chunk(1000, function ($items) use ($elastic, $bar, $indexName, $typeName, $todoRepository) {
                 if ($indexName == 'todo') {
                     foreach ($items as $item) {
                         try {
-                            $elastic->index($this->prepareTodoParameter($item));
+                            $elastic->index($todoRepository->prepareTodoParameter($item));
                             $this->counter++;
                         } catch (\Exception $e) {
                             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
@@ -113,33 +115,5 @@ class ImportIndex extends Command
         $bar->finish();
 
         $this->info(PHP_EOL . $this->counter . '/' . $totalCount . ' indexes imported successfully!');
-    }
-
-    /**
-     * Prepare the item to be indexed
-     *
-     * @param Todo $item
-     * @return array
-     */
-    protected function prepareTodoParameter($item)
-    {
-        return [
-            'index' => 'todo_index',
-            'type'  => 'todo_type',
-            'id'    => (int)$item->id,
-            'body'  => [
-                'id'            => (int)$item->id,
-                'uid'           => $item->uid,
-                'title'         => $item->title,
-                'description'   => $item->description,
-                'category_id'   => (int)$item->category_id,
-                'category_name' => $item->category_name,
-                'user_id'       => (int)$item->user_id,
-                'user_name'     => $item->user_name,
-                'created_at'    => $item->created_at,
-                'updated_at'    => $item->updated_at,
-                'deleted_at'    => $item->deleted_at
-            ]
-        ];
     }
 }

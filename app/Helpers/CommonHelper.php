@@ -30,4 +30,18 @@ class CommonHelper
 
         return $params;
     }
+
+    /**
+     * Unset pagination parameters
+     *
+     * @param array $params
+     * @return array
+     */
+    public static function unsetPaginationParams($params)
+    {
+        unset($params['page']);
+        unset($params['limit']);
+
+        return $params;
+    }
 }

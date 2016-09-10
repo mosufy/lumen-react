@@ -13,6 +13,7 @@ use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
+use App\Helpers\CommonHelper;
 use App\Models\AppLog;
 use App\Models\Todo;
 use App\Services\ElasticsearchService;
@@ -39,7 +40,11 @@ class TodoRepository
      */
     public function getTodos($user, $params)
     {
-        if (!empty($params['q'])) {
+        $is_search_params = CommonHelper::unsetInternalParams($params);
+        $is_search_params = CommonHelper::unsetPaginationParams($is_search_params);
+
+        if (!empty($is_search_params)) {
+            // This is likely a search query
             return $this->getTodosBySearch($params, $user);
         }
 
@@ -93,17 +98,15 @@ class TodoRepository
      */
     public function getTodosBySearch($params, $user)
     {
-        $res = $this->searchTodo($params, $user);
+        // Get results from Elasticsearch
+        $search = $this->searchTodo($params, $user);
 
         $key    = 'todoSearchByUserId_' . $user->id;
-        $subKey = json_encode($res);
+        $subKey = json_encode($search);
 
         if ($cached = $this->getCache($key, $subKey)) {
             return $cached;
         }
-
-        // Get results from Elasticsearch
-        $search = $this->searchTodo($params, $user);
 
         // Get actual response using the returned ids from Elasticsearch
         $todos = Todo::whereIn('id', $search['ids']);
@@ -278,14 +281,7 @@ class TodoRepository
             'type'  => 'todo_type',
             'body'  => [
                 'query' => [
-                    'filtered' => [ // This is a filtered query
-                        'query'  => [ // Query allow for a matched score search
-                            'multi_match' => [
-                                'query'     => $q,
-                                'fuzziness' => 'AUTO',
-                                'fields'    => ['uid', 'title', 'description', 'category_name'],
-                            ]
-                        ],
+                    'filtered' => [ // This is a filtered query,
                         'filter' => [ // Filter allow for a much faster query as it does not need to be scored
                             'bool' => [
                                 'must' => [
@@ -301,6 +297,24 @@ class TodoRepository
                 ]
             ]
         ];
+
+        if (!empty($q)) {
+            $parameters = array_merge_recursive($parameters, [
+                'body' => [
+                    'query' => [
+                        'filtered' => [
+                            'query' => [ // Query allow for a matched score search
+                                'multi_match' => [
+                                    'query'     => $q,
+                                    'fuzziness' => 'AUTO',
+                                    'fields'    => ['uid', 'title', 'description', 'category_name'],
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]);
+        }
 
         if (!empty($uid)) {
             $parameters['body']['query']['filtered']['filter']['bool']['must'][] = [
@@ -374,6 +388,60 @@ class TodoRepository
         return [
             'total' => 0,
             'ids'   => []
+        ];
+    }
+
+    /**
+     * Add todos to index
+     *
+     * @param Todo $todo
+     * @throws TodoException
+     */
+    public function addToSearchIndex($todo)
+    {
+        $params = $this->prepareTodoParameter($todo);
+
+        try {
+            $elastic = app(ElasticsearchService::class);
+            $elastic->index($params);
+        } catch (\Exception $e) {
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'todo_id' => $todo->id
+            ]);
+            throw new TodoException('Elasticsearch exception thrown while inserting todo index', 50001001);
+        }
+    }
+
+    /**
+     * Prepare the item to be indexed
+     *
+     * @param Todo $item
+     * @return array
+     */
+    public function prepareTodoParameter($item)
+    {
+        return [
+            'index' => 'todo_index',
+            'type'  => 'todo_type',
+            'id'    => (int)$item->id,
+            'body'  => [
+                'id'            => (int)$item->id,
+                'uid'           => $item->uid,
+                'title'         => $item->title,
+                'description'   => $item->description,
+                'category_id'   => (int)$item->category_id,
+                'category_name' => $item->category_name,
+                'user_id'       => (int)$item->user_id,
+                'user_name'     => $item->user_name,
+                'created_at'    => (is_string($item->created_at) || empty($item->created_at)) ? $item->created_at : $item->created_at->toDateTimeString(),
+                'updated_at'    => (is_string($item->updated_at) || empty($item->updated_at)) ? $item->updated_at : $item->updated_at->toDateTimeString(),
+                'deleted_at'    => (is_string($item->deleted_at) || empty($item->deleted_at)) ? $item->deleted_at : $item->deleted_at->toDateTimeString()
+            ]
         ];
     }
 }
