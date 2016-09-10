@@ -9,27 +9,25 @@
 
 namespace App\Services;
 
-use Elasticsearch\Client;
+use Elasticsearch\ClientBuilder;
 
 /**
  * Class ElasticsearchService
  *
- * Long description of class goes here. What is this for?
- *
- *  *
- * ```
- * // Example code goes here
- * ```
- *
- * @see  Display a link to the documentation for an element here
- * @link Display a hyperlink to a URL in the documentation here
+ * Connection service to Elasticsearch.
  */
 class ElasticsearchService
 {
     protected $client;
 
-    public function __construct(Client $client)
+    public function __construct()
     {
+        $hostsEnv = env('ELASTICSEARCH_HOST', '10.1.2.100:9200');
+        $hosts    = explode(',', $hostsEnv);
+
+        $clientB = new ClientBuilder();
+        $client  = $clientB->setHosts($hosts)->build();
+
         $this->client = $client;
     }
 

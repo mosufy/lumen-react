@@ -226,7 +226,7 @@ rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
 #
 # Install Elasticsearch
 #
-yum install elasticsearch
+yum install -y elasticsearch
 
 #
 # Configure to start Elasticsearch
@@ -236,7 +236,7 @@ chkconfig --add elasticsearch
 #
 # Restart Elasticsearch
 #
-sudo service elasticsearch restart
+service elasticsearch restart
 
 #
 # Installing Elasticsearch plugin GUI
