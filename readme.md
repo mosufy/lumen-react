@@ -8,7 +8,7 @@ Foundation for API-centric Architecture with Lumen.
 Kick-start your development for an api-centric web application with 
 this repository! Built with OAuth2 for authorization and authentication.
 
-## Basic Features
+## Basic Features 
 
 - [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
