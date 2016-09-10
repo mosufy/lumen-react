@@ -1,5 +1,8 @@
 # Lumen - API
 
+[![Build Status](https://travis-ci.org/mosufy/lumen-api.svg?branch=master)](https://travis-ci.org/mosufy/lumen-api) 
+[![codecov](https://codecov.io/gh/mosufy/lumen-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mosufy/lumen-api)
+
 Foundation for API-centric Architecture with Lumen.
 
 Kick-start your development for an api-centric web application with 

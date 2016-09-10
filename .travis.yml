@@ -1,0 +1,32 @@
+language: php
+
+php:
+  - 5.6
+  - 7.0
+  - hhvm
+
+services:
+  - elasticsearch
+  - redis-server
+
+before_script:
+  - cp .env.travis .env
+  - mysql -e 'create database lumenapi_test;'
+  - composer self-update
+  - composer install --no-interaction
+  - chmod -R 777 storage/
+  - php artisan migrate
+  - php artisan db:seed
+  - sleep 10 # give artisan and elasticsearch some time to start
+  - php artisan elasticsearch:importIndex
+  - vendor/bin/codecept build
+
+script:
+  - vendor/bin/codecept run api,unit,functional --coverage --coverage-xml
+
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
+
+after_failure:
+  - cat storage/logs/lumen.log
+  - cat tests/_output/*

@@ -11,6 +11,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Monolog\Formatter\LineFormatter;
+use Monolog\Handler\HandlerWrapper;
 use Monolog\Handler\RotatingFileHandler;
 
 /**
@@ -27,7 +28,9 @@ class LogServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        app('Psr\Log\LoggerInterface')->setHandlers([$this->getRotatingLogHandler()]);
+        if (!app()->environment('testing')) {
+            app('Psr\Log\LoggerInterface')->setHandlers([$this->getRotatingLogHandler()]);
+        }
     }
 
     /**
