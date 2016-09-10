@@ -180,6 +180,45 @@ class TodoCest
         ]);
     }
 
+    public function getTodoBySearch(ApiTester $I)
+    {
+        $I->wantTo('test get todo by search');
+        $I->amBearerAuthenticated($this->user_access_token);
+        $I->sendGET('/todos', [
+            'q'            => 'Learn',
+            'category_ids' => '1,2'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            'q'            => 'Learn',
+            'category_ids' => '1,2'
+        ]);
+
+        $I->seeResponseContainsJson([
+            'uid'   => Fixtures::get('todo_uid'),
+            'title' => Fixtures::get('todo_title')
+        ]);
+    }
+
+    public function getTodoBySearchNoResults(ApiTester $I)
+    {
+        $I->wantTo('test get todo by search with no results');
+        $I->amBearerAuthenticated($this->user_access_token);
+        $I->sendGET('/todos', [
+            'category_ids' => '99'
+        ]);
+
+        $I->seeResponseCodeIs(200);
+        $I->seeResponseIsJson();
+
+        $I->dontSeeResponseContainsJson([
+            'uid' => Fixtures::get('todo_uid')
+        ]);
+    }
+
     public function createTodo(ApiTester $I)
     {
         $I->wantTo('test create todo');
@@ -197,6 +236,24 @@ class TodoCest
             "title"       => "New TODO Title",
             "description" => "New TODO Description",
             "category_id" => 1
+        ]);
+    }
+
+    public function createTodoWithMissingCategoryId(ApiTester $I)
+    {
+        $I->wantTo('test create todo with missing category_id');
+        $I->amBearerAuthenticated($this->user_access_token);
+        $I->sendPOST('/todos', [
+            "title"       => "New TODO Title",
+            "description" => "New TODO Description"
+        ]);
+
+        $I->seeResponseCodeIs(500);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            "code"   => 50001001,
+            "detail" => "Exception thrown while trying to create todo"
         ]);
     }
 
@@ -221,6 +278,24 @@ class TodoCest
         ]);
     }
 
+    public function updateTodoWithInvalidUid(ApiTester $I)
+    {
+        $I->wantTo('test update todo with invalid uid');
+        $I->amBearerAuthenticated($this->user_access_token);
+        $I->sendPUT('/todos/invalid-uid', [
+            "title"       => "Update TODO Title",
+            "description" => "Update TODO Description"
+        ]);
+
+        $I->seeResponseCodeIs(404);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            "code"   => 40400000,
+            "detail" => "Todo not found"
+        ]);
+    }
+
     public function deleteTodo(ApiTester $I)
     {
         $I->wantTo('test delete todo');
@@ -234,6 +309,21 @@ class TodoCest
             "type"       => 'todo',
             "id"         => null,
             "attributes" => null
+        ]);
+    }
+
+    public function deleteTodoWithInvalidUid(ApiTester $I)
+    {
+        $I->wantTo('test delete todo with invalid uid');
+        $I->amBearerAuthenticated($this->user_access_token);
+        $I->sendDELETE('/todos/invalid-uid');
+
+        $I->seeResponseCodeIs(404);
+        $I->seeResponseIsJson();
+
+        $I->seeResponseContainsJson([
+            "code"   => 40400000,
+            "detail" => "Todo not found"
         ]);
     }
 }

@@ -136,8 +136,8 @@ class UserRepository
                 throw new UserException('Email already exist. Please try a different email', 40000000);
             }
 
-            throw new UserException('Exception thrown while trying to create user', 50001001);
-        } catch (\Exception $e) {
+            throw new UserException('Exception thrown while trying to create user', 50001001); // @codeCoverageIgnore
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message' => $e->getMessage(),
@@ -147,7 +147,7 @@ class UserRepository
                 'params'  => $params
             ]);
             throw new UserException('Exception thrown while trying to create user', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**

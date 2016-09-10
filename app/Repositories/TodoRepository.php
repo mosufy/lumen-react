@@ -140,7 +140,7 @@ class TodoRepository
             event(new TodoCreated($todo));
 
             return $todo;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message' => $e->getMessage(),
@@ -151,7 +151,7 @@ class TodoRepository
                 'params'  => $params
             ]);
             throw new TodoException('Exception thrown while trying to create todo', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -187,7 +187,7 @@ class TodoRepository
                 'params'   => $params
             ]);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message'  => $e->getMessage(),
@@ -199,7 +199,7 @@ class TodoRepository
                 'params'   => $params
             ]);
             throw new TodoException('Exception thrown while trying to update todo', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -230,7 +230,7 @@ class TodoRepository
                 'user_id'  => $user->id
             ]);
             throw $e;
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message'  => $e->getMessage(),
@@ -241,7 +241,7 @@ class TodoRepository
                 'user_id'  => $user->id
             ]);
             throw new TodoException('Exception thrown while trying to delete todo', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -350,7 +350,7 @@ class TodoRepository
         try {
             $elastic = new ElasticsearchService();
             $res     = $elastic->search($parameters);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message'        => $e->getMessage(),
@@ -362,7 +362,7 @@ class TodoRepository
                 'user_id'        => $user->id
             ]);
             throw new TodoException('Elasticsearch exception thrown while search todo', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
 
         AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
             'Elasticsearch response', [
@@ -403,7 +403,7 @@ class TodoRepository
         try {
             $elastic = new ElasticsearchService();
             $elastic->index($params);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message' => $e->getMessage(),
@@ -413,7 +413,7 @@ class TodoRepository
                 'todo_id' => $todo->id
             ]);
             throw new TodoException('Elasticsearch exception thrown while inserting todo index', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -437,7 +437,7 @@ class TodoRepository
             // Update document
             $params['body']['doc'] = $todoIndex['_source'];
             $elastic->update($params);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message' => $e->getMessage(),
@@ -447,7 +447,7 @@ class TodoRepository
                 'todo_id' => $todo->id
             ]);
             throw new TodoException('Elasticsearch exception thrown while updating todo search index', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
@@ -461,7 +461,7 @@ class TodoRepository
         try {
             $elastic = new ElasticsearchService();
             $elastic->delete($this->prepareIndexMeta($todo));
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 get_class($e), [
                 'message' => $e->getMessage(),
@@ -471,7 +471,7 @@ class TodoRepository
                 'todo_id' => $todo->id
             ]);
             throw new TodoException('Elasticsearch exception thrown while deleting todo search index', 50001001);
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**
