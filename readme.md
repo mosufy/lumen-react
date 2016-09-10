@@ -17,6 +17,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
+- [x] Build status and Code Coverage Report with [Travis CI](https://travis-ci.org) and [Codecov](https://codecov.io)
 - [x] Mailgun transactional email integration with queues
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
