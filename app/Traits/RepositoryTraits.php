@@ -103,12 +103,13 @@ trait RepositoryTraits
     /**
      * Generate paginated data
      *
-     * @param mixed $object
-     * @param array $params
-     * @param int   $total
+     * @param mixed      $object
+     * @param array      $params
+     * @param int|string $total      Provide total if not required to be calculated, usually for Elasticsearch
+     * @param bool       $skipOffset Offset is usually not required if data is from Elasticsearch
      * @return LengthAwarePaginator
      */
-    protected function getPaginated($object, $params, $total = '')
+    protected function getPaginated($object, $params, $total = '', $skipOffset = false)
     {
         $db = app('db');
 
@@ -122,13 +123,15 @@ trait RepositoryTraits
         $sortBy          = $this->getSortBy($params);
 
         // Fetch the scoped data
-        $result = $object->skip($offset)->limit($params['limit']);
+        if (!$skipOffset) {
+            $object = $object->skip($offset)->limit($params['limit']);
+        }
 
         // Check if require order by
         if (!empty($orderBy)) {
-            $result = $result->orderBy($orderBy, $sortBy)->get();
+            $result = $object->orderBy($orderBy, $sortBy)->get();
         } else {
-            $result = $result->get();
+            $result = $object->get();
         }
 
         // Get total count

@@ -37,7 +37,7 @@ trait IPAddressTrait
      */
     public function getClientIpAddress() // @codeCoverageIgnoreStart
     {
-        $trustedProxies    = env('TRUSTED_PROXIES');
+        $trustedProxies    = env('TRUSTED_PROXIES', '10.1.2.100');
         $trustedProxiesArr = explode(',', $trustedProxies);
 
         // Set the trusted proxies so that it does not get returned on $request->getClientIp()
