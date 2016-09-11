@@ -9,3 +9,4 @@ modules:
         - Lumen:
             environment_file: .env.testing
         - Asserts
+        - Cli

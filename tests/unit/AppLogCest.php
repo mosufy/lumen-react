@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Class AppLogCest
  *
@@ -7,6 +6,7 @@
  * @author    Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
  */
+
 class AppLogCest
 {
     public function _before(UnitTester $I)
