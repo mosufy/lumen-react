@@ -5,6 +5,11 @@ php:
   - 7.0
   - hhvm
 
+branches:
+  only:
+  - master
+  - develop
+
 services:
   - elasticsearch
   - redis-server
@@ -22,8 +27,8 @@ before_script:
   - vendor/bin/codecept build
 
 script:
-  - if [ "`phpenv version-name`" != "hhvm" ]; then vendor/bin/codecept run api,unit,functional --coverage --coverage-xml; fi
-  - if [ "`phpenv version-name`" == "hhvm" ]; then vendor/bin/codecept run api,unit,functional; fi
+  - if [ "`phpenv version-name`" != "hhvm" ]; then vendor/bin/codecept run api,functional,unit --coverage --coverage-xml; fi
+  - if [ "`phpenv version-name`" == "hhvm" ]; then vendor/bin/codecept run api,functional,unit; fi
 
 after_success:
   - if [ "`phpenv version-name`" != "hhvm" ]; then bash <(curl -s https://codecov.io/bash); fi

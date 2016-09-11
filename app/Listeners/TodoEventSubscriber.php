@@ -13,9 +13,8 @@ use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Jobs\UpdateTodoSearchIndex;
-use App\Models\AppLog;
-use App\Repositories\TodoRepository;
 use Illuminate\Contracts\Cache\Repository as Cache;
+use Illuminate\Contracts\Bus\Dispatcher;
 
 /**
  * Class TodoEventSubscriber
@@ -39,7 +38,11 @@ class TodoEventSubscriber
     public function onTodoCreated($event)
     {
         // Add to Elasticsearch index
-        dispatch((new UpdateTodoSearchIndex($event->todo, 'insert'))->onQueue('default'));
+        if (env('QUEUE_SWITCH') == 'on') {
+            dispatch((new UpdateTodoSearchIndex($event->todo, 'insert'))->onQueue('default')); // @codeCoverageIgnore
+        } else {
+            app(Dispatcher::class)->dispatchNow((new UpdateTodoSearchIndex($event->todo, 'insert')));
+        }
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
@@ -53,7 +56,11 @@ class TodoEventSubscriber
     public function onTodoUpdated($event)
     {
         // Add to Elasticsearch index
-        dispatch((new UpdateTodoSearchIndex($event->todo, 'update'))->onQueue('default'));
+        if (env('QUEUE_SWITCH') == 'on') {
+            dispatch((new UpdateTodoSearchIndex($event->todo, 'update'))->onQueue('default')); // @codeCoverageIgnore
+        } else {
+            app(Dispatcher::class)->dispatchNow((new UpdateTodoSearchIndex($event->todo, 'update')));
+        }
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
@@ -67,19 +74,14 @@ class TodoEventSubscriber
     public function onTodoDeleted($event)
     {
         // Delete search index
-        dispatch((new UpdateTodoSearchIndex($event->todo, 'delete'))->onQueue('default'));
+        /*if (env('QUEUE_SWITCH') == 'on') {
+            dispatch((new UpdateTodoSearchIndex($event->todo, 'delete'))->onQueue('default')); // @codeCoverageIgnore
+        } else {
+            app(Dispatcher::class)->dispatchNow((new UpdateTodoSearchIndex($event->todo, 'delete')));
+        }*/
 
-        /*
-         * FIXME: Deleting queued job above does not seem to work. Will have to re-look into this.
-         */
-        $todoRepository = new TodoRepository();
-        $todoRepository->deleteSearchIndex($event->todo);
-        $this->cache->forget('todoSearchByUserId_' . $event->todo->user_id);
-        AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
-            'Elasticsearch index deleted successfully', [
-            'todo_id' => $event->todo->id,
-            'action'  => 'delete'
-        ]);
+        // FIXME: Deleting queued job above does not seem to work. Will have to re-look into this.
+        app(Dispatcher::class)->dispatchNow((new UpdateTodoSearchIndex($event->todo, 'delete')));
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
@@ -91,8 +93,7 @@ class TodoEventSubscriber
      * @param \Illuminate\Events\Dispatcher $events
      */
     public function subscribe($events)
-    {
-        // @codeCoverageIgnoreStart
+    { // @codeCoverageIgnoreStart
         $events->listen(
             'App\Events\TodoCreated',
             'App\Listeners\TodoEventSubscriber@onTodoCreated'
@@ -107,6 +108,5 @@ class TodoEventSubscriber
             'App\Events\TodoDeleted',
             'App\Listeners\TodoEventSubscriber@onTodoDeleted'
         );
-        // @codeCoverageIgnoreEnd
-    }
+    } // @codeCoverageIgnoreEnd
 }

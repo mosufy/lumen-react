@@ -20,13 +20,6 @@ use Illuminate\Contracts\Mail\Mailer;
  */
 class MailRepository
 {
-    protected $mail;
-
-    public function __construct(Mailer $mail)
-    {
-        $this->mail = $mail;
-    }
-
     /**
      * Send activation email
      *
@@ -54,7 +47,8 @@ class MailRepository
     protected function sendMail($user, $template, $subject, $tag = '', $data = [], $from = 'hello@app.com', $from_name = 'My app')
     {
         try {
-            $this->mail->send($template, ['user' => $user, 'data' => $data], function ($m) use ($user, $subject, $tag, $from, $from_name) {
+            $mail = app(Mailer::class);
+            $mail->send($template, ['user' => $user, 'data' => $data], function ($m) use ($user, $subject, $tag, $from, $from_name) {
                 $m->from($from, $from_name);
                 $m->to($user->email, $user->name)->subject($subject);
 
