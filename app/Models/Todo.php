@@ -25,15 +25,15 @@ class Todo extends Model
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()
-    {
+    { // @codeCoverageIgnoreStart
         return $this->belongsTo('App\Models\Category');
-    }
+    } // @codeCoverageIgnoreEnd
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
-    {
-        return $this->belongsTo('App\Models\User');
-    }
+    { // @codeCoverageIgnoreStart
+        return $this->belongsTo('App\Models\User'); // @codeCoverageIgnore
+    } // @codeCoverageIgnoreEnd
 }

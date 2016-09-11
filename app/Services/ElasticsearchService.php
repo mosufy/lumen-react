@@ -94,6 +94,7 @@ class ElasticsearchService
     }
 
     /**
+     * @deprecated
      * Index multiple items
      *
      * This method normalises the 'bulk' method of the Elastic Search
@@ -104,7 +105,7 @@ class ElasticsearchService
      */
     public function indexMany(array $collection)
     {
-        $parameters = [];
+        /*$parameters = [];
 
         foreach ($collection as $item) {
             $parameters['body'][] = [
@@ -117,7 +118,7 @@ class ElasticsearchService
             $parameters['body'][] = $item['body'];
         }
 
-        return $this->client->bulk($parameters);
+        return $this->client->bulk($parameters);*/
     }
 
     /**

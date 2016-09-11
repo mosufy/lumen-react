@@ -52,7 +52,7 @@ class ImportIndex extends Command
      */
     public function handle(ElasticsearchService $elastic, TodoRepository $todoRepository)
     {
-        $this->info('Preparing items to be indexed');
+        $this->info('Importing Index: Preparing documents to index.');
 
         // array of allowable indexes and types
         $allowedIndexes = ['todo'];
@@ -64,19 +64,19 @@ class ImportIndex extends Command
         $table     = str_plural($indexName);
 
         if (!in_array($indexName, $allowedIndexes)) {
-            $this->info('No such index exists. ABORTED');
+            $this->info('Importing Index: No such index exists. ABORTED.');
             return;
         }
 
         if (!in_array($typeName, $allowedTypes)) {
-            $this->info('No such type exists. ABORTED');
+            $this->info('Importing Index: No such type exists. ABORTED.');
             return;
         }
 
-        $this->comment('Deleting existing indexes');
         try {
             $elastic->drop(['index' => env('ELASTICSEARCH_INDEX', 'todo_index')]);
         } catch (\Exception $e) {
+            $this->info('Importing Index: Failed to drop existing index. ABORTED.');
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 'Failed to drop index. Likely due to no such index found.', [
                 'message' => $e->getMessage(),
@@ -88,20 +88,17 @@ class ImportIndex extends Command
 
         try {
             // Get total count to index
-            $this->comment('Existing indexes deleted successfully. Counting documents to index');
             $totalCount    = (int)$db->table($table)->selectRaw('COUNT(*) as `count`')->whereNull('todos.deleted_at')->value('count');
             $this->counter = 0;
         } catch (\Exception $e) {
-            $this->info('No such table exists. ABORTED');
+            $this->info('Importing Index: No such table exists. ABORTED.');
             return;
         }
 
         if ($totalCount <= 0) {
-            $this->info('0 documents found to be indexed. ABORTED');
-            die();
+            $this->info('Importing Index: 0 documents found to be indexed. ABORTED.');
+            return;
         }
-
-        $this->comment($totalCount . ' items found to be indexed.');
 
         $bar = $this->output->createProgressBar($totalCount);
 
@@ -134,6 +131,6 @@ class ImportIndex extends Command
 
         $bar->finish();
 
-        $this->info(PHP_EOL . $this->counter . '/' . $totalCount . ' indexes imported successfully!');
+        $this->info(PHP_EOL . 'Importing Index: ' . $this->counter . '/' . $totalCount . ' indexes imported.');
     }
 }

@@ -49,7 +49,7 @@ class UpdateTodoSearchIndex extends Job
         $next_retry_time = min((int)($base_sec * pow(2, $attempts - 1)), $max_sec);
         $retry_limit     = 50;
 
-        if ($attempts > $retry_limit) {
+        if ($attempts > $retry_limit) { // @codeCoverageIgnoreStart
             AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FILE__ . ':' . __LINE__ . ':' . __FUNCTION__ . ':' .
                 'Deleting queued job for updating Todo search index due to max attempt reached', [
                 'queue'           => $this->queue,
@@ -60,7 +60,7 @@ class UpdateTodoSearchIndex extends Job
 
             $this->delete();
             return;
-        }
+        } // @codeCoverageIgnoreEnd
 
         try {
             if ($this->action == 'insert') {
@@ -79,7 +79,7 @@ class UpdateTodoSearchIndex extends Job
                 'todo_id' => $this->todo->id,
                 'action'  => $this->action
             ]);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             AppLog::warning(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
                 'Queued job add todo to search index failed to run. Will try again', [
                 'queue'           => $this->queue,
@@ -90,6 +90,6 @@ class UpdateTodoSearchIndex extends Job
 
             $this->release($next_retry_time);
             return;
-        }
+        } // @codeCoverageIgnoreEnd
     }
 }

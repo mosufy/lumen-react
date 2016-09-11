@@ -22,15 +22,15 @@ class Category extends Model
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function todos()
-    {
+    { // @codeCoverageIgnoreStart
         return $this->hasMany('App\Models\Todo');
-    }
+    } // @codeCoverageIgnoreEnd
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
-    {
+    { // @codeCoverageIgnoreStart
         return $this->belongsTo('App\Models\User');
-    }
+    } // @codeCoverageIgnoreEnd
 }

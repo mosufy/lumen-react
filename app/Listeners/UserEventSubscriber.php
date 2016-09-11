@@ -11,6 +11,7 @@ namespace App\Listeners;
 
 use App\Events\UserCreated;
 use App\Jobs\SendMailer;
+use Illuminate\Contracts\Bus\Dispatcher;
 
 /**
  * Class UserEventSubscriber
@@ -27,8 +28,11 @@ class UserEventSubscriber
     public function onUserCreated($event)
     {
         // Send activation email
-        dispatch((new SendMailer($event->user, 'activationEmail'))->onQueue('high'));
-        // do something else
+        if (env('QUEUE_SWITCH') == 'on') {
+            dispatch((new SendMailer($event->user, 'activationEmail'))->onQueue('high')); // @codeCoverageIgnore
+        } else {
+            app(Dispatcher::class)->dispatchNow((new SendMailer($event->user, 'activationEmail')));
+        }
     }
 
     /**
@@ -37,12 +41,10 @@ class UserEventSubscriber
      * @param \Illuminate\Events\Dispatcher $events
      */
     public function subscribe($events)
-    {
-        // @codeCoverageIgnoreStart
+    { // @codeCoverageIgnoreStart
         $events->listen(
             'App\Events\UserCreated',
             'App\Listeners\UserEventSubscriber@onUserCreated'
         );
-        // @codeCoverageIgnoreEnd
-    }
+    } // @codeCoverageIgnoreEnd
 }
