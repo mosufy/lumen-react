@@ -41,9 +41,9 @@ class TodoController extends Controller
             $todos = $this->todoRepository->getTodos($user, $request->all());
 
             return $this->responseSuccess('todo', $todos);
-        } catch (\Exception $e) {
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
             return $this->responseError('Failed to fetch all todos', $e->getMessage(), $e->getCode());
-        }
+        } // @codeCoverageIgnoreEnd
     }
 
     /**

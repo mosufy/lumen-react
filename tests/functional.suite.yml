@@ -7,6 +7,12 @@
 class_name: FunctionalTester
 modules:
     enabled:
+        - REST:
+            url: /v1
+            depends: Lumen
         - \Helper\Functional
-        - Lumen:
+        - Lumen
+        - Cli
+    config:
+        Lumen:
             environment_file: .env.testing

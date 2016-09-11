@@ -24,14 +24,16 @@ coverage:
     remote: false
     whitelist:
         include:
-            - app/Http/*
+            - app/Events/*
+            - app/Helpers/*
+            - app/Http/Controllers/*
+            - app/Http/Middleware/*
+            - app/Jobs/*
+            - app/Listeners/*
+            - app/Models/*
             - app/Repositories/*
             - app/Traits/*
-            - app/Helpers/*
-            - app/Events/*
-            - app/Listeners/*
             - app/Services/*
-            - app/Models/*
     blacklist:
         include:
             - vendor/*

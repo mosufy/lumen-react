@@ -47,7 +47,7 @@ class AccountCest
         $I->wantTo('test account signup');
         $I->amBearerAuthenticated($this->client_access_token);
         $I->sendPOST('/account', [
-            "email"    => "mail2@email.com",
+            "email"    => "mail3@email.com",
             "password" => "password",
             "name"     => "John Doe"
         ]);
@@ -56,7 +56,7 @@ class AccountCest
         $I->seeResponseIsJson();
 
         $I->seeResponseContainsJson([
-            "email" => "mail2@email.com",
+            "email" => "mail3@email.com",
             "name"  => "John Doe"
         ]);
     }
@@ -68,7 +68,7 @@ class AccountCest
         $I->sendPOST('/account', [
             "email"    => Fixtures::get('username'),
             "password" => "password",
-            "name"     => "John Doe 2"
+            "name"     => "John Doe"
         ]);
 
         $I->seeResponseCodeIs(400);
