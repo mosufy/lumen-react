@@ -15,6 +15,7 @@ DBNAME=lumenapi
 DBUSER=lumenapi
 DBPASS=password
 DBAPASS=rootpassword
+BASEPATH=$PWD
 
 ##################################################################################
 #
@@ -122,6 +123,11 @@ service redis start
 chkconfig redis on
 
 #
+# Vim
+#
+yum -y install vim
+
+#
 # Install nginx and initialise the cache
 #
 yum -y install nginx16
@@ -153,6 +159,8 @@ chkconfig sendmail on
 # web server only and have a separate database server attached.
 #
 ##################################################################################
+
+echo "Install Database"
 
 #
 # Percona DB
@@ -209,24 +217,36 @@ EOF
 #
 ##################################################################################
 
-#
-# OpenJDK
-#
-# Install yum repositories
-#
-yum install -y java-1.7.0-openjdk
+echo "Install Elasticsearch with plugin GUI"
 
 #
-# Download and install the public signing key:
+# Install OpenJDK
+#
+yum -y install java-1.7.0-openjdk
+
+#
+# Download and import the public signing key
 #
 rpm --import https://packages.elastic.co/GPG-KEY-elasticsearch
+
+#
+# Add elasticsearch repo
+#
+cat <<EOFELSREPO > /etc/yum.repos.d/elasticsearch.repo
+[elasticsearch-2.x]
+name=Elasticsearch repository for 2.x packages
+baseurl=https://packages.elastic.co/elasticsearch/2.x/centos
+gpgcheck=1
+gpgkey=https://packages.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+EOFELSREPO
 
 #
 # Elasticsearch
 #
 # Install Elasticsearch
 #
-yum install -y elasticsearch
+yum -y install elasticsearch
 
 #
 # Configure to start Elasticsearch
@@ -241,8 +261,7 @@ service elasticsearch restart
 #
 # Installing Elasticsearch plugin GUI
 #
-cd /usr/share/elasticsearch
-bin/plugin install jettro/elasticsearch-gui
+/usr/share/elasticsearch/bin/plugin install jettro/elasticsearch-gui
 
 ##################################################################################
 #
@@ -301,6 +320,32 @@ mysql -uroot -p$DBAPASS -e "CREATE DATABASE $DBNAME"
 mysql -uroot -p$DBAPASS -e "GRANT ALL PRIVILEGES on $DBNAME.* to '$DBUSER'@'localhost' IDENTIFIED BY '$DBPASS'"
 
 #
+# Setup CRON Job for artisan scheduler
+#
+echo "Setting up artisan scheduler CRON Job"
+# Run artisan scheduler every minute
+echo "* * * * * php /var/www/${APPNAME}/artisan schedule:run 1>> /dev/null 2>&1" >> mycron
+# Add a blank line, required for CRON to properly function
+echo '' >> mycron
+crontab -u nginx mycron
+/bin/rm -f mycron
+echo "CRON Job for artisan scheduler created"
+
+#
+# Install dependencies
+#
+echo "Installing dependencies"
+cd /var/www/${APPNAME}
+/usr/local/bin/composer install
+cd ${BASEPATH}
+
+#
+# Copy .env
+#
+echo "Creating .env from .env.example"
+cp /var/www/${APPNAME}/.env.example /var/www/${APPNAME}/.env
+
+#
 # Start migration
 #
 echo "Starting migration"
@@ -309,16 +354,10 @@ echo "Starting Seeding"
 php /var/www/${APPNAME}/artisan db:seed
 
 #
-# Setup CRON Job for artisan scheduler
+# Import indexes
 #
-echo "Setting up artisan scheduler CRON Job"
-# Run artisan scheduler every minute
-echo "* * * * * php /var/www/${APPNAME}/artisan schedule:run 1>> /dev/null 2>&1" >> mycron
-# Add a blank line, required for CRON to properly function
-echo '' >> mycron
-crontab -u centos mycron
-rm -y mycron
-echo "CRON Job for artisan scheduler created"
+echo "Importing Elasticsearch index"
+php /var/www/${APPNAME}/artisan elasticsearch:importIndex
 
 ##################################################################################
 #

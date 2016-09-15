@@ -2,6 +2,7 @@
 
 [![Build Status](https://travis-ci.org/mosufy/lumen-api.svg?branch=master)](https://travis-ci.org/mosufy/lumen-api) 
 [![codecov](https://codecov.io/gh/mosufy/lumen-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mosufy/lumen-api)
+[![GitHub release](https://img.shields.io/github/release/mosufy/lumen-api.svg?maxAge=2592000)](https://github.com/mosufy/lumen-api)
 [![GitHub tag](https://img.shields.io/github/tag/mosufy/lumen-api.svg?maxAge=2592000)](https://github.com/mosufy/lumen-api/releases)
 
 Foundation for API-centric Architecture with Lumen.
@@ -33,6 +34,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] API access logs for possible rate limiting
 - [x] App logs saved to daily log file & database
 - [ ] Multi-tenant environment
+- [ ] PHP-7 Support
 
 ## Installation Instructions
 
