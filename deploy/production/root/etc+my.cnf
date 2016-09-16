@@ -5,7 +5,7 @@ user=mysql
 bind-address=0.0.0.0
 
 # Uncomment this to get slow query logging.  Use only in development, turn off in production.
-slow-query-log
+#slow-query-log
 
 # Uncomment this to get full query logging.  Use only in development, turn off in production.
 # general-log

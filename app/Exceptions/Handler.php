@@ -35,7 +35,7 @@ class Handler extends ExceptionHandler
      *
      * This is a great spot to send exceptions to Sentry, Bugsnag, etc.
      *
-     * @param  \Exception  $e
+     * @param  \Exception $e
      * @return void
      */
     public function report(Exception $e)
@@ -46,8 +46,8 @@ class Handler extends ExceptionHandler
     /**
      * Render an exception into an HTTP response.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Exception  $e
+     * @param  \Illuminate\Http\Request $request
+     * @param  \Exception               $e
      * @return \Illuminate\Http\Response
      */
     public function render($request, Exception $e)
@@ -57,7 +57,15 @@ class Handler extends ExceptionHandler
         }
 
         if ($e instanceof NotFoundHttpException) {
-            return $this->responseError('No such endpoint found', 'Missing or invalid API Endpoint requested. Please check your syntax', 40401005, 404);
+            return $this->responseError('No such endpoint found',
+                'Missing or invalid API Endpoint requested. Please check your syntax', 40401005, 404);
+        }
+
+        $parent_e = get_parent_class($e);
+        if ($parent_e == 'League\OAuth2\Server\Exception\OAuthException') {
+            $statusCode = !empty($e->httpStatusCode) ? $e->httpStatusCode : 401;
+            $errorTitle = !empty($e->errorType) ? $e->errorType : 'error';
+            return $this->responseError($errorTitle, $e->getMessage(), $statusCode, $statusCode);
         }
 
         if (app()->isDownForMaintenance()) {

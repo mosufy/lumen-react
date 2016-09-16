@@ -117,7 +117,7 @@ trait ResponseTrait
      * @param string  $code
      * @param integer $status
      * @param array   $metadata
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return \Illuminate\Http\Response
      */
     public function responseError($title = '', $detail = '', $code = '', $status = null, $metadata = [])
     {
