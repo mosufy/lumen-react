@@ -359,6 +359,41 @@ php /var/www/${APPNAME}/artisan db:seed
 echo "Importing Elasticsearch index"
 php /var/www/${APPNAME}/artisan elasticsearch:importIndex
 
+#
+# Install Supervisor
+#
+echo "Installing Supervisor"
+yum -y install supervisor
+chkconfig supervisord
+service supervisord restart
+
+#
+# Updating supervisord config
+#
+cat <<EOFSUPERVISR >> /etc/supervisord.conf
+[program:lumenapi_queue]
+command=/usr/local/bin/run_lumenapi_queue.sh
+autostart=true
+autorestart=true
+stderr_logfile=/var/log/lumenapi_queue.err.log
+stdout_logfile=/var/log/lumenapi_queue.out.log
+EOFSUPERVISR
+chmod +x /etc/supervisord.conf
+
+#
+# Setting queue to run
+#
+cat <<EOFQUEUERUNNER > /usr/local/bin/run_lumenapi_queue.sh
+#!/bin/bash
+php /var/www/${APPNAME}/artisan --env=local --timeout=240 queue:work --queue:high,default,low
+EOFQUEUERUNNER
+chmod +x /usr/local/bin/run_lumenapi_queue.sh
+
+#
+# Restart supervisord
+#
+service supervisord restart
+
 ##################################################################################
 #
 # Install vbox guest additions.
