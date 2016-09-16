@@ -51,8 +51,8 @@ class OAuthCest
         $I->seeResponseCodeIs(401);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "invalid_client",
-            "error_description" => "Client authentication failed."
+            "title"  => "invalid_client",
+            "detail" => "Client authentication failed."
         ]);
     }
 
@@ -93,8 +93,8 @@ class OAuthCest
         $I->seeResponseCodeIs(401);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "invalid_credentials",
-            "error_description" => "The user credentials were incorrect."
+            "title"  => "invalid_credentials",
+            "detail" => "The user credentials were incorrect."
         ]);
     }
 
@@ -114,8 +114,8 @@ class OAuthCest
         $I->seeResponseCodeIs(401);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "invalid_credentials",
-            "error_description" => "The user credentials were incorrect."
+            "title"  => "invalid_credentials",
+            "detail" => "The user credentials were incorrect."
         ]);
     }
 
@@ -135,8 +135,8 @@ class OAuthCest
         $I->seeResponseCodeIs(401);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "access_denied",
-            "error_description" => "The resource owner or authorization server denied the request."
+            "title"  => "access_denied",
+            "detail" => "The resource owner or authorization server denied the request."
         ]);
     }
 
@@ -156,8 +156,8 @@ class OAuthCest
         $I->seeResponseCodeIs(400);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "invalid_request",
-            "error_description" => "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
+            "title"  => "invalid_request",
+            "detail" => "The request is missing a required parameter, includes an invalid parameter value, includes a parameter more than once, or is otherwise malformed. Check the \"access token\" parameter."
         ]);
     }
 
@@ -194,8 +194,8 @@ class OAuthCest
         $I->seeResponseCodeIs(400);
         $I->seeResponseIsJson();
         $I->seeResponseContainsJson([
-            "error"             => "invalid_request",
-            "error_description" => "The refresh token is invalid."
+            "title"  => "invalid_request",
+            "detail" => "The refresh token is invalid."
         ]);
     }
 }
