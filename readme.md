@@ -24,16 +24,17 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
 - [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
-- [x] [ElasticSearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
+- [x] [Elasticsearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
+- [ ] Elasticsearch distributed index with replication for fail-overs (sharding with replication)
 - [x] Example TODO API resource endpoints
 - [x] [Facade-free implementation](http://taylorotwell.com/response-dont-use-facades/)
 - [ ] Eloquent-free implementation
 - [ ] ReactJS for views
-- [ ] Jenkins-ready deployment
+- [x] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
 - [x] API access logs for possible rate limiting
 - [x] App logs saved to daily log file & database
-- [ ] Multi-tenant environment
+- [x] Multi-tenant environment
 - [ ] PHP-7 Support
 
 ## Installation Instructions
