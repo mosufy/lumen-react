@@ -31,16 +31,16 @@ return [
         'password'           => [
             'class'            => '\League\OAuth2\Server\Grant\PasswordGrant',
             'callback'         => '\App\Repositories\OAuthRepository@passwordGrantVerify',
-            'access_token_ttl' => 3600
+            'access_token_ttl' => 3600      // 1 hour
         ],
         'client_credentials' => [
             'class'            => '\League\OAuth2\Server\Grant\ClientCredentialsGrant',
-            'access_token_ttl' => 36000
+            'access_token_ttl' => 86400     // 1 day
         ],
         'refresh_token'      => [
             'class'             => '\League\OAuth2\Server\Grant\RefreshTokenGrant',
-            'access_token_ttl'  => 3600,
-            'refresh_token_ttl' => 36000
+            'access_token_ttl'  => 3600,    // 1 hour
+            'refresh_token_ttl' => 86400    // 1 day
         ]
     ],
 
