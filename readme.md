@@ -12,7 +12,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 ## Basic Features
 
-- [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
+- [x] [Built on Lumen 5.3](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
 - [x] RESTful API endpoints
 - [x] Event-driven design
@@ -22,8 +22,8 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] Build status and Code Coverage Report with [Travis CI](https://travis-ci.org) and [Codecov](https://codecov.io)
 - [x] Mailgun transactional email integration with queues
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
-- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
-- [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
+- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.3/cache)
+- [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.3/queues)
 - [x] [Elasticsearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] Elasticsearch distributed index with replication for fail-overs (sharding with replication)
 - [x] Example TODO API resource endpoints
@@ -180,7 +180,7 @@ You will start to observe `Processed: App\Jobs\SendMailer`, indicating
 that the queued job has now been processed. No email has been sent out
 as the `MAIL_PRETEND` in .env is set to `true`.
 
-Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.2/queues) 
+Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.3/queues) 
 to understand more of how Queue works.
 
 ## Codeception Testing
