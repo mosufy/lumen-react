@@ -51,11 +51,11 @@
 #
 # Set the bind address to a specific IP (IPv4 or IPv6):
 #
-network.host: 10.1.2.100
+#network.host: 10.1.2.100
 #
 # Set a custom port for HTTP:
 #
-http.port: 9200
+#http.port: 9200
 #
 # For more information, see the documentation at:
 # <http://www.elastic.co/guide/en/elasticsearch/reference/current/modules-network.html>
