@@ -57,7 +57,7 @@ class TodoRepository
         $todos = Todo::where('user_id', $user->id);
 
         // Get paginated data
-        $paginated = $this->getPaginated($todos, $params);
+        $paginated = $this->paginate($todos, $params);
 
         $this->putCache($key, $paginated, 30, $subKey);
 
@@ -111,7 +111,7 @@ class TodoRepository
         $todos = Todo::whereIn('id', $search['ids']);
 
         // Get paginated data
-        $paginated = $this->getPaginated($todos, $params, $search['total'], true);
+        $paginated = $this->paginate($todos, $params, $search['total'], true);
 
         $this->putCache($key, $paginated, 30, $subKey);
 

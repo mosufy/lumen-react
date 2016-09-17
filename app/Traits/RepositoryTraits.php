@@ -109,7 +109,7 @@ trait RepositoryTraits
      * @param bool       $skipOffset Offset is usually not required if data is from Elasticsearch
      * @return LengthAwarePaginator
      */
-    protected function getPaginated($object, $params, $total = '', $skipOffset = false)
+    protected function paginate($object, $params, $total = '', $skipOffset = false)
     {
         $db = app('db');
 
