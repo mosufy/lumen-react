@@ -180,6 +180,20 @@ You will start to observe `Processed: App\Jobs\SendMailer`, indicating
 that the queued job has now been processed. No email has been sent out
 as the `MAIL_PRETEND` in .env is set to `true`.
 
+The `build.sh` file for vagrant already comes with Supervisor to manage
+your queue workers. This will ensure that your queue listener will 
+always be running.
+
+To start/stop Supervisor, simply run these commands.
+
+```
+# Get the current status of Supervisor
+$ sudo service supervisord status
+
+# Start/Stop Supervisor
+$ sudo service supervisord start|stop
+```
+
 Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.3/queues) 
 to understand more of how Queue works.
 
@@ -211,7 +225,7 @@ $ vendor/bin/codecept run
 
 ## Don't use Facades
 
-First commented as a Reddit post, and as agreed by Taylor Otwell himself 
+First brought up as a Reddit post, and as agreed by Taylor Otwell himself 
 as a bad practice, Laravel 5.0 and above are now having lesser dependence 
 on facades. Taylor now provides alternatives to Facades in its 
 Documentations. Read the [original content](https://www.reddit.com/r/PHP/comments/1v0p6h/stop_using_facades/) 
