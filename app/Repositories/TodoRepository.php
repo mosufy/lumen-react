@@ -13,7 +13,6 @@ use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
-use App\Helpers\CommonHelper;
 use App\Models\AppLog;
 use App\Models\Todo;
 use App\Services\ElasticsearchService;
@@ -39,8 +38,8 @@ class TodoRepository
      */
     public function getTodos($user, $params)
     {
-        $is_search_params = CommonHelper::unsetInternalParams($params);
-        $is_search_params = CommonHelper::unsetPaginationParams($is_search_params);
+        $is_search_params = unsetInternalParams($params);
+        $is_search_params = unsetPaginationParams($is_search_params);
 
         if (!empty($is_search_params)) {
             // This is likely a search query

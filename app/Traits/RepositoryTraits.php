@@ -9,7 +9,6 @@
 
 namespace App\Traits;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -113,7 +112,7 @@ trait RepositoryTraits
     {
         $db = app('db');
 
-        $params = CommonHelper::unsetInternalParams($params);
+        $params = unsetInternalParams($params);
 
         $params['page']  = $this->getPage($params);
         $params['limit'] = $this->getLimit($params);
