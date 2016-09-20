@@ -11,6 +11,8 @@
 |
 */
 
+$app->get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+
 $app->get('/v1/services/ping', ['as' => 'services.ping', 'uses' => 'ServiceController@ping']);
 $app->post('/v1/oauth/access_token/client', ['as' => 'oauth.clientAccessToken', 'uses' => 'OAuthController@clientAccessToken']);
 
