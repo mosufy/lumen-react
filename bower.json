@@ -1,0 +1,23 @@
+{
+  "name": "lumen-api",
+  "homepage": "https://github.com/mosufy/lumen-api",
+  "authors": [
+    "Mohd Sufiyan <mosufy@gmail.com>"
+  ],
+  "description": "Foundation for an API-centric Architecture with Laravel's Lumen",
+  "main": "",
+  "moduleType": [],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "jquery": "^3.1.0",
+    "react": "^15.3.2",
+    "babel-standalone": "^15.3.2"
+  }
+}
