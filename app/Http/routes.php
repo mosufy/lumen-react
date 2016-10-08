@@ -11,8 +11,6 @@
 |
 */
 
-$app->get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
-
 $app->get('/v1/services/ping', ['as' => 'services.ping', 'uses' => 'ServiceController@ping']);
 $app->post('/v1/oauth/access_token/client', ['as' => 'oauth.clientAccessToken', 'uses' => 'OAuthController@clientAccessToken']);
 
@@ -33,3 +31,6 @@ $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () u
     $app->put('/todos/{todo_uid}', ['as' => 'todo.update', 'uses' => '\App\Http\Controllers\TodoController@update']);
     $app->delete('/todos/{todo_uid}', ['as' => 'todo.destroy', 'uses' => '\App\Http\Controllers\TodoController@destroy']);
 });
+
+// ReactJS Single Page Application
+$app->get('/{sap:.+}', ['as' => 'home.index', 'uses' => 'HomeController@index']);
