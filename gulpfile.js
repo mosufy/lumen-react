@@ -12,11 +12,17 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function (mix) {
-  // Copying vendor js
+  // Copying React vendor js
   mix.copy('node_modules/react/dist/react.min.js', 'resources/assets/js/react.min.js');
   mix.copy('node_modules/react-dom/dist/react-dom.min.js', 'resources/assets/js/react-dom.min.js');
   mix.copy('node_modules/babel-standalone/babel.min.js', 'resources/assets/js/babel.min.js');
 
-  // Copy all JS files to public js folder
-  mix.copy('resources/assets/js', 'public/js')
+  // Copying Bootstrap and JQuery
+  mix.copy('node_modules/jquery/dist/jquery.min.js', 'resources/assets/js/jquery.min.js');
+  mix.copy('node_modules/bootstrap/dist/js/bootstrap.min.js', 'resources/assets/js/bootstrap.min.js');
+  mix.copy('node_modules/bootstrap/dist/css/bootstrap.min.css', 'resources/assets/css/bootstrap.min.css');
+
+  // Copy all JS/CSS files to public js/css folders respectively
+  mix.copy('resources/assets/js', 'public/js');
+  mix.copy('resources/assets/css', 'public/css');
 });
