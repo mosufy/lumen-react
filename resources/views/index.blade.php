@@ -2,7 +2,9 @@
 <html>
 <head>
   <!-- ReactJS required files -->
-  <script src="js/head.js"></script>
+  <script src="js/react.min.js"></script>
+  <script src="js/react-dom.min.js"></script>
+  <script src="js/babel.min.js"></script>
 </head>
 <body>
 <div id="container"></div>
