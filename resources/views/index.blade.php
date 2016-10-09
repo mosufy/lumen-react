@@ -28,7 +28,8 @@
 
 <div id="container"></div>
 
-<script type="text/babel" src="js/app/index.js"></script>
+<script type="text/babel" src="app/app.js"></script>
+<script type="text/babel" src="app/router.js"></script>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

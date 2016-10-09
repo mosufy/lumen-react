@@ -1,5 +1,9 @@
 /**
- * Main router file
+ * Main ReactJS app
+ *
+ * @date 8/10/2016
+ * @author Mosufy <mosufy@gmail.com>
+ * @copyright Copyright (c) Mosufy
  */
 
 // Allow to use simple <Router> instead of <ReactRouter.Router>
@@ -94,16 +98,3 @@ var InnerStuff = React.createClass({
     );
   }
 });
-
-ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="stuff" component={Stuff}>
-        <Route path="inner" component={InnerStuff}/>
-      </Route>
-      <Route path="contact" component={Contact}/>
-    </Route>
-  </Router>,
-  document.getElementById('container')
-);
