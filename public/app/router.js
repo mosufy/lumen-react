@@ -10,8 +10,8 @@ ReactDOM.render(
   <Router history={browserHistory}>
     <Route path="/" component={App}>
       <IndexRoute component={Home}/>
-      <Route path="stuff" component={Stuff}>
-        <Route path="inner" component={InnerStuff}/>
+      <Route path="about" component={About}>
+        <Route path="stuff" component={Stuff}/>
       </Route>
       <Route path="contact" component={Contact}/>
     </Route>

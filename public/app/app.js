@@ -19,19 +19,34 @@ var {
 var App = React.createClass({
   render: function () {
     return (
-      <div>
-        <h1>Simple SPA</h1>
-        <ul className="header">
-          <li><IndexLink to="/" activeClassName="active">Home</IndexLink></li>
-          <li><Link to="/stuff" activeClassName="active">Stuff</Link></li>
-          <li><Link to="/stuff/inner" activeClassName="active">Inner</Link></li>
-          <li><Link to="/contact" activeClassName="active">Contact</Link></li>
-        </ul>
-        <div className="content">
-          {this.props.children}
-        </div>
+      <div className="container">
+        <Header/>
       </div>
     )
+  }
+});
+
+var Header = React.createClass({
+  render: function () {
+    return (
+      <div className="header clearfix">
+        <nav>
+          <ul className="nav nav-pills pull-right">
+            <NavLink to="/" index={true}>Home</NavLink>
+            <NavLink to="about">About</NavLink>
+            <NavLink to="contact">Contact</NavLink>
+          </ul>
+        </nav>
+        <h3 className="text-muted">Project name</h3>
+      </div>
+    );
+  }
+});
+
+var NavLink = React.createClass({
+  render: function () {
+    const LinkComponent = this.props.index ? IndexLink : Link;
+    return <li role="presentation"><LinkComponent {...this.props} activeClassName="active"/></li>
   }
 });
 
@@ -53,20 +68,7 @@ var Home = React.createClass({
   }
 });
 
-var Contact = React.createClass({
-  render: function () {
-    return (
-      <div>
-        <h2>GOT QUESTIONS?</h2>
-        <p>The easiest thing to do is post on
-          our <a href="http://forum.kirupa.com">forums</a>.
-        </p>
-      </div>
-    );
-  }
-});
-
-var Stuff = React.createClass({
+var About = React.createClass({
   render: function () {
     return (
       <div>
@@ -88,12 +90,25 @@ var Stuff = React.createClass({
   }
 });
 
-var InnerStuff = React.createClass({
+var Stuff = React.createClass({
   render: function () {
     return (
       <div>
         <h2>Inner</h2>
         <p>This is inner</p>
+      </div>
+    );
+  }
+});
+
+var Contact = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <h2>GOT QUESTIONS?</h2>
+        <p>The easiest thing to do is post on
+          our <a href="http://forum.kirupa.com">forums</a>.
+        </p>
       </div>
     );
   }

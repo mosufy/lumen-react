@@ -33,4 +33,5 @@ $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () u
 });
 
 // ReactJS Single Page Application
-$app->get('/{sap:.+}', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+$app->get('/', ['as' => 'home.index', 'uses' => 'HomeController@index']);
+$app->get('/{sap:.+}', ['as' => 'home.indexSAP', 'uses' => 'HomeController@index']);
