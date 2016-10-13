@@ -15,6 +15,7 @@ ReactDOM.render(
       </Route>
       <Route path="contact" component={Contact}/>
       <Route path="login" component={Login}/>
+      <Route path="signup" component={Signup}/>
     </Route>
   </Router>,
   document.getElementById('container')

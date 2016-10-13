@@ -113,7 +113,7 @@ body {
     z-index: 2;
 }
 
-.form-signin input[type="text"]
+.form-signin input[type="email"]
 {
     margin-bottom: -1px;
     border-bottom-left-radius: 0;
@@ -125,6 +125,12 @@ body {
     margin-bottom: 10px;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+}
+
+.form-signup input[type="password"], .form-signup input[type="email"], .form-signup input[type="text"]
+{
+    margin-bottom: 10px;
+    border-radius: 4px;
 }
 
 .account-wall

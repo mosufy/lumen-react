@@ -155,26 +155,68 @@ var Login = React.createClass({
   render: function () {
     return (
       <div>
-        <div className="row">
-          <div className="col-sm-6 col-md-offset-3">
-            <h2 className="text-center login-title">Sign in to manage your TODOs</h2>
-            <div className="account-wall">
-              <form className="form-signin" onSubmit={this.submit}>
-                <input type="text" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
-                <input type="password" className="form-control" placeholder="Password" required/>
-                <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-                <span className="clearfix">&nbsp;</span>
-              </form>
-            </div>
-            <a href="#" className="text-center new-account">Create an account</a>
-            <span className="clearfix">&nbsp;</span>
-          </div>
-        </div>
+        <LoginPanel formType="login"/>
       </div>
     );
   },
 
   submit: function (e) {
     //
+  }
+});
+
+var Signup = React.createClass({
+  render: function () {
+    return (
+      <div>
+        <LoginPanel formType="signup"/>
+      </div>
+    );
+  },
+
+  submit: function (e) {
+    //
+  }
+});
+
+var LoginPanel = React.createClass({
+  render: function () {
+    var formType = this.props.formType;
+    var formTitle = 'Sign in to manage your TODOs';
+    var alternateText = <Link to="signup" className="text-center new-account">Create an account</Link>;
+    var formComponent = (
+      <form className="form-signin" onSubmit={this.submit}>
+        <input type="email" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
+        <input type="password" className="form-control" placeholder="Password" required/>
+        <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+      </form>
+    );
+
+    if (formType == 'signup') {
+      formTitle = 'Create account and manage your TODOs';
+      alternateText = <Link to="login" className="text-center new-account">Have an account? Login</Link>;
+      formComponent = (
+        <form className="form-signin form-signup" onSubmit={this.submit}>
+          <input type="text" className="form-control" placeholder="Name" required autoFocus="autoFocus"/>
+          <input type="email" className="form-control" placeholder="Email" required/>
+          <input type="password" className="form-control" placeholder="Password" required/>
+          <button className="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+        </form>
+      );
+    }
+
+    return (
+      <div className="row">
+        <div className="col-sm-6 col-md-offset-3">
+          <h2 className="text-center login-title">{formTitle}</h2>
+          <div className="account-wall">
+            {formComponent}
+            <span className="clearfix">&nbsp;</span>
+          </div>
+          {alternateText}
+          <span className="clearfix">&nbsp;</span>
+        </div>
+      </div>
+    );
   }
 });
