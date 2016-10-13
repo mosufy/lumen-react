@@ -18,9 +18,16 @@ var {
 
 var App = React.createClass({
   render: function () {
+    var path = this.props.children.props.route.path;
+    var header = <Header/>;
+
+    if (path.substring(0, 2) == 'my') {
+      header = <HeaderMy/>;
+    }
+
     return (
       <div className="container">
-        <Header/>
+        {header}
         {this.props.children}
         <Footer/>
       </div>
@@ -41,6 +48,23 @@ var Header = React.createClass({
           </ul>
         </nav>
         <h3 className="text-muted">My TODO</h3>
+      </div>
+    );
+  }
+});
+
+var HeaderMy = React.createClass({
+  render: function () {
+    return (
+      <div className="header clearfix">
+        <nav>
+          <ul className="nav nav-pills pull-right">
+            <NavLink to="my" index={true}>List</NavLink>
+            <NavLink to="my/add">Add</NavLink>
+            <NavLink to="logout">Log Out</NavLink>
+          </ul>
+        </nav>
+        <h3 className="text-muted">Welcome, User</h3>
       </div>
     );
   }
@@ -158,10 +182,6 @@ var Login = React.createClass({
         <LoginPanel formType="login"/>
       </div>
     );
-  },
-
-  submit: function (e) {
-    //
   }
 });
 
@@ -172,10 +192,6 @@ var Signup = React.createClass({
         <LoginPanel formType="signup"/>
       </div>
     );
-  },
-
-  submit: function (e) {
-    //
   }
 });
 
@@ -211,12 +227,55 @@ var LoginPanel = React.createClass({
           <h2 className="text-center login-title">{formTitle}</h2>
           <div className="account-wall">
             {formComponent}
-            <span className="clearfix">&nbsp;</span>
+            <Clearfix/>
           </div>
           {alternateText}
-          <span className="clearfix">&nbsp;</span>
+          <Clearfix/>
         </div>
       </div>
     );
+  },
+
+  submit: function (e) {
+    e.preventDefault();
+    browserHistory.push('/my');
+  }
+});
+
+var My = React.createClass({
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-lg-12">
+          <h4>My current TODOs</h4>
+          <Clearfix/>
+        </div>
+      </div>
+    );
+  }
+});
+
+var AddTodo = React.createClass({
+  render: function () {
+    return (
+      <div className="row">
+        <div className="col-lg-12">
+          <h4>Add New TODO</h4>
+          <Clearfix/>
+        </div>
+      </div>
+    );
+  }
+});
+
+var Logout = React.createClass({
+  render: function () {
+    browserHistory.push('/');
+  }
+});
+
+var Clearfix = React.createClass({
+  render: function() {
+    return <span className="clearfix">&nbsp;</span>;
   }
 });
