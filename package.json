@@ -5,13 +5,16 @@
     "dev": "gulp watch"
   },
   "devDependencies": {
+    "axios": "^0.15.0",
+    "babel-standalone": "^6.17.0",
+    "bootstrap": "^3.3.7",
     "gulp": "^3.9.1",
-    "laravel-elixir": "^6.0.0-9",
     "jquery": "^3.1.0",
+    "laravel-elixir": "^6.0.0-9",
     "react": "^15.3.2",
     "react-dom": "^15.3.2",
+    "react-redux": "^4.4.5",
     "react-router": "^2.8.1",
-    "babel-standalone": "^6.17.0",
-    "bootstrap": "^3.3.7"
+    "redux": "^3.6.0"
   }
 }

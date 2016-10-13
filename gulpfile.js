@@ -16,6 +16,7 @@ elixir(function (mix) {
   mix.copy('node_modules/react/dist/react.min.js', 'resources/assets/js/react.min.js');
   mix.copy('node_modules/react-dom/dist/react-dom.min.js', 'resources/assets/js/react-dom.min.js');
   mix.copy('node_modules/react-router/umd/ReactRouter.min.js', 'resources/assets/js/react-router.min.js');
+  mix.copy('node_modules/axios/dist/axios.min.js', 'resources/assets/js/axios.min.js');
   mix.copy('node_modules/babel-standalone/babel.min.js', 'resources/assets/js/babel.min.js');
 
   // Copying Bootstrap and JQuery

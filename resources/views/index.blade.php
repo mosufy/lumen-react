@@ -24,6 +24,7 @@
   <script src="js/react.min.js"></script>
   <script src="js/react-dom.min.js"></script>
   <script src="js/react-router.min.js"></script>
+  <script src="js/axios.min.js"></script>
   <script src="js/babel.min.js"></script>
 </head>
 <body>
