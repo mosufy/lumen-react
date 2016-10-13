@@ -21,7 +21,7 @@ var App = React.createClass({
     var path = this.props.children.props.route.path;
     var header = <Header/>;
 
-    if (path.substring(0, 2) == 'my') {
+    if (path && path.substring(0, 2) == 'my') {
       header = <HeaderMy/>;
     }
 
