@@ -6,6 +6,8 @@
  * @copyright Copyright (c) Mosufy
  */
 
+import NavLink from 'components/NavLink.jsx';
+
 // Allow to use simple <Router> instead of <ReactRouter.Router>
 var {
   Router,
@@ -77,13 +79,6 @@ var Footer = React.createClass({
         <p>&copy; 2016 Company, Inc.</p>
       </footer>
     );
-  }
-});
-
-var NavLink = React.createClass({
-  render: function () {
-    const LinkComponent = this.props.index ? IndexLink : Link;
-    return <li><LinkComponent {...this.props} activeClassName="active"/></li>
   }
 });
 
