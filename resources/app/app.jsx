@@ -6,20 +6,19 @@
  * @copyright Copyright (c) Mosufy
  */
 
-import NavLink from 'components/NavLink.jsx';
+import React from 'react';
+import ReactDOM from 'react-dom';
+import {Router, Route, IndexRoute, Link, IndexLink, browserHistory} from 'react-router';
 
-// Allow to use simple <Router> instead of <ReactRouter.Router>
-var {
-  Router,
-  Route,
-  IndexRoute,
-  IndexLink,
-  Link,
-  browserHistory
-} = ReactRouter;
+class NavLink extends React.Component {
+  render() {
+    var LinkComponent = this.props.index ? IndexLink : Link;
+    return <li><LinkComponent {...this.props} activeClassName="active"/></li>
+  }
+}
 
-var App = React.createClass({
-  render: function () {
+class App extends React.Component {
+  render() {
     var path = this.props.children.props.route.path;
     var header = <Header/>;
 
@@ -35,28 +34,36 @@ var App = React.createClass({
       </div>
     )
   }
-});
+}
 
-var Header = React.createClass({
-  render: function () {
+class Header extends React.Component {
+  static defaultProps = {
+    navIndex: true
+  };
+
+  static propTypes = {
+    navIndex: React.PropTypes.bool
+  };
+
+  render() {
     return (
       <div className="header clearfix">
         <nav>
           <ul className="nav nav-pills pull-right">
-            <NavLink to="/" index={true}>Home</NavLink>
+            <NavLink to="/" {...this.props.navIndex}>Home</NavLink>
             <NavLink to="about">About</NavLink>
             <NavLink to="contact">Contact</NavLink>
             <NavLink to="login">Login</NavLink>
           </ul>
         </nav>
-        <h3 className="text-muted">My TODO</h3>
+        <h3 className="text-muted">My TODOs</h3>
       </div>
     );
   }
-});
+}
 
-var HeaderMy = React.createClass({
-  render: function () {
+class HeaderMy extends React.Component {
+  render() {
     return (
       <div className="header clearfix">
         <nav>
@@ -70,20 +77,20 @@ var HeaderMy = React.createClass({
       </div>
     );
   }
-});
+}
 
-var Footer = React.createClass({
-  render: function () {
+class Footer extends React.Component {
+  render() {
     return (
       <footer className="footer">
         <p>&copy; 2016 Company, Inc.</p>
       </footer>
     );
   }
-});
+}
 
-var Hero = React.createClass({
-  render: function () {
+class Hero extends React.Component {
+  render() {
     return (
       <div className="jumbotron">
         <h1>Welcome</h1>
@@ -94,10 +101,10 @@ var Hero = React.createClass({
       </div>
     );
   }
-});
+}
 
-var Home = React.createClass({
-  render: function () {
+class Home extends React.Component {
+  render() {
     return (
       <div>
         <Hero/>
@@ -121,10 +128,10 @@ var Home = React.createClass({
       </div>
     );
   }
-});
+}
 
-var About = React.createClass({
-  render: function () {
+class About extends React.Component {
+  render() {
     return (
       <div className="row">
         <div className="col-lg-12">
@@ -144,10 +151,10 @@ var About = React.createClass({
       </div>
     );
   }
-});
+}
 
-var Stuff = React.createClass({
-  render: function () {
+class Stuff extends React.Component {
+  render() {
     return (
       <div>
         <h2>Inner</h2>
@@ -155,43 +162,42 @@ var Stuff = React.createClass({
       </div>
     );
   }
-});
+}
 
-var Contact = React.createClass({
-  render: function () {
+class Contact extends React.Component {
+  render() {
     return (
       <div>
         <h2>GOT QUESTIONS?</h2>
-        <p>The easiest thing to do is post on
-          our <a href="http://forum.kirupa.com">forums</a>.
+        <p>The easiest thing to do is post on our <a href="http://forum.kirupa.com">forums</a>.
         </p>
       </div>
     );
   }
-});
+}
 
-var Login = React.createClass({
-  render: function () {
+class Login extends React.Component {
+  render() {
     return (
       <div>
         <LoginPanel formType="login"/>
       </div>
     );
   }
-});
+}
 
-var Signup = React.createClass({
-  render: function () {
+class Signup extends React.Component {
+  render() {
     return (
       <div>
         <LoginPanel formType="signup"/>
       </div>
     );
   }
-});
+}
 
-var LoginPanel = React.createClass({
-  render: function () {
+class LoginPanel extends React.Component {
+  render() {
     var formType = this.props.formType;
     var formTitle = 'Sign in to manage your TODOs';
     var alternateText = <Link to="signup" className="text-center new-account">Create an account</Link>;
@@ -207,7 +213,7 @@ var LoginPanel = React.createClass({
       formTitle = 'Create account and manage your TODOs';
       alternateText = <Link to="login" className="text-center new-account">Have an account? Login</Link>;
       formComponent = (
-        <form className="form-signin form-signup" onSubmit={this.submit}>
+        <form className="form-signin form-signup" onSubmit={this.submitForm}>
           <input type="text" className="form-control" placeholder="Name" required autoFocus="autoFocus"/>
           <input type="email" className="form-control" placeholder="Email" required/>
           <input type="password" className="form-control" placeholder="Password" required/>
@@ -229,16 +235,16 @@ var LoginPanel = React.createClass({
         </div>
       </div>
     );
-  },
+  }
 
-  submit: function (e) {
+  static submitForm(e) {
     e.preventDefault();
     browserHistory.push('/my');
   }
-});
+}
 
-var My = React.createClass({
-  render: function () {
+class My extends React.Component {
+  render() {
     return (
       <div className="row">
         <div className="col-lg-12">
@@ -248,29 +254,47 @@ var My = React.createClass({
       </div>
     );
   }
-});
+}
 
-var AddTodo = React.createClass({
-  render: function () {
+class AddTodo extends React.Component {
+  render() {
     return (
       <div className="row">
         <div className="col-lg-12">
-          <h4>Add New TODO</h4>
+          <h4>Add New TODOs</h4>
           <Clearfix/>
         </div>
       </div>
     );
   }
-});
+}
 
-var Logout = React.createClass({
-  render: function () {
+class Logout extends React.Component {
+  render() {
     browserHistory.push('/');
   }
-});
+}
 
-var Clearfix = React.createClass({
-  render: function() {
+class Clearfix extends React.Component {
+  render() {
     return <span className="clearfix">&nbsp;</span>;
   }
-});
+}
+
+ReactDOM.render(
+  <Router history={browserHistory}>
+    <Route path="/" component={App}>
+      <IndexRoute component={Home}/>
+      <Route path="about" component={About}>
+        <Route path="stuff" component={Stuff}/>
+      </Route>
+      <Route path="contact" component={Contact}/>
+      <Route path="login" component={Login}/>
+      <Route path="signup" component={Signup}/>
+      <Route path="logout" component={Logout}/>
+      <Route path="my" component={My}/>
+      <Route path="my/add" component={AddTodo}/>
+    </Route>
+  </Router>,
+  document.getElementById('container')
+);
