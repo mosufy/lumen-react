@@ -1,6 +1,6 @@
 import React from 'react';
-import NavBarComponent from './NavBarComponent.jsx';
-import SiteLogoComponent from './SiteLogoComponent.jsx';
+import NavBarComponent from './NavBarComponent';
+import SiteLogoComponent from './SiteLogoComponent';
 
 export default class Header extends React.Component {
   render() {

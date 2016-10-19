@@ -1,16 +1,16 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
-import App from './views/App';
-import Home from './views/Home';
-import About from './views/About';
-import Stuff from './views/Stuff';
-import Contact from './views/Contact';
-import Login from './views/Login';
-import Signup from './views/Signup';
-import NotFoundPage from './views/NotFoundPage';
-import My from './views/my/My';
-import AddTodo from './views/my/AddTodo';
+import App from './components/pages/app/App';
+import Home from './components/pages/app/Home';
+import About from './components/pages/app/About';
+import Stuff from './components/pages/app/Stuff';
+import Contact from './components/pages/app/Contact';
+import Login from './components/pages/app/Login';
+import Signup from './components/pages/app/Signup';
+import NotFoundPage from './components/pages/app/NotFoundPage';
+import My from './components/pages/dashboard/Dashboard';
+import AddTodo from './components/pages/dashboard/AddTodo';
 
 export default (
   <Route path="/" component={App}>

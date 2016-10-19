@@ -1,5 +1,5 @@
 import React from 'react';
-import Hero from './../components/Hero.jsx';
+import Hero from './Hero';
 
 export default class Home extends React.Component {
   render() {

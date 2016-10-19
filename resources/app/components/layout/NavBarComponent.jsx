@@ -1,6 +1,6 @@
 import React from 'react';
 import {browserHistory} from 'react-router';
-import NavLink from './NavLink.jsx';
+import NavLink from './../common/NavLink';
 
 export default class NavBarComponent extends React.Component {
   static defaultProps = {

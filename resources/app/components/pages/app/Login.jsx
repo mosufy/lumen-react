@@ -1,5 +1,5 @@
 import React from 'react';
-import LoginPanel from './../components/LoginPanel.jsx';
+import LoginPanel from './LoginPanel.jsx';
 
 export default class Login extends React.Component {
   render() {

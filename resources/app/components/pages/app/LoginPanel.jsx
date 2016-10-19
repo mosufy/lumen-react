@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
-import Clearfix from './Clearfix.jsx';
+import Clearfix from './../../common/Clearfix.jsx';
 
 export default class LoginPanel extends React.Component {
   render() {
