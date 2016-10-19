@@ -28879,19 +28879,19 @@
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
-	var _Signup = __webpack_require__(278);
+	var _Signup = __webpack_require__(277);
 	
 	var _Signup2 = _interopRequireDefault(_Signup);
 	
-	var _NotFoundPage = __webpack_require__(279);
+	var _NotFoundPage = __webpack_require__(278);
 	
 	var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
 	
-	var _Dashboard = __webpack_require__(280);
+	var _Dashboard = __webpack_require__(279);
 	
 	var _Dashboard2 = _interopRequireDefault(_Dashboard);
 	
-	var _AddTodo = __webpack_require__(281);
+	var _AddTodo = __webpack_require__(280);
 	
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 	
@@ -29742,9 +29742,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LoginPanel = __webpack_require__(276);
+	var _reactRouter = __webpack_require__(200);
 	
-	var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
+	var _Clearfix = __webpack_require__(276);
+	
+	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29764,12 +29766,48 @@
 	  }
 	
 	  _createClass(Login, [{
+	    key: 'submitForm',
+	    value: function submitForm(e) {
+	      e.preventDefault();
+	      _reactRouter.browserHistory.push('/my');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(_LoginPanel2.default, { formType: 'login' })
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-6 col-md-offset-3' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'text-center login-title' },
+	            'Sign in to manage your TODOs'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'account-wall' },
+	            _react2.default.createElement(
+	              'form',
+	              { className: 'form-signin', onSubmit: this.submitForm },
+	              _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
+	              _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
+	                'Sign in'
+	              )
+	            ),
+	            _react2.default.createElement(_Clearfix2.default, null)
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: 'signup', className: 'text-center new-account' },
+	            'Create an account'
+	          ),
+	          _react2.default.createElement(_Clearfix2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -29781,123 +29819,6 @@
 
 /***/ },
 /* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactRouter = __webpack_require__(200);
-	
-	var _Clearfix = __webpack_require__(277);
-	
-	var _Clearfix2 = _interopRequireDefault(_Clearfix);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var LoginPanel = function (_React$Component) {
-	  _inherits(LoginPanel, _React$Component);
-	
-	  function LoginPanel() {
-	    _classCallCheck(this, LoginPanel);
-	
-	    return _possibleConstructorReturn(this, (LoginPanel.__proto__ || Object.getPrototypeOf(LoginPanel)).apply(this, arguments));
-	  }
-	
-	  _createClass(LoginPanel, [{
-	    key: 'render',
-	    value: function render() {
-	      var formType = this.props.formType;
-	      var formTitle = 'Sign in to manage your TODOs';
-	      var alternateText = _react2.default.createElement(
-	        _reactRouter.Link,
-	        { to: 'signup', className: 'text-center new-account' },
-	        'Create an account'
-	      );
-	      var formComponent = _react2.default.createElement(
-	        'form',
-	        { className: 'form-signin', onSubmit: this.submitForm },
-	        _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
-	        _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
-	        _react2.default.createElement(
-	          'button',
-	          { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
-	          'Sign in'
-	        )
-	      );
-	
-	      if (formType == 'signup') {
-	        formTitle = 'Create account and manage your TODOs';
-	        alternateText = _react2.default.createElement(
-	          _reactRouter.Link,
-	          { to: 'login', className: 'text-center new-account' },
-	          'Have an account? Login'
-	        );
-	        formComponent = _react2.default.createElement(
-	          'form',
-	          { className: 'form-signin form-signup', onSubmit: this.submitForm },
-	          _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Name', required: true, autoFocus: 'autoFocus' }),
-	          _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true }),
-	          _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
-	          _react2.default.createElement(
-	            'button',
-	            { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
-	            'Sign up'
-	          )
-	        );
-	      }
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'row' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-sm-6 col-md-offset-3' },
-	          _react2.default.createElement(
-	            'h2',
-	            { className: 'text-center login-title' },
-	            formTitle
-	          ),
-	          _react2.default.createElement(
-	            'div',
-	            { className: 'account-wall' },
-	            formComponent,
-	            _react2.default.createElement(_Clearfix2.default, null)
-	          ),
-	          alternateText,
-	          _react2.default.createElement(_Clearfix2.default, null)
-	        )
-	      );
-	    }
-	  }, {
-	    key: 'submitForm',
-	    value: function submitForm(e) {
-	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/my');
-	    }
-	  }]);
-	
-	  return LoginPanel;
-	}(_react2.default.Component);
-	
-	exports.default = LoginPanel;
-
-/***/ },
-/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29946,7 +29867,7 @@
 	exports.default = Clearfix;
 
 /***/ },
-/* 278 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29961,9 +29882,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LoginPanel = __webpack_require__(276);
+	var _reactRouter = __webpack_require__(200);
 	
-	var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
+	var _Clearfix = __webpack_require__(276);
+	
+	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29983,12 +29906,49 @@
 	  }
 	
 	  _createClass(Signup, [{
+	    key: 'submitForm',
+	    value: function submitForm(e) {
+	      e.preventDefault();
+	      _reactRouter.browserHistory.push('/my');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
 	        'div',
-	        null,
-	        _react2.default.createElement(_LoginPanel2.default, { formType: 'signup' })
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-sm-6 col-md-offset-3' },
+	          _react2.default.createElement(
+	            'h2',
+	            { className: 'text-center login-title' },
+	            'Create account and manage your TODOs'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'account-wall' },
+	            _react2.default.createElement(
+	              'form',
+	              { className: 'form-signin form-signup', onSubmit: this.submitForm },
+	              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Name', required: true, autoFocus: 'autoFocus' }),
+	              _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true }),
+	              _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
+	              _react2.default.createElement(
+	                'button',
+	                { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
+	                'Sign up'
+	              )
+	            ),
+	            _react2.default.createElement(_Clearfix2.default, null)
+	          ),
+	          _react2.default.createElement(
+	            _reactRouter.Link,
+	            { to: 'login', className: 'text-center new-account' },
+	            'Have an account? Login'
+	          ),
+	          _react2.default.createElement(_Clearfix2.default, null)
+	        )
 	      );
 	    }
 	  }]);
@@ -29999,7 +29959,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 279 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30069,7 +30029,7 @@
 	exports.default = NotFoundPage;
 
 /***/ },
-/* 280 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30084,7 +30044,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Clearfix = __webpack_require__(277);
+	var _Clearfix = __webpack_require__(276);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -30131,7 +30091,7 @@
 	exports.default = Dashboard;
 
 /***/ },
-/* 281 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30146,7 +30106,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Clearfix = __webpack_require__(277);
+	var _Clearfix = __webpack_require__(276);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
