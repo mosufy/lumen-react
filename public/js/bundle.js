@@ -74,8 +74,6 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 
-	//import NavLink from 'components/NavLink.jsx';
-
 	var NavLink = function (_React$Component) {
 	  _inherits(NavLink, _React$Component);
 
@@ -113,16 +111,16 @@
 	    key: 'render',
 	    value: function render() {
 	      var path = this.props.children.props.route.path;
-	      var header = _react2.default.createElement(Header, null);
+	      var pageTemplate = 'public';
 
 	      if (path && path.substring(0, 2) == 'my') {
-	        header = _react2.default.createElement(HeaderMy, null);
+	        pageTemplate = 'my';
 	      }
 
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
-	        header,
+	        _react2.default.createElement(Header, { pageTemplate: pageTemplate }),
 	        this.props.children,
 	        _react2.default.createElement(Footer, null)
 	      );
@@ -147,39 +145,8 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'header clearfix' },
-	        _react2.default.createElement(
-	          'nav',
-	          null,
-	          _react2.default.createElement(
-	            'ul',
-	            { className: 'nav nav-pills pull-right' },
-	            _react2.default.createElement(
-	              NavLink,
-	              _extends({ to: '/' }, this.props.navIndex),
-	              'Home'
-	            ),
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'about' },
-	              'About'
-	            ),
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'contact' },
-	              'Contact'
-	            ),
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'login' },
-	              'Login'
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'h3',
-	          { className: 'text-muted' },
-	          'My TODOs'
-	        )
+	        _react2.default.createElement(NavBarComponent, { pageTemplate: this.props.pageTemplate }),
+	        _react2.default.createElement(SiteLogoComponent, { pageTemplate: this.props.pageTemplate })
 	      );
 	    }
 	  }]);
@@ -187,65 +154,128 @@
 	  return Header;
 	}(_react2.default.Component);
 
-	Header.defaultProps = {
-	  navIndex: true
-	};
-	Header.propTypes = {
-	  navIndex: _react2.default.PropTypes.bool
-	};
+	var SiteLogoComponent = function (_React$Component4) {
+	  _inherits(SiteLogoComponent, _React$Component4);
 
-	var HeaderMy = function (_React$Component4) {
-	  _inherits(HeaderMy, _React$Component4);
+	  function SiteLogoComponent() {
+	    _classCallCheck(this, SiteLogoComponent);
 
-	  function HeaderMy() {
-	    _classCallCheck(this, HeaderMy);
-
-	    return _possibleConstructorReturn(this, (HeaderMy.__proto__ || Object.getPrototypeOf(HeaderMy)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (SiteLogoComponent.__proto__ || Object.getPrototypeOf(SiteLogoComponent)).apply(this, arguments));
 	  }
 
-	  _createClass(HeaderMy, [{
+	  _createClass(SiteLogoComponent, [{
 	    key: 'render',
 	    value: function render() {
+	      var logoTitle;
+
+	      if (this.props.pageTemplate == 'public') {
+	        logoTitle = 'My TODOs';
+	      } else {
+	        logoTitle = 'Welcome, User';
+	      }
+
 	      return _react2.default.createElement(
-	        'div',
-	        { className: 'header clearfix' },
-	        _react2.default.createElement(
-	          'nav',
-	          null,
-	          _react2.default.createElement(
-	            'ul',
-	            { className: 'nav nav-pills pull-right' },
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'my', index: true },
-	              'List'
-	            ),
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'my/add' },
-	              'Add'
-	            ),
-	            _react2.default.createElement(
-	              NavLink,
-	              { to: 'logout' },
-	              'Log Out'
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'h3',
-	          { className: 'text-muted' },
-	          'Welcome, User'
-	        )
+	        'h3',
+	        { className: 'text-muted' },
+	        logoTitle
 	      );
 	    }
 	  }]);
 
-	  return HeaderMy;
+	  return SiteLogoComponent;
 	}(_react2.default.Component);
 
-	var Footer = function (_React$Component5) {
-	  _inherits(Footer, _React$Component5);
+	var NavBarComponent = function (_React$Component5) {
+	  _inherits(NavBarComponent, _React$Component5);
+
+	  function NavBarComponent() {
+	    _classCallCheck(this, NavBarComponent);
+
+	    return _possibleConstructorReturn(this, (NavBarComponent.__proto__ || Object.getPrototypeOf(NavBarComponent)).apply(this, arguments));
+	  }
+
+	  _createClass(NavBarComponent, [{
+	    key: 'render',
+	    value: function render() {
+	      var navlinks;
+
+	      if (this.props.pageTemplate == 'public') {
+	        navlinks = _react2.default.createElement(
+	          'ul',
+	          { className: 'nav nav-pills pull-right' },
+	          _react2.default.createElement(
+	            NavLink,
+	            _extends({ to: '/' }, this.props.navIndex),
+	            'Home'
+	          ),
+	          _react2.default.createElement(
+	            NavLink,
+	            { to: 'about' },
+	            'About'
+	          ),
+	          _react2.default.createElement(
+	            NavLink,
+	            { to: 'contact' },
+	            'Contact'
+	          ),
+	          _react2.default.createElement(
+	            NavLink,
+	            { to: 'login' },
+	            'Login'
+	          )
+	        );
+	      } else {
+	        navlinks = _react2.default.createElement(
+	          'ul',
+	          { className: 'nav nav-pills pull-right' },
+	          _react2.default.createElement(
+	            NavLink,
+	            _extends({ to: 'my' }, this.props.navIndex),
+	            'List'
+	          ),
+	          _react2.default.createElement(
+	            NavLink,
+	            { to: 'my/add' },
+	            'Add'
+	          ),
+	          _react2.default.createElement(
+	            'li',
+	            { onClick: this.logout },
+	            _react2.default.createElement(
+	              'a',
+	              { href: '/' },
+	              'Log Out'
+	            )
+	          )
+	        );
+	      }
+
+	      return _react2.default.createElement(
+	        'nav',
+	        null,
+	        navlinks
+	      );
+	    }
+	  }, {
+	    key: 'logout',
+	    value: function logout(e) {
+	      e.preventDefault();
+	      _reactRouter.browserHistory.push('/');
+	    }
+	  }]);
+
+	  return NavBarComponent;
+	}(_react2.default.Component);
+
+	NavBarComponent.defaultProps = {
+	  navIndex: true
+	};
+	NavBarComponent.propTypes = {
+	  navIndex: _react2.default.PropTypes.bool
+	};
+
+	var Footer = function (_React$Component6) {
+	  _inherits(Footer, _React$Component6);
 
 	  function Footer() {
 	    _classCallCheck(this, Footer);
@@ -271,8 +301,8 @@
 	  return Footer;
 	}(_react2.default.Component);
 
-	var Hero = function (_React$Component6) {
-	  _inherits(Hero, _React$Component6);
+	var Hero = function (_React$Component7) {
+	  _inherits(Hero, _React$Component7);
 
 	  function Hero() {
 	    _classCallCheck(this, Hero);
@@ -322,8 +352,8 @@
 	  return Hero;
 	}(_react2.default.Component);
 
-	var Home = function (_React$Component7) {
-	  _inherits(Home, _React$Component7);
+	var Home = function (_React$Component8) {
+	  _inherits(Home, _React$Component8);
 
 	  function Home() {
 	    _classCallCheck(this, Home);
@@ -397,8 +427,8 @@
 	  return Home;
 	}(_react2.default.Component);
 
-	var About = function (_React$Component8) {
-	  _inherits(About, _React$Component8);
+	var About = function (_React$Component9) {
+	  _inherits(About, _React$Component9);
 
 	  function About() {
 	    _classCallCheck(this, About);
@@ -467,8 +497,8 @@
 	  return About;
 	}(_react2.default.Component);
 
-	var Stuff = function (_React$Component9) {
-	  _inherits(Stuff, _React$Component9);
+	var Stuff = function (_React$Component10) {
+	  _inherits(Stuff, _React$Component10);
 
 	  function Stuff() {
 	    _classCallCheck(this, Stuff);
@@ -499,8 +529,8 @@
 	  return Stuff;
 	}(_react2.default.Component);
 
-	var Contact = function (_React$Component10) {
-	  _inherits(Contact, _React$Component10);
+	var Contact = function (_React$Component11) {
+	  _inherits(Contact, _React$Component11);
 
 	  function Contact() {
 	    _classCallCheck(this, Contact);
@@ -537,8 +567,8 @@
 	  return Contact;
 	}(_react2.default.Component);
 
-	var Login = function (_React$Component11) {
-	  _inherits(Login, _React$Component11);
+	var Login = function (_React$Component12) {
+	  _inherits(Login, _React$Component12);
 
 	  function Login() {
 	    _classCallCheck(this, Login);
@@ -560,8 +590,8 @@
 	  return Login;
 	}(_react2.default.Component);
 
-	var Signup = function (_React$Component12) {
-	  _inherits(Signup, _React$Component12);
+	var Signup = function (_React$Component13) {
+	  _inherits(Signup, _React$Component13);
 
 	  function Signup() {
 	    _classCallCheck(this, Signup);
@@ -583,8 +613,8 @@
 	  return Signup;
 	}(_react2.default.Component);
 
-	var LoginPanel = function (_React$Component13) {
-	  _inherits(LoginPanel, _React$Component13);
+	var LoginPanel = function (_React$Component14) {
+	  _inherits(LoginPanel, _React$Component14);
 
 	  function LoginPanel() {
 	    _classCallCheck(this, LoginPanel);
@@ -604,7 +634,7 @@
 	      );
 	      var formComponent = _react2.default.createElement(
 	        'form',
-	        { className: 'form-signin', onSubmit: this.submit },
+	        { className: 'form-signin', onSubmit: this.submitForm },
 	        _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
 	        _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
 	        _react2.default.createElement(
@@ -657,7 +687,7 @@
 	        )
 	      );
 	    }
-	  }], [{
+	  }, {
 	    key: 'submitForm',
 	    value: function submitForm(e) {
 	      e.preventDefault();
@@ -668,8 +698,8 @@
 	  return LoginPanel;
 	}(_react2.default.Component);
 
-	var My = function (_React$Component14) {
-	  _inherits(My, _React$Component14);
+	var My = function (_React$Component15) {
+	  _inherits(My, _React$Component15);
 
 	  function My() {
 	    _classCallCheck(this, My);
@@ -700,8 +730,8 @@
 	  return My;
 	}(_react2.default.Component);
 
-	var AddTodo = function (_React$Component15) {
-	  _inherits(AddTodo, _React$Component15);
+	var AddTodo = function (_React$Component16) {
+	  _inherits(AddTodo, _React$Component16);
 
 	  function AddTodo() {
 	    _classCallCheck(this, AddTodo);
@@ -730,25 +760,6 @@
 	  }]);
 
 	  return AddTodo;
-	}(_react2.default.Component);
-
-	var Logout = function (_React$Component16) {
-	  _inherits(Logout, _React$Component16);
-
-	  function Logout() {
-	    _classCallCheck(this, Logout);
-
-	    return _possibleConstructorReturn(this, (Logout.__proto__ || Object.getPrototypeOf(Logout)).apply(this, arguments));
-	  }
-
-	  _createClass(Logout, [{
-	    key: 'render',
-	    value: function render() {
-	      _reactRouter.browserHistory.push('/');
-	    }
-	  }]);
-
-	  return Logout;
 	}(_react2.default.Component);
 
 	var Clearfix = function (_React$Component17) {
@@ -789,7 +800,6 @@
 	    _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: Contact }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'login', component: Login }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: Signup }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'logout', component: Logout }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'my', component: My }),
 	    _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: AddTodo })
 	  )

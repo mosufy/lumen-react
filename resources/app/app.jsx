@@ -20,15 +20,15 @@ class NavLink extends React.Component {
 class App extends React.Component {
   render() {
     var path = this.props.children.props.route.path;
-    var header = <Header/>;
+    var pageTemplate = 'public';
 
     if (path && path.substring(0, 2) == 'my') {
-      header = <HeaderMy/>;
+      pageTemplate = 'my';
     }
 
     return (
       <div className="container">
-        {header}
+        <Header pageTemplate={pageTemplate}/>
         {this.props.children}
         <Footer/>
       </div>
@@ -37,6 +37,33 @@ class App extends React.Component {
 }
 
 class Header extends React.Component {
+  render() {
+    return (
+      <div className="header clearfix">
+        <NavBarComponent pageTemplate={this.props.pageTemplate}/>
+        <SiteLogoComponent pageTemplate={this.props.pageTemplate}/>
+      </div>
+    );
+  }
+}
+
+class SiteLogoComponent extends React.Component {
+  render() {
+    var logoTitle;
+
+    if (this.props.pageTemplate == 'public') {
+      logoTitle = 'My TODOs';
+    } else {
+      logoTitle = 'Welcome, User';
+    }
+
+    return (
+      <h3 className="text-muted">{logoTitle}</h3>
+    );
+  }
+}
+
+class NavBarComponent extends React.Component {
   static defaultProps = {
     navIndex: true
   };
@@ -46,36 +73,37 @@ class Header extends React.Component {
   };
 
   render() {
+    var navlinks;
+
+    if (this.props.pageTemplate == 'public') {
+      navlinks = (
+        <ul className="nav nav-pills pull-right">
+          <NavLink to="/" {...this.props.navIndex}>Home</NavLink>
+          <NavLink to="about">About</NavLink>
+          <NavLink to="contact">Contact</NavLink>
+          <NavLink to="login">Login</NavLink>
+        </ul>
+      );
+    } else {
+      navlinks = (
+        <ul className="nav nav-pills pull-right">
+          <NavLink to="my" {...this.props.navIndex}>List</NavLink>
+          <NavLink to="my/add">Add</NavLink>
+          <li onClick={this.logout}><a href="/">Log Out</a></li>
+        </ul>
+      );
+    }
+
     return (
-      <div className="header clearfix">
-        <nav>
-          <ul className="nav nav-pills pull-right">
-            <NavLink to="/" {...this.props.navIndex}>Home</NavLink>
-            <NavLink to="about">About</NavLink>
-            <NavLink to="contact">Contact</NavLink>
-            <NavLink to="login">Login</NavLink>
-          </ul>
-        </nav>
-        <h3 className="text-muted">My TODOs</h3>
-      </div>
+      <nav>
+        {navlinks}
+      </nav>
     );
   }
-}
 
-class HeaderMy extends React.Component {
-  render() {
-    return (
-      <div className="header clearfix">
-        <nav>
-          <ul className="nav nav-pills pull-right">
-            <NavLink to="my" index={true}>List</NavLink>
-            <NavLink to="my/add">Add</NavLink>
-            <NavLink to="logout">Log Out</NavLink>
-          </ul>
-        </nav>
-        <h3 className="text-muted">Welcome, User</h3>
-      </div>
-    );
+  logout(e) {
+    e.preventDefault();
+    browserHistory.push('/');
   }
 }
 
@@ -202,7 +230,7 @@ class LoginPanel extends React.Component {
     var formTitle = 'Sign in to manage your TODOs';
     var alternateText = <Link to="signup" className="text-center new-account">Create an account</Link>;
     var formComponent = (
-      <form className="form-signin" onSubmit={this.submit}>
+      <form className="form-signin" onSubmit={this.submitForm}>
         <input type="email" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
         <input type="password" className="form-control" placeholder="Password" required/>
         <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
@@ -237,7 +265,7 @@ class LoginPanel extends React.Component {
     );
   }
 
-  static submitForm(e) {
+  submitForm(e) {
     e.preventDefault();
     browserHistory.push('/my');
   }
@@ -269,12 +297,6 @@ class AddTodo extends React.Component {
   }
 }
 
-class Logout extends React.Component {
-  render() {
-    browserHistory.push('/');
-  }
-}
-
 class Clearfix extends React.Component {
   render() {
     return <span className="clearfix">&nbsp;</span>;
@@ -291,7 +313,6 @@ ReactDOM.render(
       <Route path="contact" component={Contact}/>
       <Route path="login" component={Login}/>
       <Route path="signup" component={Signup}/>
-      <Route path="logout" component={Logout}/>
       <Route path="my" component={My}/>
       <Route path="my/add" component={AddTodo}/>
     </Route>
