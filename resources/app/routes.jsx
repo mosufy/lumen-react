@@ -1,15 +1,16 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
-import App from './views/App.jsx';
-import Home from './views/Home.jsx';
-import About from './views/About.jsx';
-import Stuff from './views/Stuff.jsx';
-import Contact from './views/Contact.jsx';
-import Login from './views/Login.jsx';
-import Signup from './views/Signup.jsx';
-import My from './views/my/My.jsx';
-import AddTodo from './views/my/AddTodo.jsx';
+import App from './views/App';
+import Home from './views/Home';
+import About from './views/About';
+import Stuff from './views/Stuff';
+import Contact from './views/Contact';
+import Login from './views/Login';
+import Signup from './views/Signup';
+import NotFoundPage from './views/NotFoundPage';
+import My from './views/my/My';
+import AddTodo from './views/my/AddTodo';
 
 export default (
   <Route path="/" component={App}>
@@ -22,5 +23,6 @@ export default (
     <Route path="signup" component={Signup}/>
     <Route path="my" component={My}/>
     <Route path="my/add" component={AddTodo}/>
+    <Route path="*" component={NotFoundPage} />
   </Route>
 );

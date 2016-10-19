@@ -62,11 +62,11 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	// import reducers from './reducers/index';
-	// import {AUTH_USER} from './actions/types';
+	//import reducers from './reducers/index';
+	//import {AUTH_USER} from './actions/types';
 	
-	// import {Provider} from 'react-redux';
-	// import {createStore, applyMiddleware} from 'redux';
+	//import {Provider} from 'react-redux';
+	//import {createStore, applyMiddleware} from 'redux';
 	/**
 	 * Main ReactJS app
 	 *
@@ -80,7 +80,7 @@
 	_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default }),
 	//</Provider>,
 	document.getElementById('container'));
-	// import reduxThunk from 'redux-thunk';
+	//import reduxThunk from 'redux-thunk';
 
 /***/ },
 /* 1 */
@@ -27145,11 +27145,15 @@
 	
 	var _Signup2 = _interopRequireDefault(_Signup);
 	
-	var _My = __webpack_require__(251);
+	var _NotFoundPage = __webpack_require__(251);
+	
+	var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+	
+	var _My = __webpack_require__(252);
 	
 	var _My2 = _interopRequireDefault(_My);
 	
-	var _AddTodo = __webpack_require__(252);
+	var _AddTodo = __webpack_require__(253);
 	
 	var _AddTodo2 = _interopRequireDefault(_AddTodo);
 	
@@ -27168,7 +27172,8 @@
 	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'my', component: _My2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: _AddTodo2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: _AddTodo2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
 	);
 
 /***/ },
@@ -28271,6 +28276,76 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRouter = __webpack_require__(172);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	
+	var NotFoundPage = function (_React$Component) {
+	  _inherits(NotFoundPage, _React$Component);
+	
+	  function NotFoundPage() {
+	    _classCallCheck(this, NotFoundPage);
+	
+	    return _possibleConstructorReturn(this, (NotFoundPage.__proto__ || Object.getPrototypeOf(NotFoundPage)).apply(this, arguments));
+	  }
+	
+	  _createClass(NotFoundPage, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'row' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: 'col-lg-12' },
+	          _react2.default.createElement(
+	            'h2',
+	            null,
+	            'Page Not Found'
+	          ),
+	          _react2.default.createElement(
+	            'p',
+	            null,
+	            'Oops, seems like you might have accessed this page by accident. Click ',
+	            _react2.default.createElement(
+	              _reactRouter.Link,
+	              { to: '/' },
+	              'here'
+	            ),
+	            ' to go back to the homepage.'
+	          )
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return NotFoundPage;
+	}(_react2.default.Component);
+	
+	exports.default = NotFoundPage;
+
+/***/ },
+/* 252 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
 	var _Clearfix = __webpack_require__(249);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
@@ -28318,7 +28393,7 @@
 	exports.default = My;
 
 /***/ },
-/* 252 */
+/* 253 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
