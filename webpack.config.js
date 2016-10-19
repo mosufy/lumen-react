@@ -6,11 +6,15 @@
  * @copyright Copyright (c) Mosufy
  */
 
+var webpack = require('webpack');
+var PROD = JSON.parse(process.env.PROD_ENV || '0');
+
 module.exports = {
   entry: "./resources/app/app.jsx",
+  devtool: 'source-map',
   output: {
     path: __dirname,
-    filename: "public/js/bundle.js"
+    filename: PROD ? 'public/js/bundle.min.js' : 'public/js/bundle.js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -26,5 +30,12 @@ module.exports = {
         }
       }
     ]
-  }
+  },
+  plugins: PROD ? [
+    new webpack.optimize.UglifyJsPlugin({
+      compress: {
+        warnings: false
+      }
+    })
+  ] : []
 };

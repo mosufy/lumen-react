@@ -20,7 +20,8 @@
     "laravel-elixir": "^6.0.0-9",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.2",
-    "webpack-dev-middleware": "^1.8.4"
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-uglify-js-plugin": "^1.1.9"
   },
   "dependencies": {
     "react": "^15.3.2",
