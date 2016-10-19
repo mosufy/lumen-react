@@ -8,30 +8,17 @@
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Router, Route, IndexRoute, browserHistory} from 'react-router';
-import App from './views/App.jsx';
-import Home from './views/Home.jsx';
-import About from './views/About.jsx';
-import Stuff from './views/Stuff.jsx';
-import Contact from './views/Contact.jsx';
-import Login from './views/Login.jsx';
-import Signup from './views/Signup.jsx';
-import My from './views/my/My.jsx';
-import AddTodo from './views/my/AddTodo.jsx';
+// import {Provider} from 'react-redux';
+// import {createStore, applyMiddleware} from 'redux';
+import {Router, browserHistory} from 'react-router';
+// import reduxThunk from 'redux-thunk';
+import routes from './routes';
+// import reducers from './reducers/index';
+// import {AUTH_USER} from './actions/types';
 
 ReactDOM.render(
-  <Router history={browserHistory}>
-    <Route path="/" component={App}>
-      <IndexRoute component={Home}/>
-      <Route path="about" component={About}>
-        <Route path="stuff" component={Stuff}/>
-      </Route>
-      <Route path="contact" component={Contact}/>
-      <Route path="login" component={Login}/>
-      <Route path="signup" component={Signup}/>
-      <Route path="my" component={My}/>
-      <Route path="my/add" component={AddTodo}/>
-    </Route>
-  </Router>,
+  //<Provider store={store}>
+    <Router history={browserHistory} routes={routes}/>,
+  //</Provider>,
   document.getElementById('container')
 );

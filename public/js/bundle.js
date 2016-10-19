@@ -56,44 +56,17 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _App = __webpack_require__(235);
+	var _routes = __webpack_require__(235);
 	
-	var _App2 = _interopRequireDefault(_App);
-	
-	var _Home = __webpack_require__(241);
-	
-	var _Home2 = _interopRequireDefault(_Home);
-	
-	var _About = __webpack_require__(243);
-	
-	var _About2 = _interopRequireDefault(_About);
-	
-	var _Stuff = __webpack_require__(244);
-	
-	var _Stuff2 = _interopRequireDefault(_Stuff);
-	
-	var _Contact = __webpack_require__(245);
-	
-	var _Contact2 = _interopRequireDefault(_Contact);
-	
-	var _Login = __webpack_require__(246);
-	
-	var _Login2 = _interopRequireDefault(_Login);
-	
-	var _Signup = __webpack_require__(249);
-	
-	var _Signup2 = _interopRequireDefault(_Signup);
-	
-	var _My = __webpack_require__(250);
-	
-	var _My2 = _interopRequireDefault(_My);
-	
-	var _AddTodo = __webpack_require__(251);
-	
-	var _AddTodo2 = _interopRequireDefault(_AddTodo);
+	var _routes2 = _interopRequireDefault(_routes);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
+	// import reducers from './reducers/index';
+	// import {AUTH_USER} from './actions/types';
+	
+	// import {Provider} from 'react-redux';
+	// import {createStore, applyMiddleware} from 'redux';
 	/**
 	 * Main ReactJS app
 	 *
@@ -102,25 +75,12 @@
 	 * @copyright Copyright (c) Mosufy
 	 */
 	
-	_reactDom2.default.render(_react2.default.createElement(
-	  _reactRouter.Router,
-	  { history: _reactRouter.browserHistory },
-	  _react2.default.createElement(
-	    _reactRouter.Route,
-	    { path: '/', component: _App2.default },
-	    _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
-	    _react2.default.createElement(
-	      _reactRouter.Route,
-	      { path: 'about', component: _About2.default },
-	      _react2.default.createElement(_reactRouter.Route, { path: 'stuff', component: _Stuff2.default })
-	    ),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _Contact2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'my', component: _My2.default }),
-	    _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: _AddTodo2.default })
-	  )
-	), document.getElementById('container'));
+	_reactDom2.default.render(
+	//<Provider store={store}>
+	_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default }),
+	//</Provider>,
+	document.getElementById('container'));
+	// import reduxThunk from 'redux-thunk';
 
 /***/ },
 /* 1 */
@@ -27151,17 +27111,87 @@
 	  value: true
 	});
 	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(172);
+	
+	var _App = __webpack_require__(236);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	var _Home = __webpack_require__(242);
+	
+	var _Home2 = _interopRequireDefault(_Home);
+	
+	var _About = __webpack_require__(244);
+	
+	var _About2 = _interopRequireDefault(_About);
+	
+	var _Stuff = __webpack_require__(245);
+	
+	var _Stuff2 = _interopRequireDefault(_Stuff);
+	
+	var _Contact = __webpack_require__(246);
+	
+	var _Contact2 = _interopRequireDefault(_Contact);
+	
+	var _Login = __webpack_require__(247);
+	
+	var _Login2 = _interopRequireDefault(_Login);
+	
+	var _Signup = __webpack_require__(250);
+	
+	var _Signup2 = _interopRequireDefault(_Signup);
+	
+	var _My = __webpack_require__(251);
+	
+	var _My2 = _interopRequireDefault(_My);
+	
+	var _AddTodo = __webpack_require__(252);
+	
+	var _AddTodo2 = _interopRequireDefault(_AddTodo);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.default = _react2.default.createElement(
+	  _reactRouter.Route,
+	  { path: '/', component: _App2.default },
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
+	  _react2.default.createElement(
+	    _reactRouter.Route,
+	    { path: 'about', component: _About2.default },
+	    _react2.default.createElement(_reactRouter.Route, { path: 'stuff', component: _Stuff2.default })
+	  ),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _Contact2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'my', component: _My2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: _AddTodo2.default })
+	);
+
+/***/ },
+/* 236 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Header = __webpack_require__(236);
+	var _Header = __webpack_require__(237);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Footer = __webpack_require__(240);
+	var _Footer = __webpack_require__(241);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
@@ -27208,7 +27238,7 @@
 	exports.default = App;
 
 /***/ },
-/* 236 */
+/* 237 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27223,11 +27253,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBarComponent = __webpack_require__(237);
+	var _NavBarComponent = __webpack_require__(238);
 	
 	var _NavBarComponent2 = _interopRequireDefault(_NavBarComponent);
 	
-	var _SiteLogoComponent = __webpack_require__(239);
+	var _SiteLogoComponent = __webpack_require__(240);
 	
 	var _SiteLogoComponent2 = _interopRequireDefault(_SiteLogoComponent);
 	
@@ -27266,7 +27296,7 @@
 	exports.default = Header;
 
 /***/ },
-/* 237 */
+/* 238 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27285,7 +27315,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _NavLink = __webpack_require__(238);
+	var _NavLink = __webpack_require__(239);
 	
 	var _NavLink2 = _interopRequireDefault(_NavLink);
 	
@@ -27388,7 +27418,7 @@
 	exports.default = NavBarComponent;
 
 /***/ },
-/* 238 */
+/* 239 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27442,7 +27472,7 @@
 	exports.default = NavLink;
 
 /***/ },
-/* 239 */
+/* 240 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27499,7 +27529,7 @@
 	exports.default = SiteLogoComponent;
 
 /***/ },
-/* 240 */
+/* 241 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27552,7 +27582,7 @@
 	exports.default = Footer;
 
 /***/ },
-/* 241 */
+/* 242 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27567,7 +27597,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Hero = __webpack_require__(242);
+	var _Hero = __webpack_require__(243);
 	
 	var _Hero2 = _interopRequireDefault(_Hero);
 	
@@ -27657,7 +27687,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 242 */
+/* 243 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27736,7 +27766,7 @@
 	exports.default = Hero;
 
 /***/ },
-/* 243 */
+/* 244 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27832,7 +27862,7 @@
 	exports.default = About;
 
 /***/ },
-/* 244 */
+/* 245 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27890,7 +27920,7 @@
 	exports.default = Stuff;
 
 /***/ },
-/* 245 */
+/* 246 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -27954,7 +27984,7 @@
 	exports.default = Contact;
 
 /***/ },
-/* 246 */
+/* 247 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -27969,7 +27999,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LoginPanel = __webpack_require__(247);
+	var _LoginPanel = __webpack_require__(248);
 	
 	var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
 	
@@ -28007,7 +28037,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 247 */
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28024,7 +28054,7 @@
 	
 	var _reactRouter = __webpack_require__(172);
 	
-	var _Clearfix = __webpack_require__(248);
+	var _Clearfix = __webpack_require__(249);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -28124,7 +28154,7 @@
 	exports.default = LoginPanel;
 
 /***/ },
-/* 248 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -28173,7 +28203,7 @@
 	exports.default = Clearfix;
 
 /***/ },
-/* 249 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28188,7 +28218,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _LoginPanel = __webpack_require__(247);
+	var _LoginPanel = __webpack_require__(248);
 	
 	var _LoginPanel2 = _interopRequireDefault(_LoginPanel);
 	
@@ -28226,7 +28256,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 250 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28241,7 +28271,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Clearfix = __webpack_require__(248);
+	var _Clearfix = __webpack_require__(249);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -28288,7 +28318,7 @@
 	exports.default = My;
 
 /***/ },
-/* 251 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28303,7 +28333,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Clearfix = __webpack_require__(248);
+	var _Clearfix = __webpack_require__(249);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
