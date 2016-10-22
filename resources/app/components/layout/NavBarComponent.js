@@ -26,8 +26,7 @@ export default class NavBarComponent extends React.Component {
     } else {
       navlinks = (
         <ul className="nav nav-pills pull-right">
-          <NavLink to="my" {...this.props.navIndex}>List</NavLink>
-          <NavLink to="my/add">Add</NavLink>
+          <NavLink to="dashboard" {...this.props.navIndex}>My TODOs</NavLink>
           <li onClick={this.logout}><a href="/">Log Out</a></li>
         </ul>
       );

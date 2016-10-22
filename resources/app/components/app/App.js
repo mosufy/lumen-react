@@ -7,8 +7,8 @@ export default class App extends React.Component {
     var path = this.props.children.props.route.path;
     var pageTemplate = 'public';
 
-    if (path && path.substring(0, 2) == 'my') {
-      pageTemplate = 'my';
+    if (path && path.substring(0, 9) == 'dashboard') {
+      pageTemplate = 'dashboard';
     }
 
     return (

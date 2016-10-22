@@ -6,7 +6,7 @@ export default class Dashboard extends React.Component {
     return (
       <div className="row">
         <div className="col-lg-12">
-          <h4>My current TODOs</h4>
+          <h4>My TODOs</h4>
           <Clearfix/>
         </div>
       </div>

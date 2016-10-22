@@ -5,7 +5,7 @@ import Clearfix from './../common/Clearfix';
 export default class Signup extends React.Component {
   submitForm(e) {
     e.preventDefault();
-    browserHistory.push('/my');
+    browserHistory.push('/dashboard');
   }
 
   render() {

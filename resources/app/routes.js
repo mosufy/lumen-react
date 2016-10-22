@@ -9,8 +9,7 @@ import Contact from './components/app/Contact';
 import Login from './components/app/Login';
 import Signup from './components/app/Signup';
 import NotFoundPage from './components/app/NotFoundPage';
-import My from './components/dashboard/Dashboard';
-import AddTodo from './components/dashboard/AddTodo';
+import Dashboard from './components/dashboard/Dashboard';
 
 export default (
   <Route path="/" component={App}>
@@ -21,8 +20,7 @@ export default (
     <Route path="contact" component={Contact}/>
     <Route path="login" component={Login}/>
     <Route path="signup" component={Signup}/>
-    <Route path="my" component={My}/>
-    <Route path="my/add" component={AddTodo}/>
+    <Route path="dashboard" component={Dashboard}/>
     <Route path="*" component={NotFoundPage} />
   </Route>
 );

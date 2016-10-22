@@ -28895,10 +28895,6 @@
 	
 	var _Dashboard2 = _interopRequireDefault(_Dashboard);
 	
-	var _AddTodo = __webpack_require__(280);
-	
-	var _AddTodo2 = _interopRequireDefault(_AddTodo);
-	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createElement(
@@ -28913,8 +28909,7 @@
 	  _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _Contact2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'my', component: _Dashboard2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'my/add', component: _AddTodo2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: _Dashboard2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
 	);
 
@@ -28965,8 +28960,8 @@
 	      var path = this.props.children.props.route.path;
 	      var pageTemplate = 'public';
 	
-	      if (path && path.substring(0, 2) == 'my') {
-	        pageTemplate = 'my';
+	      if (path && path.substring(0, 9) == 'dashboard') {
+	        pageTemplate = 'dashboard';
 	      }
 	
 	      return _react2.default.createElement(
@@ -29119,13 +29114,8 @@
 	          { className: 'nav nav-pills pull-right' },
 	          _react2.default.createElement(
 	            _NavLink2.default,
-	            _extends({ to: 'my' }, this.props.navIndex),
-	            'List'
-	          ),
-	          _react2.default.createElement(
-	            _NavLink2.default,
-	            { to: 'my/add' },
-	            'Add'
+	            _extends({ to: 'dashboard' }, this.props.navIndex),
+	            'My TODOs'
 	          ),
 	          _react2.default.createElement(
 	            'li',
@@ -29773,7 +29763,7 @@
 	    key: 'submitForm',
 	    value: function submitForm(e) {
 	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/my');
+	      _reactRouter.browserHistory.push('/dashboard');
 	    }
 	  }, {
 	    key: 'render',
@@ -29913,7 +29903,7 @@
 	    key: 'submitForm',
 	    value: function submitForm(e) {
 	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/my');
+	      _reactRouter.browserHistory.push('/dashboard');
 	    }
 	  }, {
 	    key: 'render',
@@ -30081,7 +30071,7 @@
 	          _react2.default.createElement(
 	            'h4',
 	            null,
-	            'My current TODOs'
+	            'My TODOs'
 	          ),
 	          _react2.default.createElement(_Clearfix2.default, null)
 	        )
@@ -30093,68 +30083,6 @@
 	}(_react2.default.Component);
 	
 	exports.default = Dashboard;
-
-/***/ },
-/* 280 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Clearfix = __webpack_require__(276);
-	
-	var _Clearfix2 = _interopRequireDefault(_Clearfix);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	var AddTodo = function (_React$Component) {
-	  _inherits(AddTodo, _React$Component);
-	
-	  function AddTodo() {
-	    _classCallCheck(this, AddTodo);
-	
-	    return _possibleConstructorReturn(this, (AddTodo.__proto__ || Object.getPrototypeOf(AddTodo)).apply(this, arguments));
-	  }
-	
-	  _createClass(AddTodo, [{
-	    key: 'render',
-	    value: function render() {
-	      return _react2.default.createElement(
-	        'div',
-	        { className: 'row' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'col-lg-12' },
-	          _react2.default.createElement(
-	            'h4',
-	            null,
-	            'Add New TODOs'
-	          ),
-	          _react2.default.createElement(_Clearfix2.default, null)
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return AddTodo;
-	}(_react2.default.Component);
-	
-	exports.default = AddTodo;
 
 /***/ }
 /******/ ]);
