@@ -1,6 +1,6 @@
 import React from 'react';
 import {Link, browserHistory} from 'react-router';
-import Clearfix from './../../common/Clearfix';
+import Clearfix from './../common/Clearfix';
 
 export default class Login extends React.Component {
   submitForm(e) {

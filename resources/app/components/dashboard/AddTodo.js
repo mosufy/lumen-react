@@ -1,5 +1,5 @@
 import React from 'react';
-import Clearfix from './../../common/Clearfix.jsx';
+import Clearfix from './../common/Clearfix';
 
 export default class AddTodo extends React.Component {
   render() {

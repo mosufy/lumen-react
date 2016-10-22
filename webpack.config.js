@@ -10,7 +10,7 @@ var webpack = require('webpack');
 var PROD = JSON.parse(process.env.PROD_ENV || '0');
 
 module.exports = {
-  entry: "./resources/app/index.jsx",
+  entry: "./resources/app/index.js",
   devtool: 'source-map',
   output: {
     path: __dirname,

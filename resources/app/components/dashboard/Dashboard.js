@@ -1,5 +1,5 @@
 import React from 'react';
-import Clearfix from './../../common/Clearfix.jsx';
+import Clearfix from './../common/Clearfix';
 
 export default class Dashboard extends React.Component {
   render() {

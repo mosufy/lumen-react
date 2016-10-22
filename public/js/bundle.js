@@ -56,6 +56,8 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
+	var _redux = __webpack_require__(179);
+	
 	var _reactRouter = __webpack_require__(200);
 	
 	var _routes = __webpack_require__(263);
@@ -67,13 +69,8 @@
 	//import reducers from './reducers/index';
 	//import {AUTH_USER} from './actions/types';
 	
-	//import {createStore, applyMiddleware} from 'redux';
-	_reactDom2.default.render(
-	//<Provider store={store}>
-	_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default }),
-	//</Provider>,
-	document.getElementById('container'));
-	//import reduxThunk from 'redux-thunk';
+	//let store = createStore(todoApp);
+	
 	/**
 	 * Main ReactJS app
 	 *
@@ -81,6 +78,13 @@
 	 * @author Mosufy <mosufy@gmail.com>
 	 * @copyright Copyright (c) Mosufy
 	 */
+	
+	_reactDom2.default.render(
+	//<Provider store={store}>
+	_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default }),
+	//</Provider>,
+	document.getElementById('container'));
+	//import reduxThunk from 'redux-thunk';
 
 /***/ },
 /* 1 */
