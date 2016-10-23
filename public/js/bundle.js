@@ -30814,6 +30814,9 @@
 	
 	  switch (action.type) {
 	    case 'ADD_TODO':
+	      if (action.text == '') {
+	        return state;
+	      }
 	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
 	    default:
 	      return state;
