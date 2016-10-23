@@ -64,27 +64,25 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
+	var _index = __webpack_require__(291);
+	
+	var _index2 = _interopRequireDefault(_index);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
-	//import reducers from './reducers/index';
-	//import {AUTH_USER} from './actions/types';
+	var store = (0, _redux.createStore)(_index2.default); /**
+	                                                       * Main ReactJS app
+	                                                       *
+	                                                       * @date 8/10/2016
+	                                                       * @author Mosufy <mosufy@gmail.com>
+	                                                       * @copyright Copyright (c) Mosufy
+	                                                       */
 	
-	//let store = createStore(todoApp);
-	
-	/**
-	 * Main ReactJS app
-	 *
-	 * @date 8/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
-	
-	_reactDom2.default.render(
-	//<Provider store={store}>
-	_react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default }),
-	//</Provider>,
-	document.getElementById('container'));
-	//import reduxThunk from 'redux-thunk';
+	_reactDom2.default.render(_react2.default.createElement(
+	  _reactRedux.Provider,
+	  { store: store },
+	  _react2.default.createElement(_reactRouter.Router, { history: _reactRouter.browserHistory, routes: _routes2.default })
+	), document.getElementById('root'));
 
 /***/ },
 /* 1 */
@@ -30477,15 +30475,17 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _redux = __webpack_require__(179);
-	
-	var _index = __webpack_require__(288);
-	
-	var _index2 = _interopRequireDefault(_index);
-	
-	var _MyTodo = __webpack_require__(291);
+	var _MyTodo = __webpack_require__(288);
 	
 	var _MyTodo2 = _interopRequireDefault(_MyTodo);
+	
+	var _reactRedux = __webpack_require__(172);
+	
+	var _actions = __webpack_require__(290);
+	
+	var actionCreators = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30501,180 +30501,48 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
-	var store = (0, _redux.createStore)(_index2.default);
-	
 	var DashboardContainer = function (_React$Component) {
 	  _inherits(DashboardContainer, _React$Component);
 	
 	  function DashboardContainer() {
 	    _classCallCheck(this, DashboardContainer);
 	
-	    // bind functions to constructor
-	    var _this = _possibleConstructorReturn(this, (DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).call(this));
-	
-	    _this.addTodo = _this.addTodo.bind(_this);
-	    _this.handleTodoNameChange = _this.handleTodoNameChange.bind(_this);
-	
-	    // define states to be used
-	    _this.state = {
-	      todoName: ''
-	    };
-	    return _this;
+	    return _possibleConstructorReturn(this, (DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).apply(this, arguments));
 	  }
 	
 	  _createClass(DashboardContainer, [{
-	    key: 'handleTodoNameChange',
-	    value: function handleTodoNameChange(e) {
-	      this.setState({
-	        todoName: e.target.value
-	      });
-	    }
-	  }, {
-	    key: 'addTodo',
-	    value: function addTodo(e) {
-	      e.preventDefault();
-	      store.dispatch({ type: 'ADD_TODO', id: 1, text: this.state.todoName });
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_MyTodo2.default, { items: store.getState().todos,
-	        handleTodoNameChange: this.handleTodoNameChange,
-	        addTodo: this.addTodo });
+	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
+	        addTodo: this.props.addTodo });
 	    }
 	  }]);
 	
 	  return DashboardContainer;
 	}(_react2.default.Component);
 	
-	exports.default = DashboardContainer;
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    todos: state.todos
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    addTodo: function addTodo(e) {
+	      var todoName = $("#todo_name");
+	
+	      e.preventDefault();
+	      dispatch(actionCreators.addTodo(todoName.val()));
+	      todoName.val('');
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardContainer);
 
 /***/ },
 /* 288 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _redux = __webpack_require__(179);
-	
-	var _todos = __webpack_require__(289);
-	
-	var _todos2 = _interopRequireDefault(_todos);
-	
-	var _visibilityFilter = __webpack_require__(290);
-	
-	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var TodoApp = (0, _redux.combineReducers)({
-	  todos: _todos2.default,
-	  visibilityFilter: _visibilityFilter2.default
-	}); /**
-	     * index.js
-	     *
-	     * Binds all of our reducers into a single reducer that can be imported.
-	     *
-	     * A reducer takes an existing state, executes the action and returns the new state.
-	     *
-	     * @date 23/10/2016
-	     * @author Mosufy <mosufy@gmail.com>
-	     * @copyright Copyright (c) Mosufy
-	     */
-	
-	exports.default = TodoApp;
-
-/***/ },
-/* 289 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	/**
-	 * todos.js
-	 *
-	 * TodoReducers. A reducer takes an existing state, executes the action and returns the new state.
-	 *
-	 * @date 23/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
-	
-	var todo = function todo() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return {
-	        id: action.id,
-	        text: action.text,
-	        completed: false
-	      };
-	    default:
-	      return state;
-	  }
-	};
-	
-	var todos = function todos() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
-	    default:
-	      return state;
-	  }
-	};
-	
-	exports.default = todos;
-
-/***/ },
-/* 290 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * visibilityFilter.js
-	 *
-	 * A reducer takes an existing state, executes the action and returns the new state.
-	 *
-	 * @date 23/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
-	
-	var visibilityFilter = function visibilityFilter() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case 'SET_VISIBILITY_FILTER':
-	      return action.filter;
-	    default:
-	      return state;
-	  }
-	};
-	
-	exports.default = visibilityFilter;
-
-/***/ },
-/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30689,7 +30557,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _MyTodoItems = __webpack_require__(292);
+	var _MyTodoItems = __webpack_require__(289);
 	
 	var _MyTodoItems2 = _interopRequireDefault(_MyTodoItems);
 	
@@ -30751,7 +30619,7 @@
 	                _react2.default.createElement(
 	                  'div',
 	                  { className: 'input-group' },
-	                  _react2.default.createElement('input', { type: 'text', id: 'todo_name', className: 'form-control', placeholder: 'Enter ToDo', onChange: this.props.handleTodoNameChange }),
+	                  _react2.default.createElement('input', { type: 'text', id: 'todo_name', className: 'form-control', placeholder: 'Enter ToDo' }),
 	                  _react2.default.createElement(
 	                    'span',
 	                    { className: 'input-group-btn' },
@@ -30774,16 +30642,10 @@
 	  return MyTodo;
 	}(_react2.default.Component);
 	
-	MyTodo.defaultProps = {
-	  items: []
-	};
-	MyTodo.propTypes = {
-	  items: _react2.default.PropTypes.array
-	};
 	exports.default = MyTodo;
 
 /***/ },
-/* 292 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30830,7 +30692,7 @@
 	        this.props.items.map(function (item) {
 	          return _react2.default.createElement(
 	            'li',
-	            { id: item.id },
+	            { id: item.id, key: item.id },
 	            item.text
 	          );
 	        })
@@ -30842,6 +30704,156 @@
 	}(_react2.default.Component);
 	
 	exports.default = MyTodoItems;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * index.js
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var nextTodoId = 0;
+	
+	var addTodo = exports.addTodo = function addTodo(text) {
+	  return {
+	    type: 'ADD_TODO',
+	    id: nextTodoId++,
+	    text: text
+	  };
+	};
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(179);
+	
+	var _todos = __webpack_require__(292);
+	
+	var _todos2 = _interopRequireDefault(_todos);
+	
+	var _visibilityFilter = __webpack_require__(293);
+	
+	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TodoApp = (0, _redux.combineReducers)({
+	  todos: _todos2.default,
+	  visibilityFilter: _visibilityFilter2.default
+	}); /**
+	     * index.js
+	     *
+	     * Binds all of our reducers into a single reducer that can be imported.
+	     * A reducer takes an existing state, executes the action and returns the new state.
+	     *
+	     * @date 23/10/2016
+	     * @author Mosufy <mosufy@gmail.com>
+	     * @copyright Copyright (c) Mosufy
+	     */
+	
+	exports.default = TodoApp;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	/**
+	 * todos.js
+	 *
+	 * TodoReducers. A reducer takes an existing state, executes the action and returns the new state.
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var todo = function todo() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return {
+	        id: action.id,
+	        text: action.text,
+	        completed: false
+	      };
+	    default:
+	      return state;
+	  }
+	};
+	
+	var todos = function todos() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = todos;
+
+/***/ },
+/* 293 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * visibilityFilter.js
+	 *
+	 * A reducer takes an existing state, executes the action and returns the new state.
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var visibilityFilter = function visibilityFilter() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'SET_VISIBILITY_FILTER':
+	      return action.filter;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = visibilityFilter;
 
 /***/ }
 /******/ ]);

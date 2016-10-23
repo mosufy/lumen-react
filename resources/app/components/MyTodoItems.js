@@ -13,7 +13,7 @@ export default class MyTodoItems extends React.Component {
     return (
       <ul>
         {this.props.items.map(function (item) {
-          return <li id={item.id}>{item.text}</li>;
+          return <li id={item.id} key={item.id}>{item.text}</li>;
         })}
       </ul>
     );

@@ -11,14 +11,6 @@ import MyTodoItems from './MyTodoItems';
 import Clearfix from './common/Clearfix';
 
 export default class MyTodo extends React.Component {
-  static defaultProps = {
-    items: []
-  };
-
-  static propTypes = {
-    items: React.PropTypes.array
-  };
-
   render() {
     return (
       <div className="row">
@@ -31,7 +23,7 @@ export default class MyTodo extends React.Component {
             <div className="col-lg-6">
               <form>
                 <div className="input-group">
-                  <input type="text" id="todo_name" className="form-control" placeholder="Enter ToDo" onChange={this.props.handleTodoNameChange}/>
+                  <input type="text" id="todo_name" className="form-control" placeholder="Enter ToDo"/>
                   <span className="input-group-btn">
                     <button className="btn btn-primary" onClick={this.props.addTodo}>Add ToDo</button>
                   </span>

@@ -7,42 +7,35 @@
  */
 
 import React from 'react';
-import {createStore} from 'redux';
-import TodoApp from './../reducers/index';
 import MyTodo from './../components/MyTodo';
+import {connect} from 'react-redux';
+import * as actionCreators from './../actions';
 
-const store = createStore(TodoApp);
-
-export default class DashboardContainer extends React.Component {
-  constructor() {
-    super();
-
-    // bind functions to constructor
-    this.addTodo = this.addTodo.bind(this);
-    this.handleTodoNameChange = this.handleTodoNameChange.bind(this);
-
-    // define states to be used
-    this.state = {
-      todoName: '',
-    };
-  }
-
-  handleTodoNameChange(e) {
-    this.setState({
-      todoName: e.target.value
-    });
-  }
-
-  addTodo(e) {
-    e.preventDefault();
-    store.dispatch({type: 'ADD_TODO', id: 1, text: this.state.todoName});
-  }
-
+class DashboardContainer extends React.Component {
   render() {
     return (
-      <MyTodo items={store.getState().todos}
-              handleTodoNameChange={this.handleTodoNameChange}
-              addTodo={this.addTodo}/>
+      <MyTodo items={this.props.todos}
+              addTodo={this.props.addTodo}/>
     );
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    todos: state.todos
+  }
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    addTodo: (e) => {
+      var todoName = $("#todo_name");
+
+      e.preventDefault();
+      dispatch(actionCreators.addTodo(todoName.val()));
+      todoName.val('');
+    }
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(DashboardContainer);
