@@ -1,26 +1,26 @@
 import React from 'react';
 import {Route, IndexRoute} from 'react-router';
 
-import App from './components/app/App';
-import Home from './components/app/Home';
-import About from './components/app/About';
-import Stuff from './components/app/Stuff';
-import Contact from './components/app/Contact';
-import Login from './components/app/Login';
-import Signup from './components/app/Signup';
-import NotFoundPage from './components/app/NotFoundPage';
-import Dashboard from './components/dashboard/Dashboard';
+import AppContainer from './containers/AppContainer';
+import HomeContainer from './containers/HomeContainer';
+import AboutContainer from './containers/AboutContainer';
+import StuffContainer from './containers/StuffContainer';
+import ContactContainer from './containers/ContactContainer';
+import LoginContainer from './containers/LoginContainer';
+import SignupContainer from './containers/SignupContainer';
+import NotFoundPageContainer from './containers/NotFoundPageContainer';
+import DashboardContainer from './containers/DashboardContainer';
 
 export default (
-  <Route path="/" component={App}>
-    <IndexRoute component={Home}/>
-    <Route path="about" component={About}>
-      <Route path="stuff" component={Stuff}/>
+  <Route path="/" component={AppContainer}>
+    <IndexRoute component={HomeContainer}/>
+    <Route path="about" component={AboutContainer}>
+      <Route path="stuff" component={StuffContainer}/>
     </Route>
-    <Route path="contact" component={Contact}/>
-    <Route path="login" component={Login}/>
-    <Route path="signup" component={Signup}/>
-    <Route path="dashboard" component={Dashboard}/>
-    <Route path="*" component={NotFoundPage} />
+    <Route path="contact" component={ContactContainer}/>
+    <Route path="login" component={LoginContainer}/>
+    <Route path="signup" component={SignupContainer}/>
+    <Route path="dashboard" component={DashboardContainer}/>
+    <Route path="*" component={NotFoundPageContainer} />
   </Route>
 );

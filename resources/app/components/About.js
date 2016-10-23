@@ -14,9 +14,6 @@ export default class About extends React.Component {
             <li>Eget erat</li>
             <li>Id porttitor</li>
           </ol>
-          <div className="content">
-            {this.props.children}
-          </div>
         </div>
       </div>
     );

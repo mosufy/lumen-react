@@ -28859,58 +28859,58 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _App = __webpack_require__(264);
+	var _AppContainer = __webpack_require__(264);
 	
-	var _App2 = _interopRequireDefault(_App);
+	var _AppContainer2 = _interopRequireDefault(_AppContainer);
 	
-	var _Home = __webpack_require__(270);
+	var _HomeContainer = __webpack_require__(271);
 	
-	var _Home2 = _interopRequireDefault(_Home);
+	var _HomeContainer2 = _interopRequireDefault(_HomeContainer);
 	
-	var _About = __webpack_require__(272);
+	var _AboutContainer = __webpack_require__(274);
 	
-	var _About2 = _interopRequireDefault(_About);
+	var _AboutContainer2 = _interopRequireDefault(_AboutContainer);
 	
-	var _Stuff = __webpack_require__(273);
+	var _StuffContainer = __webpack_require__(276);
 	
-	var _Stuff2 = _interopRequireDefault(_Stuff);
+	var _StuffContainer2 = _interopRequireDefault(_StuffContainer);
 	
-	var _Contact = __webpack_require__(274);
+	var _ContactContainer = __webpack_require__(278);
 	
-	var _Contact2 = _interopRequireDefault(_Contact);
+	var _ContactContainer2 = _interopRequireDefault(_ContactContainer);
 	
-	var _Login = __webpack_require__(275);
+	var _LoginContainer = __webpack_require__(280);
 	
-	var _Login2 = _interopRequireDefault(_Login);
+	var _LoginContainer2 = _interopRequireDefault(_LoginContainer);
 	
-	var _Signup = __webpack_require__(277);
+	var _SignupContainer = __webpack_require__(283);
 	
-	var _Signup2 = _interopRequireDefault(_Signup);
+	var _SignupContainer2 = _interopRequireDefault(_SignupContainer);
 	
-	var _NotFoundPage = __webpack_require__(278);
+	var _NotFoundPageContainer = __webpack_require__(285);
 	
-	var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+	var _NotFoundPageContainer2 = _interopRequireDefault(_NotFoundPageContainer);
 	
-	var _Dashboard = __webpack_require__(279);
+	var _DashboardContainer = __webpack_require__(287);
 	
-	var _Dashboard2 = _interopRequireDefault(_Dashboard);
+	var _DashboardContainer2 = _interopRequireDefault(_DashboardContainer);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createElement(
 	  _reactRouter.Route,
-	  { path: '/', component: _App2.default },
-	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _Home2.default }),
+	  { path: '/', component: _AppContainer2.default },
+	  _react2.default.createElement(_reactRouter.IndexRoute, { component: _HomeContainer2.default }),
 	  _react2.default.createElement(
 	    _reactRouter.Route,
-	    { path: 'about', component: _About2.default },
-	    _react2.default.createElement(_reactRouter.Route, { path: 'stuff', component: _Stuff2.default })
+	    { path: 'about', component: _AboutContainer2.default },
+	    _react2.default.createElement(_reactRouter.Route, { path: 'stuff', component: _StuffContainer2.default })
 	  ),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _Contact2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _Login2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _Signup2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: _Dashboard2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
+	  _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _ContactContainer2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _LoginContainer2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _SignupContainer2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: _DashboardContainer2.default }),
+	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPageContainer2.default })
 	);
 
 /***/ },
@@ -28929,11 +28929,66 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Header = __webpack_require__(265);
+	var _App = __webpack_require__(265);
+	
+	var _App2 = _interopRequireDefault(_App);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AppContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var AppContainer = function (_React$Component) {
+	  _inherits(AppContainer, _React$Component);
+	
+	  function AppContainer() {
+	    _classCallCheck(this, AppContainer);
+	
+	    return _possibleConstructorReturn(this, (AppContainer.__proto__ || Object.getPrototypeOf(AppContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(AppContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_App2.default, this.props);
+	    }
+	  }]);
+	
+	  return AppContainer;
+	}(_react2.default.Component);
+	
+	exports.default = AppContainer;
+
+/***/ },
+/* 265 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Header = __webpack_require__(266);
 	
 	var _Header2 = _interopRequireDefault(_Header);
 	
-	var _Footer = __webpack_require__(269);
+	var _Footer = __webpack_require__(270);
 	
 	var _Footer2 = _interopRequireDefault(_Footer);
 	
@@ -28980,7 +29035,7 @@
 	exports.default = App;
 
 /***/ },
-/* 265 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28995,13 +29050,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NavBarComponent = __webpack_require__(266);
+	var _NavBar = __webpack_require__(267);
 	
-	var _NavBarComponent2 = _interopRequireDefault(_NavBarComponent);
+	var _NavBar2 = _interopRequireDefault(_NavBar);
 	
-	var _SiteLogoComponent = __webpack_require__(268);
+	var _SiteLogo = __webpack_require__(269);
 	
-	var _SiteLogoComponent2 = _interopRequireDefault(_SiteLogoComponent);
+	var _SiteLogo2 = _interopRequireDefault(_SiteLogo);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -29026,8 +29081,8 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'header clearfix' },
-	        _react2.default.createElement(_NavBarComponent2.default, { pageTemplate: this.props.pageTemplate }),
-	        _react2.default.createElement(_SiteLogoComponent2.default, { pageTemplate: this.props.pageTemplate })
+	        _react2.default.createElement(_NavBar2.default, { pageTemplate: this.props.pageTemplate }),
+	        _react2.default.createElement(_SiteLogo2.default, { pageTemplate: this.props.pageTemplate })
 	      );
 	    }
 	  }]);
@@ -29038,7 +29093,7 @@
 	exports.default = Header;
 
 /***/ },
-/* 266 */
+/* 267 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29057,7 +29112,7 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _NavLink = __webpack_require__(267);
+	var _NavLink = __webpack_require__(268);
 	
 	var _NavLink2 = _interopRequireDefault(_NavLink);
 	
@@ -29155,7 +29210,7 @@
 	exports.default = NavBarComponent;
 
 /***/ },
-/* 267 */
+/* 268 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29209,7 +29264,7 @@
 	exports.default = NavLink;
 
 /***/ },
-/* 268 */
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29266,7 +29321,7 @@
 	exports.default = SiteLogoComponent;
 
 /***/ },
-/* 269 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29319,7 +29374,7 @@
 	exports.default = Footer;
 
 /***/ },
-/* 270 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29334,7 +29389,62 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Hero = __webpack_require__(271);
+	var _Home = __webpack_require__(272);
+	
+	var _Home2 = _interopRequireDefault(_Home);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * HomeContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var HomeContainer = function (_React$Component) {
+	  _inherits(HomeContainer, _React$Component);
+	
+	  function HomeContainer() {
+	    _classCallCheck(this, HomeContainer);
+	
+	    return _possibleConstructorReturn(this, (HomeContainer.__proto__ || Object.getPrototypeOf(HomeContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(HomeContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_Home2.default, null);
+	    }
+	  }]);
+	
+	  return HomeContainer;
+	}(_react2.default.Component);
+	
+	exports.default = HomeContainer;
+
+/***/ },
+/* 272 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Hero = __webpack_require__(273);
 	
 	var _Hero2 = _interopRequireDefault(_Hero);
 	
@@ -29424,7 +29534,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 271 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29503,7 +29613,62 @@
 	exports.default = Hero;
 
 /***/ },
-/* 272 */
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _About = __webpack_require__(275);
+	
+	var _About2 = _interopRequireDefault(_About);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AboutContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var AboutContainer = function (_React$Component) {
+	  _inherits(AboutContainer, _React$Component);
+	
+	  function AboutContainer() {
+	    _classCallCheck(this, AboutContainer);
+	
+	    return _possibleConstructorReturn(this, (AboutContainer.__proto__ || Object.getPrototypeOf(AboutContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(AboutContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_About2.default, null);
+	    }
+	  }]);
+	
+	  return AboutContainer;
+	}(_react2.default.Component);
+	
+	exports.default = AboutContainer;
+
+/***/ },
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29582,11 +29747,6 @@
 	              null,
 	              "Id porttitor"
 	            )
-	          ),
-	          _react2.default.createElement(
-	            "div",
-	            { className: "content" },
-	            this.props.children
 	          )
 	        )
 	      );
@@ -29599,7 +29759,62 @@
 	exports.default = About;
 
 /***/ },
-/* 273 */
+/* 276 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Stuff = __webpack_require__(277);
+	
+	var _Stuff2 = _interopRequireDefault(_Stuff);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * StuffContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var StuffContainer = function (_React$Component) {
+	  _inherits(StuffContainer, _React$Component);
+	
+	  function StuffContainer() {
+	    _classCallCheck(this, StuffContainer);
+	
+	    return _possibleConstructorReturn(this, (StuffContainer.__proto__ || Object.getPrototypeOf(StuffContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(StuffContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_Stuff2.default, null);
+	    }
+	  }]);
+	
+	  return StuffContainer;
+	}(_react2.default.Component);
+	
+	exports.default = StuffContainer;
+
+/***/ },
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29657,7 +29872,62 @@
 	exports.default = Stuff;
 
 /***/ },
-/* 274 */
+/* 278 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _Contact = __webpack_require__(279);
+	
+	var _Contact2 = _interopRequireDefault(_Contact);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * ContactContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var ContactContainer = function (_React$Component) {
+	  _inherits(ContactContainer, _React$Component);
+	
+	  function ContactContainer() {
+	    _classCallCheck(this, ContactContainer);
+	
+	    return _possibleConstructorReturn(this, (ContactContainer.__proto__ || Object.getPrototypeOf(ContactContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(ContactContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_Contact2.default, null);
+	    }
+	  }]);
+	
+	  return ContactContainer;
+	}(_react2.default.Component);
+	
+	exports.default = ContactContainer;
+
+/***/ },
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29721,7 +29991,7 @@
 	exports.default = Contact;
 
 /***/ },
-/* 275 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29738,7 +30008,70 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Clearfix = __webpack_require__(276);
+	var _Login = __webpack_require__(281);
+	
+	var _Login2 = _interopRequireDefault(_Login);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * LoginContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var LoginContainer = function (_React$Component) {
+	  _inherits(LoginContainer, _React$Component);
+	
+	  function LoginContainer() {
+	    _classCallCheck(this, LoginContainer);
+	
+	    return _possibleConstructorReturn(this, (LoginContainer.__proto__ || Object.getPrototypeOf(LoginContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(LoginContainer, [{
+	    key: 'submitForm',
+	    value: function submitForm(e) {
+	      e.preventDefault();
+	      _reactRouter.browserHistory.push('/dashboard');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_Login2.default, { submitForm: this.submitForm });
+	    }
+	  }]);
+	
+	  return LoginContainer;
+	}(_react2.default.Component);
+	
+	exports.default = LoginContainer;
+
+/***/ },
+/* 281 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(200);
+	
+	var _Clearfix = __webpack_require__(282);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -29760,12 +30093,6 @@
 	  }
 	
 	  _createClass(Login, [{
-	    key: 'submitForm',
-	    value: function submitForm(e) {
-	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/dashboard');
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29784,7 +30111,7 @@
 	            { className: 'account-wall' },
 	            _react2.default.createElement(
 	              'form',
-	              { className: 'form-signin', onSubmit: this.submitForm },
+	              { className: 'form-signin', onSubmit: this.props.submitForm },
 	              _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
 	              _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
 	              _react2.default.createElement(
@@ -29812,7 +30139,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 276 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29861,7 +30188,7 @@
 	exports.default = Clearfix;
 
 /***/ },
-/* 277 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29878,7 +30205,70 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Clearfix = __webpack_require__(276);
+	var _Signup = __webpack_require__(284);
+	
+	var _Signup2 = _interopRequireDefault(_Signup);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * SignupContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var SignupContainer = function (_React$Component) {
+	  _inherits(SignupContainer, _React$Component);
+	
+	  function SignupContainer() {
+	    _classCallCheck(this, SignupContainer);
+	
+	    return _possibleConstructorReturn(this, (SignupContainer.__proto__ || Object.getPrototypeOf(SignupContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(SignupContainer, [{
+	    key: 'submitForm',
+	    value: function submitForm(e) {
+	      e.preventDefault();
+	      _reactRouter.browserHistory.push('/dashboard');
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_Signup2.default, { submitForm: this.submitForm });
+	    }
+	  }]);
+	
+	  return SignupContainer;
+	}(_react2.default.Component);
+	
+	exports.default = SignupContainer;
+
+/***/ },
+/* 284 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRouter = __webpack_require__(200);
+	
+	var _Clearfix = __webpack_require__(282);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -29900,12 +30290,6 @@
 	  }
 	
 	  _createClass(Signup, [{
-	    key: 'submitForm',
-	    value: function submitForm(e) {
-	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/dashboard');
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -29924,7 +30308,7 @@
 	            { className: 'account-wall' },
 	            _react2.default.createElement(
 	              'form',
-	              { className: 'form-signin form-signup', onSubmit: this.submitForm },
+	              { className: 'form-signin form-signup', onSubmit: this.props.submitForm },
 	              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: 'Name', required: true, autoFocus: 'autoFocus' }),
 	              _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true }),
 	              _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
@@ -29953,7 +30337,62 @@
 	exports.default = Signup;
 
 /***/ },
-/* 278 */
+/* 285 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _NotFoundPage = __webpack_require__(286);
+	
+	var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * NotFoundPageContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var NotFoundPageContainer = function (_React$Component) {
+	  _inherits(NotFoundPageContainer, _React$Component);
+	
+	  function NotFoundPageContainer() {
+	    _classCallCheck(this, NotFoundPageContainer);
+	
+	    return _possibleConstructorReturn(this, (NotFoundPageContainer.__proto__ || Object.getPrototypeOf(NotFoundPageContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(NotFoundPageContainer, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_NotFoundPage2.default, null);
+	    }
+	  }]);
+	
+	  return NotFoundPageContainer;
+	}(_react2.default.Component);
+	
+	exports.default = NotFoundPageContainer;
+
+/***/ },
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30023,7 +30462,7 @@
 	exports.default = NotFoundPage;
 
 /***/ },
-/* 279 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30038,7 +30477,223 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Clearfix = __webpack_require__(276);
+	var _redux = __webpack_require__(179);
+	
+	var _index = __webpack_require__(288);
+	
+	var _index2 = _interopRequireDefault(_index);
+	
+	var _MyTodo = __webpack_require__(291);
+	
+	var _MyTodo2 = _interopRequireDefault(_MyTodo);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * DashboardContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var store = (0, _redux.createStore)(_index2.default);
+	
+	var DashboardContainer = function (_React$Component) {
+	  _inherits(DashboardContainer, _React$Component);
+	
+	  function DashboardContainer() {
+	    _classCallCheck(this, DashboardContainer);
+	
+	    // bind functions to constructor
+	    var _this = _possibleConstructorReturn(this, (DashboardContainer.__proto__ || Object.getPrototypeOf(DashboardContainer)).call(this));
+	
+	    _this.addTodo = _this.addTodo.bind(_this);
+	    _this.handleTodoNameChange = _this.handleTodoNameChange.bind(_this);
+	
+	    // define states to be used
+	    _this.state = {
+	      todoName: ''
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(DashboardContainer, [{
+	    key: 'handleTodoNameChange',
+	    value: function handleTodoNameChange(e) {
+	      this.setState({
+	        todoName: e.target.value
+	      });
+	    }
+	  }, {
+	    key: 'addTodo',
+	    value: function addTodo(e) {
+	      e.preventDefault();
+	      store.dispatch({ type: 'ADD_TODO', id: 1, text: this.state.todoName });
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(_MyTodo2.default, { items: store.getState().todos,
+	        handleTodoNameChange: this.handleTodoNameChange,
+	        addTodo: this.addTodo });
+	    }
+	  }]);
+	
+	  return DashboardContainer;
+	}(_react2.default.Component);
+	
+	exports.default = DashboardContainer;
+
+/***/ },
+/* 288 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _redux = __webpack_require__(179);
+	
+	var _todos = __webpack_require__(289);
+	
+	var _todos2 = _interopRequireDefault(_todos);
+	
+	var _visibilityFilter = __webpack_require__(290);
+	
+	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var TodoApp = (0, _redux.combineReducers)({
+	  todos: _todos2.default,
+	  visibilityFilter: _visibilityFilter2.default
+	}); /**
+	     * index.js
+	     *
+	     * Binds all of our reducers into a single reducer that can be imported.
+	     *
+	     * A reducer takes an existing state, executes the action and returns the new state.
+	     *
+	     * @date 23/10/2016
+	     * @author Mosufy <mosufy@gmail.com>
+	     * @copyright Copyright (c) Mosufy
+	     */
+	
+	exports.default = TodoApp;
+
+/***/ },
+/* 289 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	/**
+	 * todos.js
+	 *
+	 * TodoReducers. A reducer takes an existing state, executes the action and returns the new state.
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var todo = function todo() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return {
+	        id: action.id,
+	        text: action.text,
+	        completed: false
+	      };
+	    default:
+	      return state;
+	  }
+	};
+	
+	var todos = function todos() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'ADD_TODO':
+	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = todos;
+
+/***/ },
+/* 290 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * visibilityFilter.js
+	 *
+	 * A reducer takes an existing state, executes the action and returns the new state.
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var visibilityFilter = function visibilityFilter() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'SET_VISIBILITY_FILTER':
+	      return action.filter;
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = visibilityFilter;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _MyTodoItems = __webpack_require__(292);
+	
+	var _MyTodoItems2 = _interopRequireDefault(_MyTodoItems);
+	
+	var _Clearfix = __webpack_require__(282);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -30048,18 +30703,24 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * MyTodo
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
-	var Dashboard = function (_React$Component) {
-	  _inherits(Dashboard, _React$Component);
+	var MyTodo = function (_React$Component) {
+	  _inherits(MyTodo, _React$Component);
 	
-	  function Dashboard() {
-	    _classCallCheck(this, Dashboard);
+	  function MyTodo() {
+	    _classCallCheck(this, MyTodo);
 	
-	    return _possibleConstructorReturn(this, (Dashboard.__proto__ || Object.getPrototypeOf(Dashboard)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (MyTodo.__proto__ || Object.getPrototypeOf(MyTodo)).apply(this, arguments));
 	  }
 	
-	  _createClass(Dashboard, [{
+	  _createClass(MyTodo, [{
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(
@@ -30071,7 +30732,38 @@
 	          _react2.default.createElement(
 	            'h4',
 	            null,
-	            'My TODOs'
+	            'My ToDos'
+	          ),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-lg-6' },
+	              _react2.default.createElement(_MyTodoItems2.default, { items: this.props.items })
+	            ),
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-lg-6' },
+	              _react2.default.createElement(
+	                'form',
+	                null,
+	                _react2.default.createElement(
+	                  'div',
+	                  { className: 'input-group' },
+	                  _react2.default.createElement('input', { type: 'text', id: 'todo_name', className: 'form-control', placeholder: 'Enter ToDo', onChange: this.props.handleTodoNameChange }),
+	                  _react2.default.createElement(
+	                    'span',
+	                    { className: 'input-group-btn' },
+	                    _react2.default.createElement(
+	                      'button',
+	                      { className: 'btn btn-primary', onClick: this.props.addTodo },
+	                      'Add ToDo'
+	                    )
+	                  )
+	                )
+	              )
+	            )
 	          ),
 	          _react2.default.createElement(_Clearfix2.default, null)
 	        )
@@ -30079,10 +30771,77 @@
 	    }
 	  }]);
 	
-	  return Dashboard;
+	  return MyTodo;
 	}(_react2.default.Component);
 	
-	exports.default = Dashboard;
+	MyTodo.defaultProps = {
+	  items: []
+	};
+	MyTodo.propTypes = {
+	  items: _react2.default.PropTypes.array
+	};
+	exports.default = MyTodo;
+
+/***/ },
+/* 292 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * MyTodoItems
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 23/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var MyTodoItems = function (_React$Component) {
+	  _inherits(MyTodoItems, _React$Component);
+	
+	  function MyTodoItems() {
+	    _classCallCheck(this, MyTodoItems);
+	
+	    return _possibleConstructorReturn(this, (MyTodoItems.__proto__ || Object.getPrototypeOf(MyTodoItems)).apply(this, arguments));
+	  }
+	
+	  _createClass(MyTodoItems, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'ul',
+	        null,
+	        this.props.items.map(function (item) {
+	          return _react2.default.createElement(
+	            'li',
+	            { id: item.id },
+	            item.text
+	          );
+	        })
+	      );
+	    }
+	  }]);
+	
+	  return MyTodoItems;
+	}(_react2.default.Component);
+	
+	exports.default = MyTodoItems;
 
 /***/ }
 /******/ ]);

@@ -1,6 +1,6 @@
 import React from 'react';
-import Header from './../layout/Header';
-import Footer from './../layout/Footer';
+import Header from './Header';
+import Footer from './Footer';
 
 export default class App extends React.Component {
   render() {
