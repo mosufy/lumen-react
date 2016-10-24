@@ -27,7 +27,7 @@ export default class MyTodoVisibilityFilterLink extends React.Component {
     }
 
     return (
-      <button type="button" className={btnStyle} onClick={btnClick}>{this.props.children}</button>
+      <button id={currentFilter} type="button" className={btnStyle} onClick={btnClick}>{this.props.children}</button>
     );
   }
 }

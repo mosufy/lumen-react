@@ -30544,7 +30544,8 @@
 	      var id = $(e.target).closest("input").attr('id');
 	      dispatch(actionCreators.toggleCompleted(id));
 	    },
-	    setVisibilityFilter: function setVisibilityFilter(filter) {
+	    setVisibilityFilter: function setVisibilityFilter(e) {
+	      var filter = $(e.target).closest("button").attr('id');
 	      dispatch(actionCreators.setVisibilityFilter(filter));
 	    }
 	  };
@@ -30713,13 +30714,21 @@
 	    value: function render() {
 	      var _this2 = this;
 	
-	      console.log(this.props.visibilityFilter);
 	      var toggleCompleted = this.props.toggleCompleted;
 	      return _react2.default.createElement(
 	        'ul',
 	        null,
 	        this.props.items.map(function (item) {
+	          if (_this2.props.visibilityFilter == 'SHOW_ACTIVE' && item.completed) {
+	            return;
+	          }
+	
+	          if (_this2.props.visibilityFilter == 'SHOW_COMPLETED' && !item.completed) {
+	            return;
+	          }
+	
 	          var itemText = item.text;
+	
 	          if (item.completed) {
 	            itemText = _react2.default.createElement(
 	              'del',
@@ -30728,17 +30737,13 @@
 	            );
 	          }
 	
-	          if (_this2.props.visibilityFilter == 'SHOW_COMPLETED') {
-	            return;
-	          }
-	
 	          return _react2.default.createElement(
 	            'div',
 	            { className: 'checkbox', key: item.id },
 	            _react2.default.createElement(
 	              'label',
 	              null,
-	              _react2.default.createElement('input', { id: item.id, type: 'checkbox', value: '', onClick: toggleCompleted }),
+	              _react2.default.createElement('input', { id: item.id, type: 'checkbox', value: item.id, onClick: toggleCompleted, defaultChecked: item.completed ? 'defaultChecked' : '' }),
 	              itemText
 	            )
 	          );
@@ -30887,7 +30892,7 @@
 	
 	      return _react2.default.createElement(
 	        'button',
-	        { type: 'button', className: btnStyle, onClick: btnClick },
+	        { id: currentFilter, type: 'button', className: btnStyle, onClick: btnClick },
 	        this.props.children
 	      );
 	    }

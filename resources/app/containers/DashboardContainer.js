@@ -43,7 +43,8 @@ const mapDispatchToProps = (dispatch) => {
       var id = $(e.target).closest("input").attr('id');
       dispatch(actionCreators.toggleCompleted(id));
     },
-    setVisibilityFilter: (filter) => {
+    setVisibilityFilter: (e) => {
+      var filter = $(e.target).closest("button").attr('id');
       dispatch(actionCreators.setVisibilityFilter(filter));
     }
   };

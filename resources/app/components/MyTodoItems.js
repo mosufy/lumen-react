@@ -10,25 +10,31 @@ import React from 'react';
 
 export default class MyTodoItems extends React.Component {
   render() {
-    console.log(this.props.visibilityFilter);
     var toggleCompleted = this.props.toggleCompleted;
     return (
       <ul>
         {this.props.items.map(item => {
+          if (this.props.visibilityFilter == 'SHOW_ACTIVE' && item.completed) {
+            return;
+          }
+
+          if (this.props.visibilityFilter == 'SHOW_COMPLETED' && !item.completed) {
+            return;
+          }
+
           var itemText = item.text;
+
           if (item.completed) {
             itemText = (
               <del>{item.text}</del>
             );
           }
 
-          if (this.props.visibilityFilter == 'SHOW_COMPLETED') {
-            return;
-          }
-
           return (
             <div className="checkbox" key={item.id}>
-              <label><input id={item.id} type="checkbox" value="" onClick={toggleCompleted}/>{itemText}</label>
+              <label>
+                <input id={item.id} type="checkbox" value={item.id} onClick={toggleCompleted} defaultChecked={item.completed ? 'defaultChecked' : ''}/>{itemText}
+              </label>
             </div>
           );
         })}
