@@ -9,6 +9,7 @@
 import React from 'react';
 import MyTodoItems from './MyTodoItems';
 import Clearfix from './common/Clearfix';
+import MyTodoVisibilityFilters from './MyTodoVisibilityFilters';
 
 export default class MyTodo extends React.Component {
   render() {
@@ -18,7 +19,7 @@ export default class MyTodo extends React.Component {
           <h4>My ToDos</h4>
           <div className="row">
             <div className="col-lg-6">
-              <MyTodoItems items={this.props.items} toggleCompleted={this.props.toggleCompleted}/>
+              <MyTodoItems items={this.props.items} toggleCompleted={this.props.toggleCompleted} visibilityFilter={this.props.visibilityFilter}/>
             </div>
             <div className="col-lg-6">
               <form>
@@ -29,6 +30,12 @@ export default class MyTodo extends React.Component {
                   </span>
                 </div>
               </form>
+            </div>
+          </div>
+          <Clearfix/>
+          <div className="row">
+            <div className="col-lg-12">
+              <MyTodoVisibilityFilters setVisibilityFilter={this.props.setVisibilityFilter} visibilityFilter={this.props.visibilityFilter}/>
             </div>
           </div>
           <Clearfix/>

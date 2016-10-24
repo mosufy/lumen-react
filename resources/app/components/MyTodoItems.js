@@ -10,6 +10,7 @@ import React from 'react';
 
 export default class MyTodoItems extends React.Component {
   render() {
+    console.log(this.props.visibilityFilter);
     var toggleCompleted = this.props.toggleCompleted;
     return (
       <ul>
@@ -20,6 +21,11 @@ export default class MyTodoItems extends React.Component {
               <del>{item.text}</del>
             );
           }
+
+          if (this.props.visibilityFilter == 'SHOW_COMPLETED') {
+            return;
+          }
+
           return (
             <div className="checkbox" key={item.id}>
               <label><input id={item.id} type="checkbox" value="" onClick={toggleCompleted}/>{itemText}</label>

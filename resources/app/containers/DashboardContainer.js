@@ -15,15 +15,18 @@ class DashboardContainer extends React.Component {
   render() {
     return (
       <MyTodo items={this.props.todos}
+              visibilityFilter={this.props.visibilityFilter}
               addTodo={this.props.addTodo}
-              toggleCompleted={this.props.toggleCompleted}/>
+              toggleCompleted={this.props.toggleCompleted}
+              setVisibilityFilter={this.props.setVisibilityFilter}/>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    todos: state.todos
+    todos: state.todos,
+    visibilityFilter: state.visibilityFilter
   }
 };
 
@@ -39,6 +42,9 @@ const mapDispatchToProps = (dispatch) => {
     toggleCompleted: (e) => {
       var id = $(e.target).closest("input").attr('id');
       dispatch(actionCreators.toggleCompleted(id));
+    },
+    setVisibilityFilter: (filter) => {
+      dispatch(actionCreators.setVisibilityFilter(filter));
     }
   };
 };

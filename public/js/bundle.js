@@ -64,7 +64,7 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	var _index = __webpack_require__(291);
+	var _index = __webpack_require__(293);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -30481,7 +30481,7 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _actions = __webpack_require__(290);
+	var _actions = __webpack_require__(292);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
@@ -30514,8 +30514,10 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
+	        visibilityFilter: this.props.visibilityFilter,
 	        addTodo: this.props.addTodo,
-	        toggleCompleted: this.props.toggleCompleted });
+	        toggleCompleted: this.props.toggleCompleted,
+	        setVisibilityFilter: this.props.setVisibilityFilter });
 	    }
 	  }]);
 	
@@ -30524,7 +30526,8 @@
 	
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
-	    todos: state.todos
+	    todos: state.todos,
+	    visibilityFilter: state.visibilityFilter
 	  };
 	};
 	
@@ -30540,6 +30543,9 @@
 	    toggleCompleted: function toggleCompleted(e) {
 	      var id = $(e.target).closest("input").attr('id');
 	      dispatch(actionCreators.toggleCompleted(id));
+	    },
+	    setVisibilityFilter: function setVisibilityFilter(filter) {
+	      dispatch(actionCreators.setVisibilityFilter(filter));
 	    }
 	  };
 	};
@@ -30569,6 +30575,10 @@
 	var _Clearfix = __webpack_require__(282);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
+	
+	var _MyTodoVisibilityFilters = __webpack_require__(290);
+	
+	var _MyTodoVisibilityFilters2 = _interopRequireDefault(_MyTodoVisibilityFilters);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -30613,7 +30623,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'col-lg-6' },
-	              _react2.default.createElement(_MyTodoItems2.default, { items: this.props.items, toggleCompleted: this.props.toggleCompleted })
+	              _react2.default.createElement(_MyTodoItems2.default, { items: this.props.items, toggleCompleted: this.props.toggleCompleted, visibilityFilter: this.props.visibilityFilter })
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -30638,6 +30648,16 @@
 	              )
 	            )
 	          ),
+	          _react2.default.createElement(_Clearfix2.default, null),
+	          _react2.default.createElement(
+	            'div',
+	            { className: 'row' },
+	            _react2.default.createElement(
+	              'div',
+	              { className: 'col-lg-12' },
+	              _react2.default.createElement(_MyTodoVisibilityFilters2.default, { setVisibilityFilter: this.props.setVisibilityFilter, visibilityFilter: this.props.visibilityFilter })
+	            )
+	          ),
 	          _react2.default.createElement(_Clearfix2.default, null)
 	        )
 	      );
@@ -30653,7 +30673,7 @@
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
-	"use strict";
+	'use strict';
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -30689,28 +30709,36 @@
 	  }
 	
 	  _createClass(MyTodoItems, [{
-	    key: "render",
+	    key: 'render',
 	    value: function render() {
+	      var _this2 = this;
+	
+	      console.log(this.props.visibilityFilter);
 	      var toggleCompleted = this.props.toggleCompleted;
 	      return _react2.default.createElement(
-	        "ul",
+	        'ul',
 	        null,
 	        this.props.items.map(function (item) {
 	          var itemText = item.text;
 	          if (item.completed) {
 	            itemText = _react2.default.createElement(
-	              "del",
+	              'del',
 	              null,
 	              item.text
 	            );
 	          }
+	
+	          if (_this2.props.visibilityFilter == 'SHOW_COMPLETED') {
+	            return;
+	          }
+	
 	          return _react2.default.createElement(
-	            "div",
-	            { className: "checkbox", key: item.id },
+	            'div',
+	            { className: 'checkbox', key: item.id },
 	            _react2.default.createElement(
-	              "label",
+	              'label',
 	              null,
-	              _react2.default.createElement("input", { id: item.id, type: "checkbox", value: "", onClick: toggleCompleted }),
+	              _react2.default.createElement('input', { id: item.id, type: 'checkbox', value: '', onClick: toggleCompleted }),
 	              itemText
 	            )
 	          );
@@ -30726,6 +30754,152 @@
 
 /***/ },
 /* 290 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _MyTodoVisibilityFilterLink = __webpack_require__(291);
+	
+	var _MyTodoVisibilityFilterLink2 = _interopRequireDefault(_MyTodoVisibilityFilterLink);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * MyTodoVisibilityFilters
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 24/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var MyTodoVisibilityFilters = function (_React$Component) {
+	  _inherits(MyTodoVisibilityFilters, _React$Component);
+	
+	  function MyTodoVisibilityFilters() {
+	    _classCallCheck(this, MyTodoVisibilityFilters);
+	
+	    return _possibleConstructorReturn(this, (MyTodoVisibilityFilters.__proto__ || Object.getPrototypeOf(MyTodoVisibilityFilters)).apply(this, arguments));
+	  }
+	
+	  _createClass(MyTodoVisibilityFilters, [{
+	    key: 'render',
+	    value: function render() {
+	      return _react2.default.createElement(
+	        'div',
+	        { className: 'btn-group', role: 'group' },
+	        _react2.default.createElement(
+	          _MyTodoVisibilityFilterLink2.default,
+	          _extends({ filter: 'SHOW_ALL' }, this.props),
+	          'Show All'
+	        ),
+	        _react2.default.createElement(
+	          _MyTodoVisibilityFilterLink2.default,
+	          _extends({ filter: 'SHOW_ACTIVE' }, this.props),
+	          'Show Active'
+	        ),
+	        _react2.default.createElement(
+	          _MyTodoVisibilityFilterLink2.default,
+	          _extends({ filter: 'SHOW_COMPLETED' }, this.props),
+	          'Show Completed'
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return MyTodoVisibilityFilters;
+	}(_react2.default.Component);
+	
+	exports.default = MyTodoVisibilityFilters;
+
+/***/ },
+/* 291 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * MyTodoVisibilityFilterLink
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 24/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var MyTodoVisibilityFilterLink = function (_React$Component) {
+	  _inherits(MyTodoVisibilityFilterLink, _React$Component);
+	
+	  function MyTodoVisibilityFilterLink() {
+	    _classCallCheck(this, MyTodoVisibilityFilterLink);
+	
+	    return _possibleConstructorReturn(this, (MyTodoVisibilityFilterLink.__proto__ || Object.getPrototypeOf(MyTodoVisibilityFilterLink)).apply(this, arguments));
+	  }
+	
+	  _createClass(MyTodoVisibilityFilterLink, [{
+	    key: 'render',
+	    value: function render() {
+	      var visibilityFilter = this.props.visibilityFilter;
+	      var currentFilter = this.props.filter;
+	      var btnStyle = 'btn btn-default btn-sm';
+	      var btnClick = this.props.setVisibilityFilter;
+	
+	      if (currentFilter == visibilityFilter) {
+	        btnClick = '';
+	        if (currentFilter == 'SHOW_ALL') {
+	          btnStyle = 'btn btn-primary btn-sm';
+	        } else if (currentFilter == 'SHOW_ACTIVE') {
+	          btnStyle = 'btn btn-danger btn-sm';
+	        } else if (currentFilter == 'SHOW_COMPLETED') {
+	          btnStyle = 'btn btn-success btn-sm';
+	        }
+	      }
+	
+	      return _react2.default.createElement(
+	        'button',
+	        { type: 'button', className: btnStyle, onClick: btnClick },
+	        this.props.children
+	      );
+	    }
+	  }]);
+	
+	  return MyTodoVisibilityFilterLink;
+	}(_react2.default.Component);
+	
+	exports.default = MyTodoVisibilityFilterLink;
+
+/***/ },
+/* 292 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30757,9 +30931,16 @@
 	    id: id
 	  };
 	};
+	
+	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
+	  return {
+	    type: 'SET_VISIBILITY_FILTER',
+	    filter: filter
+	  };
+	};
 
 /***/ },
-/* 291 */
+/* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30770,11 +30951,11 @@
 	
 	var _redux = __webpack_require__(179);
 	
-	var _todos = __webpack_require__(292);
+	var _todos = __webpack_require__(294);
 	
 	var _todos2 = _interopRequireDefault(_todos);
 	
-	var _visibilityFilter = __webpack_require__(293);
+	var _visibilityFilter = __webpack_require__(295);
 	
 	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
 	
@@ -30797,7 +30978,7 @@
 	exports.default = TodoApp;
 
 /***/ },
-/* 292 */
+/* 294 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30853,7 +31034,7 @@
 	exports.default = todos;
 
 /***/ },
-/* 293 */
+/* 295 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -30875,6 +31056,9 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
 	  var action = arguments[1];
 	
+	  // console.log(state);
+	  // console.log(action.type);
+	  // console.log(action.filter);
 	  switch (action.type) {
 	    case 'SET_VISIBILITY_FILTER':
 	      return action.filter;
