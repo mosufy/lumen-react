@@ -8,29 +8,32 @@
  * @copyright Copyright (c) Mosufy
  */
 
-const todo = (state = {}, action) => {
-  switch (action.type) {
-    case 'ADD_TODO':
-      return {
-        id: action.id,
-        text: action.text,
-        completed: false
-      };
-    default:
-      return state
-  }
-};
-
 const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
       if (action.text == '') {
         return state;
       }
+
       return [
         ...state,
-        todo(undefined, action)
+        {
+          id: action.id,
+          text: action.text,
+          completed: false
+        }
       ];
+    case 'TOGGLE_COMPLETED':
+      return state.map(todo => {
+        if (todo.id != action.id) {
+          return todo;
+        }
+
+        return {
+          ...todo,
+          completed: !todo.completed
+        }
+      });
     default:
       return state
   }

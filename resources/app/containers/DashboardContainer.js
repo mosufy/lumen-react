@@ -15,7 +15,8 @@ class DashboardContainer extends React.Component {
   render() {
     return (
       <MyTodo items={this.props.todos}
-              addTodo={this.props.addTodo}/>
+              addTodo={this.props.addTodo}
+              toggleCompleted={this.props.toggleCompleted}/>
     );
   }
 }
@@ -34,6 +35,10 @@ const mapDispatchToProps = (dispatch) => {
       e.preventDefault();
       dispatch(actionCreators.addTodo(todoName.val()));
       todoName.val('');
+    },
+    toggleCompleted: (e) => {
+      var id = $(e.target).closest("span").attr('id');
+      dispatch(actionCreators.toggleCompleted(id));
     }
   };
 };

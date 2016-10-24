@@ -15,3 +15,10 @@ export const addTodo = (text) => {
     text
   }
 };
+
+export const toggleCompleted = (id) => {
+  return {
+    type: 'TOGGLE_COMPLETED',
+    id: id
+  }
+};

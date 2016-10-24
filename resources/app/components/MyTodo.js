@@ -18,7 +18,7 @@ export default class MyTodo extends React.Component {
           <h4>My ToDos</h4>
           <div className="row">
             <div className="col-lg-6">
-              <MyTodoItems items={this.props.items}/>
+              <MyTodoItems items={this.props.items} toggleCompleted={this.props.toggleCompleted}/>
             </div>
             <div className="col-lg-6">
               <form>

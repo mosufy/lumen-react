@@ -30514,7 +30514,8 @@
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
-	        addTodo: this.props.addTodo });
+	        addTodo: this.props.addTodo,
+	        toggleCompleted: this.props.toggleCompleted });
 	    }
 	  }]);
 	
@@ -30535,6 +30536,10 @@
 	      e.preventDefault();
 	      dispatch(actionCreators.addTodo(todoName.val()));
 	      todoName.val('');
+	    },
+	    toggleCompleted: function toggleCompleted(e) {
+	      var id = $(e.target).closest("span").attr('id');
+	      dispatch(actionCreators.toggleCompleted(id));
 	    }
 	  };
 	};
@@ -30608,7 +30613,7 @@
 	            _react2.default.createElement(
 	              'div',
 	              { className: 'col-lg-6' },
-	              _react2.default.createElement(_MyTodoItems2.default, { items: this.props.items })
+	              _react2.default.createElement(_MyTodoItems2.default, { items: this.props.items, toggleCompleted: this.props.toggleCompleted })
 	            ),
 	            _react2.default.createElement(
 	              'div',
@@ -30648,7 +30653,7 @@
 /* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
@@ -30684,16 +30689,29 @@
 	  }
 	
 	  _createClass(MyTodoItems, [{
-	    key: 'render',
+	    key: "render",
 	    value: function render() {
+	      var toggleCompleted = this.props.toggleCompleted;
 	      return _react2.default.createElement(
-	        'ul',
+	        "ul",
 	        null,
 	        this.props.items.map(function (item) {
+	          var itemText = item.text;
+	          if (item.completed) {
+	            itemText = _react2.default.createElement(
+	              "del",
+	              null,
+	              item.text
+	            );
+	          }
 	          return _react2.default.createElement(
-	            'li',
-	            { id: item.id, key: item.id },
-	            item.text
+	            "li",
+	            { key: item.id },
+	            _react2.default.createElement(
+	              "span",
+	              { id: item.id, onClick: toggleCompleted, role: "button" },
+	              itemText
+	            )
 	          );
 	        })
 	      );
@@ -30729,6 +30747,13 @@
 	    type: 'ADD_TODO',
 	    id: nextTodoId++,
 	    text: text
+	  };
+	};
+	
+	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
+	  return {
+	    type: 'TOGGLE_COMPLETED',
+	    id: id
 	  };
 	};
 
@@ -30780,6 +30805,8 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	/**
@@ -30792,22 +30819,6 @@
 	 * @copyright Copyright (c) Mosufy
 	 */
 	
-	var todo = function todo() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-	  var action = arguments[1];
-	
-	  switch (action.type) {
-	    case 'ADD_TODO':
-	      return {
-	        id: action.id,
-	        text: action.text,
-	        completed: false
-	      };
-	    default:
-	      return state;
-	  }
-	};
-	
 	var todos = function todos() {
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	  var action = arguments[1];
@@ -30817,7 +30828,22 @@
 	      if (action.text == '') {
 	        return state;
 	      }
-	      return [].concat(_toConsumableArray(state), [todo(undefined, action)]);
+	
+	      return [].concat(_toConsumableArray(state), [{
+	        id: action.id,
+	        text: action.text,
+	        completed: false
+	      }]);
+	    case 'TOGGLE_COMPLETED':
+	      return state.map(function (todo) {
+	        if (todo.id != action.id) {
+	          return todo;
+	        }
+	
+	        return _extends({}, todo, {
+	          completed: !todo.completed
+	        });
+	      });
 	    default:
 	      return state;
 	  }
