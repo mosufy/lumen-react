@@ -37,7 +37,7 @@ const mapDispatchToProps = (dispatch) => {
       todoName.val('');
     },
     toggleCompleted: (e) => {
-      var id = $(e.target).closest("span").attr('id');
+      var id = $(e.target).closest("input").attr('id');
       dispatch(actionCreators.toggleCompleted(id));
     }
   };

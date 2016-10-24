@@ -21,7 +21,9 @@ export default class MyTodoItems extends React.Component {
             );
           }
           return (
-            <li key={item.id}><span id={item.id} onClick={toggleCompleted} role="button">{itemText}</span></li>
+            <div className="checkbox" key={item.id}>
+              <label><input id={item.id} type="checkbox" value="" onClick={toggleCompleted}/>{itemText}</label>
+            </div>
           );
         })}
       </ul>

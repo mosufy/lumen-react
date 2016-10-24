@@ -30538,7 +30538,7 @@
 	      todoName.val('');
 	    },
 	    toggleCompleted: function toggleCompleted(e) {
-	      var id = $(e.target).closest("span").attr('id');
+	      var id = $(e.target).closest("input").attr('id');
 	      dispatch(actionCreators.toggleCompleted(id));
 	    }
 	  };
@@ -30705,11 +30705,12 @@
 	            );
 	          }
 	          return _react2.default.createElement(
-	            "li",
-	            { key: item.id },
+	            "div",
+	            { className: "checkbox", key: item.id },
 	            _react2.default.createElement(
-	              "span",
-	              { id: item.id, onClick: toggleCompleted, role: "button" },
+	              "label",
+	              null,
+	              _react2.default.createElement("input", { id: item.id, type: "checkbox", value: "", onClick: toggleCompleted }),
 	              itemText
 	            )
 	          );
