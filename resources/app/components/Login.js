@@ -10,8 +10,8 @@ export default class Login extends React.Component {
           <h2 className="text-center login-title">Sign in to manage your TODOs</h2>
           <div className="account-wall">
             <form className="form-signin" onSubmit={this.props.submitForm}>
-              <input type="email" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
-              <input type="password" className="form-control" placeholder="Password" required/>
+              <input id="email" type="email" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
+              <input id="password" type="password" className="form-control" placeholder="Password" required/>
               <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
             </form>
             <Clearfix/>

@@ -29,3 +29,11 @@ export const setVisibilityFilter = (filter) => {
     filter
   }
 };
+
+export const loginUser = (email, password) => {
+  return {
+    type: 'AUTH_LOGIN_USER',
+    email,
+    password
+  }
+};

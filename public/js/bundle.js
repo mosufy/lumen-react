@@ -28881,15 +28881,15 @@
 	
 	var _LoginContainer2 = _interopRequireDefault(_LoginContainer);
 	
-	var _SignupContainer = __webpack_require__(283);
+	var _SignupContainer = __webpack_require__(284);
 	
 	var _SignupContainer2 = _interopRequireDefault(_SignupContainer);
 	
-	var _NotFoundPageContainer = __webpack_require__(285);
+	var _NotFoundPageContainer = __webpack_require__(286);
 	
 	var _NotFoundPageContainer2 = _interopRequireDefault(_NotFoundPageContainer);
 	
-	var _DashboardContainer = __webpack_require__(287);
+	var _DashboardContainer = __webpack_require__(288);
 	
 	var _DashboardContainer2 = _interopRequireDefault(_DashboardContainer);
 	
@@ -30010,6 +30010,14 @@
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
+	var _reactRedux = __webpack_require__(172);
+	
+	var _actions = __webpack_require__(283);
+	
+	var actionCreators = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30034,22 +30042,36 @@
 	  }
 	
 	  _createClass(LoginContainer, [{
-	    key: 'submitForm',
-	    value: function submitForm(e) {
-	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/dashboard');
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_Login2.default, { submitForm: this.submitForm });
+	      return _react2.default.createElement(_Login2.default, { submitForm: this.props.loginUser });
 	    }
 	  }]);
 	
 	  return LoginContainer;
 	}(_react2.default.Component);
 	
-	exports.default = LoginContainer;
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    auth: state.auth
+	  };
+	};
+	
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    loginUser: function loginUser(e) {
+	      e.preventDefault();
+	
+	      var email = $("#email").val();
+	      var password = $("#password").val();
+	
+	      dispatch(actionCreators.loginUser(email, password));
+	      _reactRouter.browserHistory.push('/dashboard');
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginContainer);
 
 /***/ },
 /* 281 */
@@ -30110,8 +30132,8 @@
 	            _react2.default.createElement(
 	              'form',
 	              { className: 'form-signin', onSubmit: this.props.submitForm },
-	              _react2.default.createElement('input', { type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
-	              _react2.default.createElement('input', { type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
+	              _react2.default.createElement('input', { id: 'email', type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
+	              _react2.default.createElement('input', { id: 'password', type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
@@ -30187,6 +30209,55 @@
 
 /***/ },
 /* 283 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * index.js
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var nextTodoId = 0;
+	
+	var addTodo = exports.addTodo = function addTodo(text) {
+	  return {
+	    type: 'ADD_TODO',
+	    id: nextTodoId++,
+	    text: text
+	  };
+	};
+	
+	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
+	  return {
+	    type: 'TOGGLE_COMPLETED',
+	    id: id
+	  };
+	};
+	
+	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
+	  return {
+	    type: 'SET_VISIBILITY_FILTER',
+	    filter: filter
+	  };
+	};
+	
+	var loginUser = exports.loginUser = function loginUser(email, password) {
+	  return {
+	    type: 'AUTH_LOGIN_USER',
+	    email: email,
+	    password: password
+	  };
+	};
+
+/***/ },
+/* 284 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30203,7 +30274,7 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Signup = __webpack_require__(284);
+	var _Signup = __webpack_require__(285);
 	
 	var _Signup2 = _interopRequireDefault(_Signup);
 	
@@ -30249,7 +30320,7 @@
 	exports.default = SignupContainer;
 
 /***/ },
-/* 284 */
+/* 285 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30335,7 +30406,7 @@
 	exports.default = Signup;
 
 /***/ },
-/* 285 */
+/* 286 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30350,7 +30421,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _NotFoundPage = __webpack_require__(286);
+	var _NotFoundPage = __webpack_require__(287);
 	
 	var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
 	
@@ -30390,7 +30461,7 @@
 	exports.default = NotFoundPageContainer;
 
 /***/ },
-/* 286 */
+/* 287 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30460,7 +30531,7 @@
 	exports.default = NotFoundPage;
 
 /***/ },
-/* 287 */
+/* 288 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30475,13 +30546,13 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _MyTodo = __webpack_require__(288);
+	var _MyTodo = __webpack_require__(289);
 	
 	var _MyTodo2 = _interopRequireDefault(_MyTodo);
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _actions = __webpack_require__(292);
+	var _actions = __webpack_require__(283);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
@@ -30513,6 +30584,7 @@
 	  _createClass(DashboardContainer, [{
 	    key: 'render',
 	    value: function render() {
+	      console.log(this.props.auth);
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
 	        visibilityFilter: this.props.visibilityFilter,
 	        addTodo: this.props.addTodo,
@@ -30527,7 +30599,8 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    todos: state.todos,
-	    visibilityFilter: state.visibilityFilter
+	    visibilityFilter: state.visibilityFilter,
+	    auth: state.auth
 	  };
 	};
 	
@@ -30554,7 +30627,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(DashboardContainer);
 
 /***/ },
-/* 288 */
+/* 289 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30569,7 +30642,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _MyTodoItems = __webpack_require__(289);
+	var _MyTodoItems = __webpack_require__(290);
 	
 	var _MyTodoItems2 = _interopRequireDefault(_MyTodoItems);
 	
@@ -30577,7 +30650,7 @@
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
-	var _MyTodoVisibilityFilters = __webpack_require__(290);
+	var _MyTodoVisibilityFilters = __webpack_require__(291);
 	
 	var _MyTodoVisibilityFilters2 = _interopRequireDefault(_MyTodoVisibilityFilters);
 	
@@ -30671,7 +30744,7 @@
 	exports.default = MyTodo;
 
 /***/ },
-/* 289 */
+/* 290 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30769,7 +30842,7 @@
 	exports.default = MyTodoItems;
 
 /***/ },
-/* 290 */
+/* 291 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30786,7 +30859,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _MyTodoVisibilityFilterLink = __webpack_require__(291);
+	var _MyTodoVisibilityFilterLink = __webpack_require__(292);
 	
 	var _MyTodoVisibilityFilterLink2 = _interopRequireDefault(_MyTodoVisibilityFilterLink);
 	
@@ -30844,7 +30917,7 @@
 	exports.default = MyTodoVisibilityFilters;
 
 /***/ },
-/* 291 */
+/* 292 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30915,47 +30988,6 @@
 	exports.default = MyTodoVisibilityFilterLink;
 
 /***/ },
-/* 292 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * index.js
-	 *
-	 * @date 23/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
-	
-	var nextTodoId = 0;
-	
-	var addTodo = exports.addTodo = function addTodo(text) {
-	  return {
-	    type: 'ADD_TODO',
-	    id: nextTodoId++,
-	    text: text
-	  };
-	};
-	
-	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
-	  return {
-	    type: 'TOGGLE_COMPLETED',
-	    id: id
-	  };
-	};
-	
-	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
-	  return {
-	    type: 'SET_VISIBILITY_FILTER',
-	    filter: filter
-	  };
-	};
-
-/***/ },
 /* 293 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -30975,21 +31007,28 @@
 	
 	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
 	
+	var _auth = __webpack_require__(296);
+	
+	var _auth2 = _interopRequireDefault(_auth);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	/**
+	 * index.js
+	 *
+	 * Binds all of our reducers into a single reducer that can be imported.
+	 * A reducer takes an existing state, executes the action and returns the new state.
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
 	
 	var TodoApp = (0, _redux.combineReducers)({
 	  todos: _todos2.default,
-	  visibilityFilter: _visibilityFilter2.default
-	}); /**
-	     * index.js
-	     *
-	     * Binds all of our reducers into a single reducer that can be imported.
-	     * A reducer takes an existing state, executes the action and returns the new state.
-	     *
-	     * @date 23/10/2016
-	     * @author Mosufy <mosufy@gmail.com>
-	     * @copyright Copyright (c) Mosufy
-	     */
+	  visibilityFilter: _visibilityFilter2.default,
+	  auth: _auth2.default
+	});
 	
 	exports.default = TodoApp;
 
@@ -31072,9 +31111,6 @@
 	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'SHOW_ALL';
 	  var action = arguments[1];
 	
-	  // console.log(state);
-	  // console.log(action.type);
-	  // console.log(action.filter);
 	  switch (action.type) {
 	    case 'SET_VISIBILITY_FILTER':
 	      return action.filter;
@@ -31084,6 +31120,37 @@
 	};
 	
 	exports.default = visibilityFilter;
+
+/***/ },
+/* 296 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * auth
+	 *
+	 * @date 25/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var auth = function auth() {
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'NOT_LOGGED_IN';
+	  var action = arguments[1];
+	
+	  switch (action.type) {
+	    case 'AUTH_LOGIN_USER':
+	      return 'LOGGED_IN';
+	    default:
+	      return state;
+	  }
+	};
+	
+	exports.default = auth;
 
 /***/ }
 /******/ ]);

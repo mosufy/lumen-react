@@ -26,7 +26,8 @@ class DashboardContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     todos: state.todos,
-    visibilityFilter: state.visibilityFilter
+    visibilityFilter: state.visibilityFilter,
+    auth: state.auth
   }
 };
 
