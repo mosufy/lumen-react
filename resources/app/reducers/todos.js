@@ -34,6 +34,8 @@ const todos = (state = [], action) => {
           completed: !todo.completed
         }
       });
+    case 'RESET_TODO':
+      return [];
     default:
       return state
   }

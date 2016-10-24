@@ -36,6 +36,9 @@ export default class MyTodo extends React.Component {
           <div className="row">
             <div className="col-lg-12">
               <MyTodoVisibilityFilters setVisibilityFilter={this.props.setVisibilityFilter} visibilityFilter={this.props.visibilityFilter}/>
+              <Clearfix/>
+              <p>&nbsp;</p>
+              <button className="btn btn-danger" onClick={this.props.resetTodo}>Reset My ToDos</button>
             </div>
           </div>
           <Clearfix/>

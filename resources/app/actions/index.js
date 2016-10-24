@@ -6,12 +6,10 @@
  * @copyright Copyright (c) Mosufy
  */
 
-let nextTodoId = 0;
-
 export const addTodo = (text) => {
   return {
     type: 'ADD_TODO',
-    id: nextTodoId++,
+    id: Math.random().toString(36).slice(2),
     text
   }
 };
@@ -27,6 +25,12 @@ export const setVisibilityFilter = (filter) => {
   return {
     type: 'SET_VISIBILITY_FILTER',
     filter
+  }
+};
+
+export const resetTodo = () => {
+  return {
+    type: 'RESET_TODO'
   }
 };
 

@@ -18,7 +18,8 @@ class DashboardContainer extends React.Component {
               visibilityFilter={this.props.visibilityFilter}
               addTodo={this.props.addTodo}
               toggleCompleted={this.props.toggleCompleted}
-              setVisibilityFilter={this.props.setVisibilityFilter}/>
+              setVisibilityFilter={this.props.setVisibilityFilter}
+              resetTodo={this.props.resetTodo}/>
     );
   }
 }
@@ -47,6 +48,9 @@ const mapDispatchToProps = (dispatch) => {
     setVisibilityFilter: (e) => {
       var filter = $(e.target).closest("button").attr('id');
       dispatch(actionCreators.setVisibilityFilter(filter));
+    },
+    resetTodo: () => {
+      dispatch(actionCreators.resetTodo());
     }
   };
 };
