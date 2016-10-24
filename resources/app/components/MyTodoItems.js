@@ -11,6 +11,16 @@ import React from 'react';
 export default class MyTodoItems extends React.Component {
   render() {
     var toggleCompleted = this.props.toggleCompleted;
+
+    if (this.props.items.length == 0) {
+      return (
+        <div>
+          No items in your ToDo.<br/>
+          Start by creating a new ToDo.
+        </div>
+      );
+    }
+
     return (
       <ul>
         {this.props.items.map(item => {

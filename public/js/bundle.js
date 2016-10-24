@@ -30715,6 +30715,17 @@
 	      var _this2 = this;
 	
 	      var toggleCompleted = this.props.toggleCompleted;
+	
+	      if (this.props.items.length == 0) {
+	        return _react2.default.createElement(
+	          'div',
+	          null,
+	          'No items in your ToDo.',
+	          _react2.default.createElement('br', null),
+	          'Start by creating a new ToDo.'
+	        );
+	      }
+	
 	      return _react2.default.createElement(
 	        'ul',
 	        null,
