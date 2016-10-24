@@ -13,8 +13,22 @@ import {createStore} from 'redux';
 import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import TodoApp from './reducers/index';
+import {loadState, saveState} from './localStorage';
+import throttle from 'lodash/throttle';
 
-let store = createStore(TodoApp);
+// create store with persisted state using localStorage
+let persistedState = loadState();
+let store = createStore(TodoApp, persistedState);
+
+// subscribe to todos state changes
+// throttle added to only persist to localStorage at 1s interval
+store.subscribe(throttle(() => {
+  saveState({
+    // Add more state objects as required for persistence
+    todos: store.getState().todos,
+    auth: store.getState().auth
+  })
+}, 1000));
 
 ReactDOM.render(
   <Provider store={store}>
