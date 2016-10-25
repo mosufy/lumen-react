@@ -36,8 +36,14 @@ export const resetTodo = () => {
 
 export const loginUser = (email, password) => {
   return {
-    type: 'AUTH_LOGIN_USER',
+    type: 'AUTH_AUTHENTICATE_USER',
     email,
     password
+  }
+};
+
+export const isAuthenticated = () => {
+  return {
+    type: 'AUTH_AUTHENTICATED'
   }
 };

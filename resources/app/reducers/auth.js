@@ -6,10 +6,20 @@
  * @copyright Copyright (c) Mosufy
  */
 
-const auth = (state = 'NOT_LOGGED_IN', action) => {
+let initialState = {
+  isAuthenticated: false
+};
+
+const auth = (state = initialState, action) => {
   switch (action.type) {
     case 'AUTH_LOGIN_USER':
-      return 'LOGGED_IN';
+      return {
+        isAuthenticated: false
+      };
+    case 'AUTH_AUTHENTICATED':
+      return {
+        isAuthenticated: false
+      };
     default:
       return state
   }

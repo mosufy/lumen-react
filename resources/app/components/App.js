@@ -4,7 +4,7 @@ import Footer from './Footer';
 
 export default class App extends React.Component {
   render() {
-    var path = this.props.children.props.route.path;
+    var path = this.props.location.pathname;
     var pageTemplate = 'public';
 
     if (path && path.substring(0, 9) == 'dashboard') {

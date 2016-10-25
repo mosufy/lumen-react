@@ -10,6 +10,7 @@ import LoginContainer from './containers/LoginContainer';
 import SignupContainer from './containers/SignupContainer';
 import NotFoundPageContainer from './containers/NotFoundPageContainer';
 import DashboardContainer from './containers/DashboardContainer';
+import AuthRequiredContainer from './containers/AuthRequiredContainer'
 
 export default (
   <Route path="/" component={AppContainer}>
@@ -20,7 +21,9 @@ export default (
     <Route path="contact" component={ContactContainer}/>
     <Route path="login" component={LoginContainer}/>
     <Route path="signup" component={SignupContainer}/>
-    <Route path="dashboard" component={DashboardContainer}/>
-    <Route path="*" component={NotFoundPageContainer} />
+    <Route component={AuthRequiredContainer}>
+      <Route path="dashboard" component={DashboardContainer}/>
+    </Route>
+    <Route path="*" component={NotFoundPageContainer}/>
   </Route>
 );

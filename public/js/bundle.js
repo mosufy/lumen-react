@@ -64,13 +64,13 @@
 	
 	var _routes2 = _interopRequireDefault(_routes);
 	
-	var _index = __webpack_require__(293);
+	var _index = __webpack_require__(294);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
-	var _localStorage = __webpack_require__(297);
+	var _localStorage = __webpack_require__(298);
 	
-	var _throttle = __webpack_require__(298);
+	var _throttle = __webpack_require__(299);
 	
 	var _throttle2 = _interopRequireDefault(_throttle);
 	
@@ -28912,6 +28912,10 @@
 	
 	var _DashboardContainer2 = _interopRequireDefault(_DashboardContainer);
 	
+	var _AuthRequiredContainer = __webpack_require__(293);
+	
+	var _AuthRequiredContainer2 = _interopRequireDefault(_AuthRequiredContainer);
+	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.default = _react2.default.createElement(
@@ -28926,7 +28930,11 @@
 	  _react2.default.createElement(_reactRouter.Route, { path: 'contact', component: _ContactContainer2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'login', component: _LoginContainer2.default }),
 	  _react2.default.createElement(_reactRouter.Route, { path: 'signup', component: _SignupContainer2.default }),
-	  _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: _DashboardContainer2.default }),
+	  _react2.default.createElement(
+	    _reactRouter.Route,
+	    { component: _AuthRequiredContainer2.default },
+	    _react2.default.createElement(_reactRouter.Route, { path: 'dashboard', component: _DashboardContainer2.default })
+	  ),
 	  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPageContainer2.default })
 	);
 
@@ -29029,7 +29037,7 @@
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
-	      var path = this.props.children.props.route.path;
+	      var path = this.props.location.pathname;
 	      var pageTemplate = 'public';
 	
 	      if (path && path.substring(0, 9) == 'dashboard') {
@@ -30273,9 +30281,15 @@
 	
 	var loginUser = exports.loginUser = function loginUser(email, password) {
 	  return {
-	    type: 'AUTH_LOGIN_USER',
+	    type: 'AUTH_AUTHENTICATE_USER',
 	    email: email,
 	    password: password
+	  };
+	};
+	
+	var isAuthenticated = exports.isAuthenticated = function isAuthenticated() {
+	  return {
+	    type: 'AUTH_AUTHENTICATED'
 	  };
 	};
 
@@ -31034,17 +31048,91 @@
 	  value: true
 	});
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactRedux = __webpack_require__(172);
+	
+	var _reactRouter = __webpack_require__(200);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AuthRequiredContainer
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                *
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @date 25/10/2016
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var AuthRequiredContainer = function (_React$Component) {
+	  _inherits(AuthRequiredContainer, _React$Component);
+	
+	  function AuthRequiredContainer() {
+	    _classCallCheck(this, AuthRequiredContainer);
+	
+	    return _possibleConstructorReturn(this, (AuthRequiredContainer.__proto__ || Object.getPrototypeOf(AuthRequiredContainer)).apply(this, arguments));
+	  }
+	
+	  _createClass(AuthRequiredContainer, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.checkAuth();
+	    }
+	  }, {
+	    key: 'checkAuth',
+	    value: function checkAuth() {
+	      if (!this.props.isAuthenticated) {
+	        var redirectAfterLogin = this.props.location.pathname;
+	        _reactRouter.browserHistory.push('/login?next=' + redirectAfterLogin);
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      return this.props.children;
+	    }
+	  }]);
+	
+	  return AuthRequiredContainer;
+	}(_react2.default.Component);
+	
+	var mapStateToProps = function mapStateToProps(state) {
+	  return {
+	    isAuthenticated: state.auth.isAuthenticated
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(mapStateToProps)(AuthRequiredContainer);
+
+/***/ },
+/* 294 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
 	var _redux = __webpack_require__(179);
 	
-	var _todos = __webpack_require__(294);
+	var _todos = __webpack_require__(295);
 	
 	var _todos2 = _interopRequireDefault(_todos);
 	
-	var _visibilityFilter = __webpack_require__(295);
+	var _visibilityFilter = __webpack_require__(296);
 	
 	var _visibilityFilter2 = _interopRequireDefault(_visibilityFilter);
 	
-	var _auth = __webpack_require__(296);
+	var _auth = __webpack_require__(297);
 	
 	var _auth2 = _interopRequireDefault(_auth);
 	
@@ -31070,7 +31158,7 @@
 	exports.default = TodoApp;
 
 /***/ },
-/* 294 */
+/* 295 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31128,7 +31216,7 @@
 	exports.default = todos;
 
 /***/ },
-/* 295 */
+/* 296 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31161,7 +31249,7 @@
 	exports.default = visibilityFilter;
 
 /***/ },
-/* 296 */
+/* 297 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31177,13 +31265,23 @@
 	 * @copyright Copyright (c) Mosufy
 	 */
 	
+	var initialState = {
+	  isAuthenticated: true
+	};
+	
 	var auth = function auth() {
-	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'NOT_LOGGED_IN';
+	  var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : initialState;
 	  var action = arguments[1];
 	
 	  switch (action.type) {
 	    case 'AUTH_LOGIN_USER':
-	      return 'LOGGED_IN';
+	      return {
+	        isAuthenticated: false
+	      };
+	    case 'AUTH_AUTHENTICATED':
+	      return {
+	        isAuthenticated: false
+	      };
 	    default:
 	      return state;
 	  }
@@ -31192,7 +31290,7 @@
 	exports.default = auth;
 
 /***/ },
-/* 297 */
+/* 298 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -31233,11 +31331,11 @@
 	};
 
 /***/ },
-/* 298 */
+/* 299 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var debounce = __webpack_require__(299),
-	    isObject = __webpack_require__(300);
+	var debounce = __webpack_require__(300),
+	    isObject = __webpack_require__(301);
 	
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -31308,12 +31406,12 @@
 
 
 /***/ },
-/* 299 */
+/* 300 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(300),
-	    now = __webpack_require__(301),
-	    toNumber = __webpack_require__(304);
+	var isObject = __webpack_require__(301),
+	    now = __webpack_require__(302),
+	    toNumber = __webpack_require__(305);
 	
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -31502,7 +31600,7 @@
 
 
 /***/ },
-/* 300 */
+/* 301 */
 /***/ function(module, exports) {
 
 	/**
@@ -31539,10 +31637,10 @@
 
 
 /***/ },
-/* 301 */
+/* 302 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(302);
+	var root = __webpack_require__(303);
 	
 	/**
 	 * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -31568,10 +31666,10 @@
 
 
 /***/ },
-/* 302 */
+/* 303 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(303);
+	var freeGlobal = __webpack_require__(304);
 	
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -31583,7 +31681,7 @@
 
 
 /***/ },
-/* 303 */
+/* 304 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -31594,11 +31692,11 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 304 */
+/* 305 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(300),
-	    isSymbol = __webpack_require__(305);
+	var isObject = __webpack_require__(301),
+	    isSymbol = __webpack_require__(306);
 	
 	/** Used as references for various `Number` constants. */
 	var NAN = 0 / 0;
@@ -31666,10 +31764,10 @@
 
 
 /***/ },
-/* 305 */
+/* 306 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(306);
+	var isObjectLike = __webpack_require__(307);
 	
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -31710,7 +31808,7 @@
 
 
 /***/ },
-/* 306 */
+/* 307 */
 /***/ function(module, exports) {
 
 	/**
