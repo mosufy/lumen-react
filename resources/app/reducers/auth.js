@@ -7,18 +7,29 @@
  */
 
 let initialState = {
-  isAuthenticated: false
+  isAuthenticated: false,
+  clientAccessToken: '',
+  clientTokenExpiresIn: '',
+  accessToken: '',
+  tokenExpiresIn: '',
+  refreshToken: ''
 };
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-    case 'AUTH_LOGIN_USER':
+    case 'AUTH_CLIENT_TOKEN':
       return {
-        isAuthenticated: false
+        ...state,
+        clientAccessToken: action.payload.data.access_token,
+        clientTokenExpiresIn: action.payload.data.expires_in
       };
-    case 'AUTH_AUTHENTICATED':
+    case 'AUTH_USER_TOKEN':
       return {
-        isAuthenticated: false
+        ...state,
+        isAuthenticated: true,
+        accessToken: action.payload.data.access_token,
+        tokenExpiresIn: action.payload.data.expires_in,
+        refreshToken: action.payload.data.refresh_token
       };
     default:
       return state

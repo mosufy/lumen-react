@@ -11,8 +11,21 @@ import {browserHistory} from 'react-router';
 import Login from './../components/Login';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
+import {generateUserAccessToken} from './../helpers/sdk';
 
 class LoginContainer extends React.Component {
+  componentWillMount() {
+    this.checkAuth();
+  }
+
+  checkAuth() {
+    // Check if user is authenticated
+    if (this.props.auth.isAuthenticated) {
+      // redirect to expected page
+      browserHistory.push('/' + (this.props.location.query.next != '') ? this.props.location.query.next : 'dashboard');
+    }
+  }
+
   render() {
     return (
       <Login submitForm={this.props.loginUser}/>
@@ -34,8 +47,19 @@ const mapDispatchToProps = (dispatch) => {
       var email = $("#email").val();
       var password = $("#password").val();
 
-      dispatch(actionCreators.loginUser(email, password));
-      browserHistory.push('/dashboard');
+      console.log(ownProps);
+
+      generateUserAccessToken(this.props.auth.clientAccessToken, email, password)
+        .then(function (response) {
+          dispatch(actionCreators.storeAccessToken(response));
+        })
+        .catch(function (error) {
+          console.log('Failed generating access token. Please try again');
+          console.log(error);
+        });
+
+      // redirect to expected page
+      browserHistory.push('/' + (this.props.location.query.next != '') ? this.props.location.query.next : 'dashboard');
     }
   };
 };

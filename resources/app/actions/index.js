@@ -34,16 +34,16 @@ export const resetTodo = () => {
   }
 };
 
-export const loginUser = (email, password) => {
+export const storeClientToken = (payload) => {
   return {
-    type: 'AUTH_AUTHENTICATE_USER',
-    email,
-    password
+    type: 'AUTH_CLIENT_TOKEN',
+    payload
   }
 };
 
-export const isAuthenticated = () => {
+export const storeAccessToken = (payload) => {
   return {
-    type: 'AUTH_AUTHENTICATED'
+    type: 'AUTH_USER_TOKEN',
+    payload
   }
 };
