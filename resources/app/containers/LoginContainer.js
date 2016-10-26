@@ -19,11 +19,8 @@ class LoginContainer extends React.Component {
     if (this.props.auth.isAuthenticated) {
       browserHistory.push('/dashboard');
     }
-  }
 
-  componentDidMount() {
     // Check if client access token exists or has not already expired
-    // TODO: Compare token expires with current timestamp
     if (this.props.auth.clientAccessToken == '' || this.props.auth.clientTokenExpiresAt <= Date.now()) {
       // Generate client access token
       this.props.genClientAccessToken();
