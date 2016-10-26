@@ -11,7 +11,7 @@ import {browserHistory} from 'react-router';
 import Login from './../components/Login';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
-import {generateUserAccessToken} from './../helpers/sdk';
+import {generateClientAccessToken, generateUserAccessToken} from './../helpers/sdk';
 
 class LoginContainer extends React.Component {
   componentWillMount() {
@@ -19,16 +19,24 @@ class LoginContainer extends React.Component {
   }
 
   checkAuth() {
-    // Check if user is authenticated
+    // Check if user is already authenticated
     if (this.props.auth.isAuthenticated) {
-      // redirect to expected page
-      browserHistory.push('/' + (this.props.location.query.next != '') ? this.props.location.query.next : 'dashboard');
+      // redirect to dashboard page
+      browserHistory.push('/dashboard');
+    }
+
+    // Check if client access token exists or has not already expired
+    // TODO: Compare token expires with current timestamp
+    if (this.props.auth.clientAccessToken == '' || this.props.auth.clientTokenExpiresIn == '') {
+      // Generate client access token
+      this.props.genClientAccessToken();
     }
   }
 
   render() {
+    var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
     return (
-      <Login submitForm={this.props.loginUser}/>
+      <Login submitForm={submitForm} xt='asdasd'/>
     );
   }
 }
@@ -39,27 +47,38 @@ const mapStateToProps = (state) => {
   }
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    loginUser: (e) => {
+    loginUser: (clientAccessToken, e) => {
       e.preventDefault();
 
       var email = $("#email").val();
       var password = $("#password").val();
 
-      console.log(ownProps);
-
-      generateUserAccessToken(this.props.auth.clientAccessToken, email, password)
+      generateUserAccessToken(clientAccessToken, email, password)
         .then(function (response) {
+          let nextUrl = 'dashboard';
+          if (ownProps.location.query.next != undefined) {
+            nextUrl = ownProps.location.query.next;
+          }
+
           dispatch(actionCreators.storeAccessToken(response));
+          browserHistory.push('/' + nextUrl);
         })
         .catch(function (error) {
           console.log('Failed generating access token. Please try again');
           console.log(error);
         });
 
-      // redirect to expected page
-      browserHistory.push('/' + (this.props.location.query.next != '') ? this.props.location.query.next : 'dashboard');
+      // spinner
+    },
+    genClientAccessToken: () => {
+      generateClientAccessToken().then(function (response) {
+        dispatch(actionCreators.storeClientToken(response));
+      }).catch(function (error) {
+        console.log('Failed generating client token. Please try again');
+        console.log(error);
+      });
     }
   };
 };

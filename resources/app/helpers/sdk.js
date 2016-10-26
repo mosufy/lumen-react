@@ -11,6 +11,12 @@
 import Constant from './../helpers/constant';
 import axios from 'axios';
 
+const config = (clientAccessToken = '') => {
+  return ({
+    headers: {'Authorization': 'Bearer ' + clientAccessToken}
+  });
+};
+
 export function generateClientAccessToken() {
   return axios.post(Constant.apiUrl + '/oauth/access_token/client', {
     grant_type: 'client_credentials',
@@ -28,7 +34,5 @@ export function generateUserAccessToken(clientAccessToken, username, password) {
     username,
     password,
     scope: 'role.user'
-  }, {
-    headers: {'Authorization': 'Bearer ' + clientAccessToken}
-  });
+  }, config(clientAccessToken));
 }

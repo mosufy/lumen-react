@@ -30078,16 +30078,24 @@
 	  }, {
 	    key: 'checkAuth',
 	    value: function checkAuth() {
-	      // Check if user is authenticated
+	      // Check if user is already authenticated
 	      if (this.props.auth.isAuthenticated) {
-	        // redirect to expected page
-	        _reactRouter.browserHistory.push( true ? this.props.location.query.next : 'dashboard');
+	        // redirect to dashboard page
+	        _reactRouter.browserHistory.push('/dashboard');
+	      }
+	
+	      // Check if client access token exists or has not already expired
+	      // TODO: Compare token expires with current timestamp
+	      if (this.props.auth.clientAccessToken == '' || this.props.auth.clientTokenExpiresIn == '') {
+	        // Generate client access token
+	        this.props.genClientAccessToken();
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_Login2.default, { submitForm: this.props.loginUser });
+	      var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
+	      return _react2.default.createElement(_Login2.default, { submitForm: submitForm, xt: 'asdasd' });
 	    }
 	  }]);
 	
@@ -30100,25 +30108,36 @@
 	  };
 	};
 	
-	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
-	    loginUser: function loginUser(e) {
+	    loginUser: function loginUser(clientAccessToken, e) {
 	      e.preventDefault();
 	
 	      var email = $("#email").val();
 	      var password = $("#password").val();
 	
-	      console.log(ownProps);
+	      (0, _sdk.generateUserAccessToken)(clientAccessToken, email, password).then(function (response) {
+	        var nextUrl = 'dashboard';
+	        if (ownProps.location.query.next != undefined) {
+	          nextUrl = ownProps.location.query.next;
+	        }
 	
-	      (0, _sdk.generateUserAccessToken)(undefined.props.auth.clientAccessToken, email, password).then(function (response) {
 	        dispatch(actionCreators.storeAccessToken(response));
+	        _reactRouter.browserHistory.push('/' + nextUrl);
 	      }).catch(function (error) {
 	        console.log('Failed generating access token. Please try again');
 	        console.log(error);
 	      });
 	
-	      // redirect to expected page
-	      _reactRouter.browserHistory.push( true ? undefined.props.location.query.next : 'dashboard');
+	      // spinner
+	    },
+	    genClientAccessToken: function genClientAccessToken() {
+	      (0, _sdk.generateClientAccessToken)().then(function (response) {
+	        dispatch(actionCreators.storeClientToken(response));
+	      }).catch(function (error) {
+	        console.log('Failed generating client token. Please try again');
+	        console.log(error);
+	      });
 	    }
 	  };
 	};
@@ -30350,6 +30369,14 @@
 	 * @copyright Copyright (c) Mosufy
 	 */
 	
+	var config = function config() {
+	  var clientAccessToken = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	
+	  return {
+	    headers: { 'Authorization': 'Bearer ' + clientAccessToken }
+	  };
+	};
+	
 	function generateClientAccessToken() {
 	  return _axios2.default.post(_constant2.default.apiUrl + '/oauth/access_token/client', {
 	    grant_type: 'client_credentials',
@@ -30367,9 +30394,7 @@
 	    username: username,
 	    password: password,
 	    scope: 'role.user'
-	  }, {
-	    headers: { 'Authorization': 'Bearer ' + clientAccessToken }
-	  });
+	  }, config(clientAccessToken));
 	}
 
 /***/ },
