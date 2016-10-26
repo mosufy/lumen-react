@@ -6,12 +6,14 @@
  * @copyright Copyright (c) Mosufy
  */
 
+import {addTime} from './../helpers/helperFunctions';
+
 let initialState = {
   isAuthenticated: false,
   clientAccessToken: '',
-  clientTokenExpiresIn: '',
+  clientTokenExpiresAt: '',
   accessToken: '',
-  tokenExpiresIn: '',
+  tokenExpiresAt: '',
   refreshToken: ''
 };
 
@@ -21,14 +23,17 @@ const auth = (state = initialState, action) => {
       return {
         ...state,
         clientAccessToken: action.payload.data.access_token,
-        clientTokenExpiresIn: action.payload.data.expires_in
+        clientTokenExpiresAt: addTime(action.payload.data.expires_in)
       };
     case 'AUTH_USER_TOKEN':
+      console.log(Date.now());
+      console.log(action.payload.data.expires_in);
+      console.log(addTime(action.payload.data.expires_in));
       return {
         ...state,
         isAuthenticated: true,
         accessToken: action.payload.data.access_token,
-        tokenExpiresIn: action.payload.data.expires_in,
+        tokenExpiresAt: addTime(action.payload.data.expires_in),
         refreshToken: action.payload.data.refresh_token
       };
     default:

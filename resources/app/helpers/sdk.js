@@ -11,12 +11,17 @@
 import Constant from './../helpers/constant';
 import axios from 'axios';
 
-const config = (clientAccessToken = '') => {
+const config = (accessToken = '') => {
   return ({
-    headers: {'Authorization': 'Bearer ' + clientAccessToken}
+    headers: {'Authorization': 'Bearer ' + accessToken}
   });
 };
 
+/**
+ * Generate client access token
+ *
+ * @returns AxiosPromise
+ */
 export function generateClientAccessToken() {
   return axios.post(Constant.apiUrl + '/oauth/access_token/client', {
     grant_type: 'client_credentials',
@@ -26,6 +31,14 @@ export function generateClientAccessToken() {
   });
 }
 
+/**
+ * Generate user access token
+ *
+ * @param clientAccessToken
+ * @param username
+ * @param password
+ * @returns AxiosPromise
+ */
 export function generateUserAccessToken(clientAccessToken, username, password) {
   return axios.post(Constant.apiUrl + '/oauth/access_token', {
     grant_type: 'password',
@@ -34,5 +47,21 @@ export function generateUserAccessToken(clientAccessToken, username, password) {
     username,
     password,
     scope: 'role.user'
+  }, config(clientAccessToken));
+}
+
+/**
+ * Refresh existing user access token
+ *
+ * @param clientAccessToken
+ * @param refreshToken
+ * @returns AxiosPromise
+ */
+export function refreshToken(clientAccessToken, refreshToken) {
+  return axios.post(Constant.apiUrl + '/oauth/access_token', {
+    grant_type: 'refresh_token',
+    client_id: Constant.clientId,
+    client_secret: Constant.clientSecret,
+    refresh_token: refreshToken
   }, config(clientAccessToken));
 }

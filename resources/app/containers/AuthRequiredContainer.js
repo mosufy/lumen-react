@@ -9,8 +9,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
-import {generateClientAccessToken} from './../helpers/sdk';
 import * as actionCreators from './../actions';
+import {refreshToken} from './../helpers/sdk';
 
 /**
  * class AuthRequiredContainer
@@ -19,21 +19,16 @@ import * as actionCreators from './../actions';
  */
 class AuthRequiredContainer extends React.Component {
   componentWillMount() {
-    this.checkAuth();
-  }
-
-  checkAuth() {
     // Check if user is authenticated
     if (!this.props.isAuthenticated) {
-      // Check if client access token exists or has not already expired
-      // TODO: Compare token expires with current timestamp
-      if (this.props.clientAccessToken == '' || this.props.clientTokenExpiresIn == '') {
-        // Generate client access token
-        this.props.genClientAccessToken();
-      }
-
       let redirectAfterLogin = this.props.location.pathname;
       browserHistory.push('/login?next=' + redirectAfterLogin);
+    } else {
+      // Check if access token has already expired
+      if (this.props.tokenExpiresAt <= Date.now()) {
+        // Generate refresh token
+        this.props.refreshToken(this.props.clientAccessToken, this.props.refreshTokenStr);
+      }
     }
   }
 
@@ -45,18 +40,19 @@ class AuthRequiredContainer extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isAuthenticated: state.auth.isAuthenticated,
+    tokenExpiresAt: state.auth.tokenExpiresAt,
     clientAccessToken: state.auth.clientAccessToken,
-    clientTokenExpiresIn: state.auth.clientTokenExpiresIn
+    refreshTokenStr: state.auth.refreshToken
   }
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    genClientAccessToken: () => {
-      generateClientAccessToken().then(function (response) {
-        dispatch(actionCreators.storeClientToken(response));
+    refreshToken: (clientAccessToken, refreshTokenStr) => {
+      refreshToken(clientAccessToken, refreshTokenStr).then(function (response) {
+        dispatch(actionCreators.storeAccessToken(response));
       }).catch(function (error) {
-        console.log('Failed generating client token. Please try again');
+        console.log('Failed refreshing access token. Please try again');
         console.log(error);
       });
     }

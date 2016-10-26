@@ -68,9 +68,9 @@
 	
 	var _index2 = _interopRequireDefault(_index);
 	
-	var _localStorage = __webpack_require__(325);
+	var _localStorage = __webpack_require__(326);
 	
-	var _throttle = __webpack_require__(326);
+	var _throttle = __webpack_require__(327);
 	
 	var _throttle2 = _interopRequireDefault(_throttle);
 	
@@ -30073,20 +30073,17 @@
 	  _createClass(LoginContainer, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.checkAuth();
-	    }
-	  }, {
-	    key: 'checkAuth',
-	    value: function checkAuth() {
 	      // Check if user is already authenticated
 	      if (this.props.auth.isAuthenticated) {
-	        // redirect to dashboard page
 	        _reactRouter.browserHistory.push('/dashboard');
 	      }
-	
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
 	      // Check if client access token exists or has not already expired
 	      // TODO: Compare token expires with current timestamp
-	      if (this.props.auth.clientAccessToken == '' || this.props.auth.clientTokenExpiresIn == '') {
+	      if (this.props.auth.clientAccessToken == '' || this.props.auth.clientTokenExpiresAt <= Date.now()) {
 	        // Generate client access token
 	        this.props.genClientAccessToken();
 	      }
@@ -30348,6 +30345,7 @@
 	});
 	exports.generateClientAccessToken = generateClientAccessToken;
 	exports.generateUserAccessToken = generateUserAccessToken;
+	exports.refreshToken = refreshToken;
 	
 	var _constant = __webpack_require__(285);
 	
@@ -30370,13 +30368,18 @@
 	 */
 	
 	var config = function config() {
-	  var clientAccessToken = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+	  var accessToken = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
 	
 	  return {
-	    headers: { 'Authorization': 'Bearer ' + clientAccessToken }
+	    headers: { 'Authorization': 'Bearer ' + accessToken }
 	  };
 	};
 	
+	/**
+	 * Generate client access token
+	 *
+	 * @returns AxiosPromise
+	 */
 	function generateClientAccessToken() {
 	  return _axios2.default.post(_constant2.default.apiUrl + '/oauth/access_token/client', {
 	    grant_type: 'client_credentials',
@@ -30386,6 +30389,14 @@
 	  });
 	}
 	
+	/**
+	 * Generate user access token
+	 *
+	 * @param clientAccessToken
+	 * @param username
+	 * @param password
+	 * @returns AxiosPromise
+	 */
 	function generateUserAccessToken(clientAccessToken, username, password) {
 	  return _axios2.default.post(_constant2.default.apiUrl + '/oauth/access_token', {
 	    grant_type: 'password',
@@ -30394,6 +30405,22 @@
 	    username: username,
 	    password: password,
 	    scope: 'role.user'
+	  }, config(clientAccessToken));
+	}
+	
+	/**
+	 * Refresh existing user access token
+	 *
+	 * @param clientAccessToken
+	 * @param refreshToken
+	 * @returns AxiosPromise
+	 */
+	function refreshToken(clientAccessToken, refreshToken) {
+	  return _axios2.default.post(_constant2.default.apiUrl + '/oauth/access_token', {
+	    grant_type: 'refresh_token',
+	    client_id: _constant2.default.clientId,
+	    client_secret: _constant2.default.clientSecret,
+	    refresh_token: refreshToken
 	  }, config(clientAccessToken));
 	}
 
@@ -32671,11 +32698,11 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _sdk = __webpack_require__(284);
-	
 	var _actions = __webpack_require__(283);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
+	
+	var _sdk = __webpack_require__(284);
 	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
@@ -32710,22 +32737,16 @@
 	  _createClass(AuthRequiredContainer, [{
 	    key: 'componentWillMount',
 	    value: function componentWillMount() {
-	      this.checkAuth();
-	    }
-	  }, {
-	    key: 'checkAuth',
-	    value: function checkAuth() {
 	      // Check if user is authenticated
 	      if (!this.props.isAuthenticated) {
-	        // Check if client access token exists or has not already expired
-	        // TODO: Compare token expires with current timestamp
-	        if (this.props.clientAccessToken == '' || this.props.clientTokenExpiresIn == '') {
-	          // Generate client access token
-	          this.props.genClientAccessToken();
-	        }
-	
 	        var redirectAfterLogin = this.props.location.pathname;
 	        _reactRouter.browserHistory.push('/login?next=' + redirectAfterLogin);
+	      } else {
+	        // Check if access token has already expired
+	        if (this.props.tokenExpiresAt <= Date.now()) {
+	          // Generate refresh token
+	          this.props.refreshToken(this.props.clientAccessToken, this.props.refreshTokenStr);
+	        }
 	      }
 	    }
 	  }, {
@@ -32741,18 +32762,19 @@
 	var mapStateToProps = function mapStateToProps(state) {
 	  return {
 	    isAuthenticated: state.auth.isAuthenticated,
+	    tokenExpiresAt: state.auth.tokenExpiresAt,
 	    clientAccessToken: state.auth.clientAccessToken,
-	    clientTokenExpiresIn: state.auth.clientTokenExpiresIn
+	    refreshTokenStr: state.auth.refreshToken
 	  };
 	};
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
-	    genClientAccessToken: function genClientAccessToken() {
-	      (0, _sdk.generateClientAccessToken)().then(function (response) {
-	        dispatch(actionCreators.storeClientToken(response));
+	    refreshToken: function refreshToken(clientAccessToken, refreshTokenStr) {
+	      (0, _sdk.refreshToken)(clientAccessToken, refreshTokenStr).then(function (response) {
+	        dispatch(actionCreators.storeAccessToken(response));
 	      }).catch(function (error) {
-	        console.log('Failed generating client token. Please try again');
+	        console.log('Failed refreshing access token. Please try again');
 	        console.log(error);
 	      });
 	    }
@@ -32899,7 +32921,7 @@
 
 /***/ },
 /* 324 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 	
@@ -32907,22 +32929,22 @@
 	  value: true
 	});
 	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; /**
+	                                                                                                                                                                                                                                                                   * auth
+	                                                                                                                                                                                                                                                                   *
+	                                                                                                                                                                                                                                                                   * @date 25/10/2016
+	                                                                                                                                                                                                                                                                   * @author Mosufy <mosufy@gmail.com>
+	                                                                                                                                                                                                                                                                   * @copyright Copyright (c) Mosufy
+	                                                                                                                                                                                                                                                                   */
 	
-	/**
-	 * auth
-	 *
-	 * @date 25/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
+	var _helperFunctions = __webpack_require__(325);
 	
 	var initialState = {
 	  isAuthenticated: false,
 	  clientAccessToken: '',
-	  clientTokenExpiresIn: '',
+	  clientTokenExpiresAt: '',
 	  accessToken: '',
-	  tokenExpiresIn: '',
+	  tokenExpiresAt: '',
 	  refreshToken: ''
 	};
 	
@@ -32934,13 +32956,16 @@
 	    case 'AUTH_CLIENT_TOKEN':
 	      return _extends({}, state, {
 	        clientAccessToken: action.payload.data.access_token,
-	        clientTokenExpiresIn: action.payload.data.expires_in
+	        clientTokenExpiresAt: (0, _helperFunctions.addTime)(action.payload.data.expires_in)
 	      });
 	    case 'AUTH_USER_TOKEN':
+	      console.log(Date.now());
+	      console.log(action.payload.data.expires_in);
+	      console.log((0, _helperFunctions.addTime)(action.payload.data.expires_in));
 	      return _extends({}, state, {
 	        isAuthenticated: true,
 	        accessToken: action.payload.data.access_token,
-	        tokenExpiresIn: action.payload.data.expires_in,
+	        tokenExpiresAt: (0, _helperFunctions.addTime)(action.payload.data.expires_in),
 	        refreshToken: action.payload.data.refresh_token
 	      });
 	    default:
@@ -32952,6 +32977,33 @@
 
 /***/ },
 /* 325 */
+/***/ function(module, exports) {
+
+	"use strict";
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * helperFunctions
+	 *
+	 * @date 26/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	/**
+	 * Add seconds to current timestamp
+	 *
+	 * @param seconds
+	 * @returns {number}
+	 */
+	var addTime = exports.addTime = function addTime(seconds) {
+	  return Date.now() + seconds * 1000;
+	};
+
+/***/ },
+/* 326 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -32992,11 +33044,11 @@
 	};
 
 /***/ },
-/* 326 */
+/* 327 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var debounce = __webpack_require__(327),
-	    isObject = __webpack_require__(328);
+	var debounce = __webpack_require__(328),
+	    isObject = __webpack_require__(329);
 	
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -33067,12 +33119,12 @@
 
 
 /***/ },
-/* 327 */
+/* 328 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(328),
-	    now = __webpack_require__(329),
-	    toNumber = __webpack_require__(332);
+	var isObject = __webpack_require__(329),
+	    now = __webpack_require__(330),
+	    toNumber = __webpack_require__(333);
 	
 	/** Error message constants. */
 	var FUNC_ERROR_TEXT = 'Expected a function';
@@ -33261,7 +33313,7 @@
 
 
 /***/ },
-/* 328 */
+/* 329 */
 /***/ function(module, exports) {
 
 	/**
@@ -33298,10 +33350,10 @@
 
 
 /***/ },
-/* 329 */
+/* 330 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var root = __webpack_require__(330);
+	var root = __webpack_require__(331);
 	
 	/**
 	 * Gets the timestamp of the number of milliseconds that have elapsed since
@@ -33327,10 +33379,10 @@
 
 
 /***/ },
-/* 330 */
+/* 331 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var freeGlobal = __webpack_require__(331);
+	var freeGlobal = __webpack_require__(332);
 	
 	/** Detect free variable `self`. */
 	var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
@@ -33342,7 +33394,7 @@
 
 
 /***/ },
-/* 331 */
+/* 332 */
 /***/ function(module, exports) {
 
 	/* WEBPACK VAR INJECTION */(function(global) {/** Detect free variable `global` from Node.js. */
@@ -33353,11 +33405,11 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, (function() { return this; }())))
 
 /***/ },
-/* 332 */
+/* 333 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObject = __webpack_require__(328),
-	    isSymbol = __webpack_require__(333);
+	var isObject = __webpack_require__(329),
+	    isSymbol = __webpack_require__(334);
 	
 	/** Used as references for various `Number` constants. */
 	var NAN = 0 / 0;
@@ -33425,10 +33477,10 @@
 
 
 /***/ },
-/* 333 */
+/* 334 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var isObjectLike = __webpack_require__(334);
+	var isObjectLike = __webpack_require__(335);
 	
 	/** `Object#toString` result references. */
 	var symbolTag = '[object Symbol]';
@@ -33469,7 +33521,7 @@
 
 
 /***/ },
-/* 334 */
+/* 335 */
 /***/ function(module, exports) {
 
 	/**

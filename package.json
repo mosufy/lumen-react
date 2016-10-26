@@ -23,6 +23,7 @@
   },
   "dependencies": {
     "axios": "^0.15.2",
+    "ladda": "^1.0.0",
     "lodash": "^4.16.4",
     "react": "^15.3.2",
     "react-cookie": "^0.4.8",
