@@ -26,9 +26,6 @@ const auth = (state = initialState, action) => {
         clientTokenExpiresAt: addTime(action.payload.data.expires_in)
       };
     case 'AUTH_USER_TOKEN':
-      console.log(Date.now());
-      console.log(action.payload.data.expires_in);
-      console.log(addTime(action.payload.data.expires_in));
       return {
         ...state,
         isAuthenticated: true,
@@ -36,6 +33,8 @@ const auth = (state = initialState, action) => {
         tokenExpiresAt: addTime(action.payload.data.expires_in),
         refreshToken: action.payload.data.refresh_token
       };
+    case 'AUTH_LOGOUT':
+      return initialState;
     default:
       return state
   }

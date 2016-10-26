@@ -28880,23 +28880,23 @@
 	
 	var _AppContainer2 = _interopRequireDefault(_AppContainer);
 	
-	var _HomeContainer = __webpack_require__(271);
+	var _HomeContainer = __webpack_require__(272);
 	
 	var _HomeContainer2 = _interopRequireDefault(_HomeContainer);
 	
-	var _AboutContainer = __webpack_require__(274);
+	var _AboutContainer = __webpack_require__(275);
 	
 	var _AboutContainer2 = _interopRequireDefault(_AboutContainer);
 	
-	var _StuffContainer = __webpack_require__(276);
+	var _StuffContainer = __webpack_require__(277);
 	
 	var _StuffContainer2 = _interopRequireDefault(_StuffContainer);
 	
-	var _ContactContainer = __webpack_require__(278);
+	var _ContactContainer = __webpack_require__(279);
 	
 	var _ContactContainer2 = _interopRequireDefault(_ContactContainer);
 	
-	var _LoginContainer = __webpack_require__(280);
+	var _LoginContainer = __webpack_require__(281);
 	
 	var _LoginContainer2 = _interopRequireDefault(_LoginContainer);
 	
@@ -28948,15 +28948,27 @@
 	  value: true
 	});
 	
+	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
+	var _reactRedux = __webpack_require__(172);
+	
+	var _reactRouter = __webpack_require__(200);
+	
 	var _App = __webpack_require__(265);
 	
 	var _App2 = _interopRequireDefault(_App);
+	
+	var _actions = __webpack_require__(271);
+	
+	var actionCreators = _interopRequireWildcard(_actions);
+	
+	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -28984,14 +28996,32 @@
 	  _createClass(AppContainer, [{
 	    key: 'render',
 	    value: function render() {
-	      return _react2.default.createElement(_App2.default, this.props);
+	      var path = this.props.location.pathname;
+	      var pageTemplate = 'public';
+	
+	      if (path && path.substring(0, 9) == 'dashboard') {
+	        pageTemplate = 'dashboard';
+	      }
+	
+	      return _react2.default.createElement(_App2.default, _extends({ pageTemplate: pageTemplate }, this.props));
 	    }
 	  }]);
 	
 	  return AppContainer;
 	}(_react2.default.Component);
 	
-	exports.default = AppContainer;
+	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
+	  return {
+	    logoutLink: function logoutLink(e) {
+	      e.preventDefault();
+	      dispatch(actionCreators.resetTodo());
+	      dispatch(actionCreators.logout());
+	      _reactRouter.browserHistory.push('/');
+	    }
+	  };
+	};
+	
+	exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(AppContainer);
 
 /***/ },
 /* 265 */
@@ -29037,17 +29067,10 @@
 	  _createClass(App, [{
 	    key: 'render',
 	    value: function render() {
-	      var path = this.props.location.pathname;
-	      var pageTemplate = 'public';
-	
-	      if (path && path.substring(0, 9) == 'dashboard') {
-	        pageTemplate = 'dashboard';
-	      }
-	
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'container' },
-	        _react2.default.createElement(_Header2.default, { pageTemplate: pageTemplate }),
+	        _react2.default.createElement(_Header2.default, { pageTemplate: this.props.pageTemplate, logoutLink: this.props.logoutLink }),
 	        this.props.children,
 	        _react2.default.createElement(_Footer2.default, null)
 	      );
@@ -29106,7 +29129,7 @@
 	      return _react2.default.createElement(
 	        'div',
 	        { className: 'header clearfix' },
-	        _react2.default.createElement(_NavBar2.default, { pageTemplate: this.props.pageTemplate }),
+	        _react2.default.createElement(_NavBar2.default, { pageTemplate: this.props.pageTemplate, logoutLink: this.props.logoutLink }),
 	        _react2.default.createElement(_SiteLogo2.default, { pageTemplate: this.props.pageTemplate })
 	      );
 	    }
@@ -29149,16 +29172,16 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var NavBarComponent = function (_React$Component) {
-	  _inherits(NavBarComponent, _React$Component);
+	var NavBar = function (_React$Component) {
+	  _inherits(NavBar, _React$Component);
 	
-	  function NavBarComponent() {
-	    _classCallCheck(this, NavBarComponent);
+	  function NavBar() {
+	    _classCallCheck(this, NavBar);
 	
-	    return _possibleConstructorReturn(this, (NavBarComponent.__proto__ || Object.getPrototypeOf(NavBarComponent)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (NavBar.__proto__ || Object.getPrototypeOf(NavBar)).apply(this, arguments));
 	  }
 	
-	  _createClass(NavBarComponent, [{
+	  _createClass(NavBar, [{
 	    key: 'render',
 	    value: function render() {
 	      var navlinks;
@@ -29199,7 +29222,7 @@
 	          ),
 	          _react2.default.createElement(
 	            'li',
-	            { onClick: this.logout },
+	            { onClick: this.props.logoutLink },
 	            _react2.default.createElement(
 	              'a',
 	              { href: '/' },
@@ -29215,24 +29238,18 @@
 	        navlinks
 	      );
 	    }
-	  }, {
-	    key: 'logout',
-	    value: function logout(e) {
-	      e.preventDefault();
-	      _reactRouter.browserHistory.push('/');
-	    }
 	  }]);
 	
-	  return NavBarComponent;
+	  return NavBar;
 	}(_react2.default.Component);
 	
-	NavBarComponent.defaultProps = {
+	NavBar.defaultProps = {
 	  navIndex: true
 	};
-	NavBarComponent.propTypes = {
+	NavBar.propTypes = {
 	  navIndex: _react2.default.PropTypes.bool
 	};
-	exports.default = NavBarComponent;
+	exports.default = NavBar;
 
 /***/ },
 /* 268 */
@@ -29312,16 +29329,16 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var SiteLogoComponent = function (_React$Component) {
-	  _inherits(SiteLogoComponent, _React$Component);
+	var SiteLogo = function (_React$Component) {
+	  _inherits(SiteLogo, _React$Component);
 	
-	  function SiteLogoComponent() {
-	    _classCallCheck(this, SiteLogoComponent);
+	  function SiteLogo() {
+	    _classCallCheck(this, SiteLogo);
 	
-	    return _possibleConstructorReturn(this, (SiteLogoComponent.__proto__ || Object.getPrototypeOf(SiteLogoComponent)).apply(this, arguments));
+	    return _possibleConstructorReturn(this, (SiteLogo.__proto__ || Object.getPrototypeOf(SiteLogo)).apply(this, arguments));
 	  }
 	
-	  _createClass(SiteLogoComponent, [{
+	  _createClass(SiteLogo, [{
 	    key: 'render',
 	    value: function render() {
 	      var logoTitle;
@@ -29340,10 +29357,10 @@
 	    }
 	  }]);
 	
-	  return SiteLogoComponent;
+	  return SiteLogo;
 	}(_react2.default.Component);
 	
-	exports.default = SiteLogoComponent;
+	exports.default = SiteLogo;
 
 /***/ },
 /* 270 */
@@ -29400,6 +29417,71 @@
 
 /***/ },
 /* 271 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	/**
+	 * index.js
+	 *
+	 * @date 23/10/2016
+	 * @author Mosufy <mosufy@gmail.com>
+	 * @copyright Copyright (c) Mosufy
+	 */
+	
+	var addTodo = exports.addTodo = function addTodo(text) {
+	  return {
+	    type: 'ADD_TODO',
+	    id: Math.random().toString(36).slice(2),
+	    text: text
+	  };
+	};
+	
+	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
+	  return {
+	    type: 'TOGGLE_COMPLETED',
+	    id: id
+	  };
+	};
+	
+	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
+	  return {
+	    type: 'SET_VISIBILITY_FILTER',
+	    filter: filter
+	  };
+	};
+	
+	var resetTodo = exports.resetTodo = function resetTodo() {
+	  return {
+	    type: 'RESET_TODO'
+	  };
+	};
+	
+	var storeClientToken = exports.storeClientToken = function storeClientToken(payload) {
+	  return {
+	    type: 'AUTH_CLIENT_TOKEN',
+	    payload: payload
+	  };
+	};
+	
+	var storeAccessToken = exports.storeAccessToken = function storeAccessToken(payload) {
+	  return {
+	    type: 'AUTH_USER_TOKEN',
+	    payload: payload
+	  };
+	};
+	
+	var logout = exports.logout = function logout() {
+	  return {
+	    type: 'AUTH_LOGOUT'
+	  };
+	};
+
+/***/ },
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29414,7 +29496,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Home = __webpack_require__(272);
+	var _Home = __webpack_require__(273);
 	
 	var _Home2 = _interopRequireDefault(_Home);
 	
@@ -29454,7 +29536,7 @@
 	exports.default = HomeContainer;
 
 /***/ },
-/* 272 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29469,7 +29551,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Hero = __webpack_require__(273);
+	var _Hero = __webpack_require__(274);
 	
 	var _Hero2 = _interopRequireDefault(_Hero);
 	
@@ -29559,7 +29641,7 @@
 	exports.default = Home;
 
 /***/ },
-/* 273 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29638,7 +29720,7 @@
 	exports.default = Hero;
 
 /***/ },
-/* 274 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29653,7 +29735,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _About = __webpack_require__(275);
+	var _About = __webpack_require__(276);
 	
 	var _About2 = _interopRequireDefault(_About);
 	
@@ -29693,7 +29775,7 @@
 	exports.default = AboutContainer;
 
 /***/ },
-/* 275 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -29784,7 +29866,7 @@
 	exports.default = About;
 
 /***/ },
-/* 276 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29799,7 +29881,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Stuff = __webpack_require__(277);
+	var _Stuff = __webpack_require__(278);
 	
 	var _Stuff2 = _interopRequireDefault(_Stuff);
 	
@@ -29839,7 +29921,7 @@
 	exports.default = StuffContainer;
 
 /***/ },
-/* 277 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29897,7 +29979,7 @@
 	exports.default = Stuff;
 
 /***/ },
-/* 278 */
+/* 279 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -29912,7 +29994,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Contact = __webpack_require__(279);
+	var _Contact = __webpack_require__(280);
 	
 	var _Contact2 = _interopRequireDefault(_Contact);
 	
@@ -29952,7 +30034,7 @@
 	exports.default = ContactContainer;
 
 /***/ },
-/* 279 */
+/* 280 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30016,7 +30098,7 @@
 	exports.default = Contact;
 
 /***/ },
-/* 280 */
+/* 281 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30033,13 +30115,13 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Login = __webpack_require__(281);
+	var _Login = __webpack_require__(282);
 	
 	var _Login2 = _interopRequireDefault(_Login);
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _actions = __webpack_require__(283);
+	var _actions = __webpack_require__(271);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
@@ -30142,7 +30224,7 @@
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginContainer);
 
 /***/ },
-/* 281 */
+/* 282 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -30159,7 +30241,7 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Clearfix = __webpack_require__(282);
+	var _Clearfix = __webpack_require__(283);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -30227,7 +30309,7 @@
 	exports.default = Login;
 
 /***/ },
-/* 282 */
+/* 283 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -30274,65 +30356,6 @@
 	}(_react2.default.Component);
 	
 	exports.default = Clearfix;
-
-/***/ },
-/* 283 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	/**
-	 * index.js
-	 *
-	 * @date 23/10/2016
-	 * @author Mosufy <mosufy@gmail.com>
-	 * @copyright Copyright (c) Mosufy
-	 */
-	
-	var addTodo = exports.addTodo = function addTodo(text) {
-	  return {
-	    type: 'ADD_TODO',
-	    id: Math.random().toString(36).slice(2),
-	    text: text
-	  };
-	};
-	
-	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
-	  return {
-	    type: 'TOGGLE_COMPLETED',
-	    id: id
-	  };
-	};
-	
-	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
-	  return {
-	    type: 'SET_VISIBILITY_FILTER',
-	    filter: filter
-	  };
-	};
-	
-	var resetTodo = exports.resetTodo = function resetTodo() {
-	  return {
-	    type: 'RESET_TODO'
-	  };
-	};
-	
-	var storeClientToken = exports.storeClientToken = function storeClientToken(payload) {
-	  return {
-	    type: 'AUTH_CLIENT_TOKEN',
-	    payload: payload
-	  };
-	};
-	
-	var storeAccessToken = exports.storeAccessToken = function storeAccessToken(payload) {
-	  return {
-	    type: 'AUTH_USER_TOKEN',
-	    payload: payload
-	  };
-	};
 
 /***/ },
 /* 284 */
@@ -32014,7 +32037,7 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _Clearfix = __webpack_require__(282);
+	var _Clearfix = __webpack_require__(283);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -32229,7 +32252,7 @@
 	
 	var _reactRedux = __webpack_require__(172);
 	
-	var _actions = __webpack_require__(283);
+	var _actions = __webpack_require__(271);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
@@ -32326,7 +32349,7 @@
 	
 	var _MyTodoItems2 = _interopRequireDefault(_MyTodoItems);
 	
-	var _Clearfix = __webpack_require__(282);
+	var _Clearfix = __webpack_require__(283);
 	
 	var _Clearfix2 = _interopRequireDefault(_Clearfix);
 	
@@ -32698,7 +32721,7 @@
 	
 	var _reactRouter = __webpack_require__(200);
 	
-	var _actions = __webpack_require__(283);
+	var _actions = __webpack_require__(271);
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
@@ -32959,15 +32982,14 @@
 	        clientTokenExpiresAt: (0, _helperFunctions.addTime)(action.payload.data.expires_in)
 	      });
 	    case 'AUTH_USER_TOKEN':
-	      console.log(Date.now());
-	      console.log(action.payload.data.expires_in);
-	      console.log((0, _helperFunctions.addTime)(action.payload.data.expires_in));
 	      return _extends({}, state, {
 	        isAuthenticated: true,
 	        accessToken: action.payload.data.access_token,
 	        tokenExpiresAt: (0, _helperFunctions.addTime)(action.payload.data.expires_in),
 	        refreshToken: action.payload.data.refresh_token
 	      });
+	    case 'AUTH_LOGOUT':
+	      return initialState;
 	    default:
 	      return state;
 	  }

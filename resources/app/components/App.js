@@ -4,16 +4,9 @@ import Footer from './Footer';
 
 export default class App extends React.Component {
   render() {
-    var path = this.props.location.pathname;
-    var pageTemplate = 'public';
-
-    if (path && path.substring(0, 9) == 'dashboard') {
-      pageTemplate = 'dashboard';
-    }
-
     return (
       <div className="container">
-        <Header pageTemplate={pageTemplate}/>
+        <Header pageTemplate={this.props.pageTemplate} logoutLink={this.props.logoutLink}/>
         {this.props.children}
         <Footer/>
       </div>

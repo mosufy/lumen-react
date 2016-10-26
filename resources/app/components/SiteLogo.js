@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class SiteLogoComponent extends React.Component {
+export default class SiteLogo extends React.Component {
   render() {
     var logoTitle;
 

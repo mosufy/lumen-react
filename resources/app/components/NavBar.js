@@ -2,7 +2,7 @@ import React from 'react';
 import {browserHistory} from 'react-router';
 import NavLink from './common/NavLink';
 
-export default class NavBarComponent extends React.Component {
+export default class NavBar extends React.Component {
   static defaultProps = {
     navIndex: true
   };
@@ -27,7 +27,7 @@ export default class NavBarComponent extends React.Component {
       navlinks = (
         <ul className="nav nav-pills pull-right">
           <NavLink to="dashboard" {...this.props.navIndex}>My TODOs</NavLink>
-          <li onClick={this.logout}><a href="/">Log Out</a></li>
+          <li onClick={this.props.logoutLink}><a href="/">Log Out</a></li>
         </ul>
       );
     }
@@ -37,10 +37,5 @@ export default class NavBarComponent extends React.Component {
         {navlinks}
       </nav>
     );
-  }
-
-  logout(e) {
-    e.preventDefault();
-    browserHistory.push('/');
   }
 }

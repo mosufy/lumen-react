@@ -7,12 +7,35 @@
  */
 
 import React from 'react';
+import {connect} from 'react-redux';
+import {browserHistory} from 'react-router';
 import App from './../components/App';
+import * as actionCreators from './../actions';
 
-export default class AppContainer extends React.Component {
+class AppContainer extends React.Component {
   render() {
+    var path = this.props.location.pathname;
+    var pageTemplate = 'public';
+
+    if (path && path.substring(0, 9) == 'dashboard') {
+      pageTemplate = 'dashboard';
+    }
+
     return (
-      <App {...this.props}/>
+      <App pageTemplate={pageTemplate} {...this.props}/>
     )
   }
 }
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    logoutLink: (e) => {
+      e.preventDefault();
+      dispatch(actionCreators.resetTodo());
+      dispatch(actionCreators.logout());
+      browserHistory.push('/');
+    }
+  };
+};
+
+export default connect(null, mapDispatchToProps)(AppContainer);

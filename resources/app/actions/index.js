@@ -47,3 +47,9 @@ export const storeAccessToken = (payload) => {
     payload
   }
 };
+
+export const logout = () => {
+  return {
+    type: 'AUTH_LOGOUT'
+  }
+};
