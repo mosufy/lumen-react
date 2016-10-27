@@ -17,6 +17,7 @@ class CreateTodosTable extends Migration
             $table->string('uid', 36)->default('');
             $table->string('title')->default('');
             $table->text('description')->default('');
+            $table->boolean('is_completed')->default(0);
             $table->integer('category_id')->nullable()->unsigned();
             $table->integer('user_id')->nullable()->unsigned();
             $table->timestamps();
