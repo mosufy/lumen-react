@@ -9,6 +9,7 @@
 var path = require("path");
 var webpack = require('webpack');
 var AssetsPlugin = require('assets-webpack-plugin');
+var WebpackCleanupPlugin  = require('webpack-cleanup-plugin');
 
 module.exports = {
   cache: true,
@@ -46,6 +47,9 @@ module.exports = {
     }),
     new AssetsPlugin({
       filename: 'webpack.manifest.json'
+    }),
+    new WebpackCleanupPlugin({
+      exclude: ["bootstrap.min.js", "jquery.min.js", "dll/*"],
     })
   ]
 };
