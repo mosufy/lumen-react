@@ -12,11 +12,6 @@ var elixir = require('laravel-elixir');
  */
 
 elixir(function (mix) {
-  // Copying React vendor js
-  mix.copy('node_modules/react/dist/react.min.js', 'resources/assets/js/react.min.js');
-  mix.copy('node_modules/react-dom/dist/react-dom.min.js', 'resources/assets/js/react-dom.min.js');
-  mix.copy('node_modules/react-router/umd/ReactRouter.min.js', 'resources/assets/js/react-router.min.js');
-
   // Copying Bootstrap and JQuery
   mix.copy('node_modules/jquery/dist/jquery.min.js', 'resources/assets/js/jquery.min.js');
   mix.copy('node_modules/bootstrap/dist/js/bootstrap.min.js', 'resources/assets/js/bootstrap.min.js');
