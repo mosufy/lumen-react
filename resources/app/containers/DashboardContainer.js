@@ -10,7 +10,7 @@ import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
-import {getTodos, addTodo} from './../helpers/sdk';
+import {getTodos, addTodo, toggleTodo} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
   componentWillMount() {
@@ -19,11 +19,13 @@ class DashboardContainer extends React.Component {
 
   render() {
     var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
+    var toggleCompleted = this.props.toggleCompleted.bind(this, this.props.auth.accessToken);
+
     return (
       <MyTodo items={this.props.todos}
               visibilityFilter={this.props.visibilityFilter}
               addTodo={addTodo}
-              toggleCompleted={this.props.toggleCompleted}
+              toggleCompleted={toggleCompleted}
               setVisibilityFilter={this.props.setVisibilityFilter}
               resetTodo={this.props.resetTodo}
               loading={this.props.loading}/>
@@ -70,8 +72,16 @@ const mapDispatchToProps = (dispatch) => {
 
       todoName.val('');
     },
-    toggleCompleted: (e) => {
+    toggleCompleted: (accessToken, e) => {
       var id = $(e.target).closest("input").attr('id');
+
+      toggleTodo(accessToken, id).then(function (response) {
+        dispatch(actionCreators.toggleCompleted(id, response));
+      }).catch(function (error) {
+        console.log('Failed to toggle ToDo');
+        console.log(error);
+      });
+
       dispatch(actionCreators.toggleCompleted(id));
     },
     setVisibilityFilter: (e) => {

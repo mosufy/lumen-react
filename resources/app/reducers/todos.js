@@ -25,9 +25,16 @@ const todos = (state = [], action) => {
           return todo;
         }
 
+        if (Object.keys(action.payload).length === 0) {
+          return {
+            ...todo,
+            completed: !todo.completed
+          }
+        }
+
         return {
           ...todo,
-          completed: !todo.completed
+          completed: action.payload.data.data[0].attributes.is_completed
         }
       });
     case 'RESET_TODO':

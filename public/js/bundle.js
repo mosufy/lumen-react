@@ -29440,9 +29440,12 @@
 	};
 	
 	var toggleCompleted = exports.toggleCompleted = function toggleCompleted(id) {
+	  var payload = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+	
 	  return {
 	    type: 'TOGGLE_COMPLETED',
-	    id: id
+	    id: id,
+	    payload: payload
 	  };
 	};
 	
@@ -30380,6 +30383,7 @@
 	exports.refreshToken = refreshToken;
 	exports.getTodos = getTodos;
 	exports.addTodo = addTodo;
+	exports.toggleTodo = toggleTodo;
 	
 	var _constant = __webpack_require__(285);
 	
@@ -30466,6 +30470,10 @@
 	  return _axios2.default.post(_constant2.default.apiUrl + '/todos', {
 	    title: text
 	  }, config(accessToken));
+	}
+	
+	function toggleTodo(accessToken, id) {
+	  return _axios2.default.put(_constant2.default.apiUrl + '/todos/' + id + '/toggle', null, config(accessToken));
 	}
 
 /***/ },
@@ -32313,10 +32321,12 @@
 	    key: 'render',
 	    value: function render() {
 	      var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
+	      var toggleCompleted = this.props.toggleCompleted.bind(this, this.props.auth.accessToken);
+	
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
 	        visibilityFilter: this.props.visibilityFilter,
 	        addTodo: addTodo,
-	        toggleCompleted: this.props.toggleCompleted,
+	        toggleCompleted: toggleCompleted,
 	        setVisibilityFilter: this.props.setVisibilityFilter,
 	        resetTodo: this.props.resetTodo,
 	        loading: this.props.loading });
@@ -32365,8 +32375,16 @@
 	
 	      todoName.val('');
 	    },
-	    toggleCompleted: function toggleCompleted(e) {
+	    toggleCompleted: function toggleCompleted(accessToken, e) {
 	      var id = $(e.target).closest("input").attr('id');
+	
+	      (0, _sdk.toggleTodo)(accessToken, id).then(function (response) {
+	        dispatch(actionCreators.toggleCompleted(id, response));
+	      }).catch(function (error) {
+	        console.log('Failed to toggle ToDo');
+	        console.log(error);
+	      });
+	
 	      dispatch(actionCreators.toggleCompleted(id));
 	    },
 	    setVisibilityFilter: function setVisibilityFilter(e) {
@@ -33535,8 +33553,14 @@
 	          return todo;
 	        }
 	
+	        if (Object.keys(action.payload).length === 0) {
+	          return _extends({}, todo, {
+	            completed: !todo.completed
+	          });
+	        }
+	
 	        return _extends({}, todo, {
-	          completed: !todo.completed
+	          completed: action.payload.data.data[0].attributes.is_completed
 	        });
 	      });
 	    case 'RESET_TODO':

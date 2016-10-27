@@ -13,10 +13,11 @@ export const addTodo = (payload) => {
   }
 };
 
-export const toggleCompleted = (id) => {
+export const toggleCompleted = (id, payload = {}) => {
   return {
     type: 'TOGGLE_COMPLETED',
-    id: id
+    id: id,
+    payload
   }
 };
 
