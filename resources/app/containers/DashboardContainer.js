@@ -10,7 +10,7 @@ import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
-import {getTodos, addTodo, toggleTodo} from './../helpers/sdk';
+import {getTodos, addTodo, toggleTodo, deleteAllTodos} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
   componentWillMount() {
@@ -20,6 +20,7 @@ class DashboardContainer extends React.Component {
   render() {
     var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
     var toggleCompleted = this.props.toggleCompleted.bind(this, this.props.auth.accessToken);
+    var resetTodo = this.props.resetTodo.bind(this, this.props.auth.accessToken);
 
     return (
       <MyTodo items={this.props.todos}
@@ -27,7 +28,7 @@ class DashboardContainer extends React.Component {
               addTodo={addTodo}
               toggleCompleted={toggleCompleted}
               setVisibilityFilter={this.props.setVisibilityFilter}
-              resetTodo={this.props.resetTodo}
+              resetTodo={resetTodo}
               loading={this.props.loading}/>
     );
   }
@@ -88,7 +89,14 @@ const mapDispatchToProps = (dispatch) => {
       var filter = $(e.target).closest("button").attr('id');
       dispatch(actionCreators.setVisibilityFilter(filter));
     },
-    resetTodo: () => {
+    resetTodo: (accessToken) => {
+      deleteAllTodos(accessToken).then(function (response) {
+        // do nothing
+      }).catch(function (error) {
+        console.log('Failed to reset ToDo');
+        console.log(error);
+      });
+
       dispatch(actionCreators.resetTodo());
     }
   };

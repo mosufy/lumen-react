@@ -30384,6 +30384,7 @@
 	exports.getTodos = getTodos;
 	exports.addTodo = addTodo;
 	exports.toggleTodo = toggleTodo;
+	exports.deleteAllTodos = deleteAllTodos;
 	
 	var _constant = __webpack_require__(285);
 	
@@ -30474,6 +30475,10 @@
 	
 	function toggleTodo(accessToken, id) {
 	  return _axios2.default.put(_constant2.default.apiUrl + '/todos/' + id + '/toggle', null, config(accessToken));
+	}
+	
+	function deleteAllTodos(accessToken) {
+	  return _axios2.default.delete(_constant2.default.apiUrl + '/todos', config(accessToken));
 	}
 
 /***/ },
@@ -32322,13 +32327,14 @@
 	    value: function render() {
 	      var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
 	      var toggleCompleted = this.props.toggleCompleted.bind(this, this.props.auth.accessToken);
+	      var resetTodo = this.props.resetTodo.bind(this, this.props.auth.accessToken);
 	
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
 	        visibilityFilter: this.props.visibilityFilter,
 	        addTodo: addTodo,
 	        toggleCompleted: toggleCompleted,
 	        setVisibilityFilter: this.props.setVisibilityFilter,
-	        resetTodo: this.props.resetTodo,
+	        resetTodo: resetTodo,
 	        loading: this.props.loading });
 	    }
 	  }]);
@@ -32391,7 +32397,14 @@
 	      var filter = $(e.target).closest("button").attr('id');
 	      dispatch(actionCreators.setVisibilityFilter(filter));
 	    },
-	    resetTodo: function resetTodo() {
+	    resetTodo: function resetTodo(accessToken) {
+	      (0, _sdk.deleteAllTodos)(accessToken).then(function (response) {
+	        // do nothing
+	      }).catch(function (error) {
+	        console.log('Failed to reset ToDo');
+	        console.log(error);
+	      });
+	
 	      dispatch(actionCreators.resetTodo());
 	    }
 	  };

@@ -79,3 +79,7 @@ export function addTodo(accessToken, text) {
 export function toggleTodo(accessToken, id) {
   return axios.put(Constant.apiUrl + '/todos/' + id + '/toggle', null, config(accessToken));
 }
+
+export function deleteAllTodos(accessToken) {
+  return axios.delete(Constant.apiUrl + '/todos', config(accessToken));
+}
