@@ -32326,11 +32326,6 @@
 	      this.props.getTodos(this.props.auth.accessToken);
 	    }
 	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      console.log('ToDo list updated');
-	    }
-	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
@@ -32557,8 +32552,6 @@
 	    value: function render() {
 	      var _this2 = this;
 	
-	      var toggleCompleted = this.props.toggleCompleted;
-	
 	      if (this.props.items.length == 0) {
 	        return _react2.default.createElement(
 	          'div',
@@ -32582,6 +32575,7 @@
 	          }
 	
 	          var itemText = item.text;
+	          var defaultChecked;
 	
 	          if (item.completed) {
 	            itemText = _react2.default.createElement(
@@ -32589,6 +32583,7 @@
 	              null,
 	              item.text
 	            );
+	            defaultChecked = 'defaultChecked';
 	          }
 	
 	          return _react2.default.createElement(
@@ -32597,7 +32592,7 @@
 	            _react2.default.createElement(
 	              'label',
 	              null,
-	              _react2.default.createElement('input', { id: item.id, type: 'checkbox', value: item.id, onClick: toggleCompleted, defaultChecked: item.completed ? 'defaultChecked' : '' }),
+	              _react2.default.createElement('input', { id: item.id, type: 'checkbox', value: item.id, onClick: _this2.props.toggleCompleted, defaultChecked: defaultChecked }),
 	              itemText
 	            )
 	          );
@@ -32963,9 +32958,9 @@
 	      var items = [];
 	      for (var i = 0; i < todos.length; i++) {
 	        items.push({
-	          id: todos[i].attributes.id,
+	          id: todos[i].attributes.uid,
 	          text: todos[i].attributes.title,
-	          completed: todos[i].attributes.isCompleted
+	          completed: todos[i].attributes.is_completed
 	        });
 	      }
 	      return items;

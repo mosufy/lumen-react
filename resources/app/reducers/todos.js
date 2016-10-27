@@ -41,9 +41,9 @@ const todos = (state = [], action) => {
       var items = [];
       for (var i = 0; i < todos.length; i++) {
         items.push({
-          id: todos[i].attributes.id,
+          id: todos[i].attributes.uid,
           text: todos[i].attributes.title,
-          completed: todos[i].attributes.isCompleted
+          completed: todos[i].attributes.is_completed
         });
       }
       return items;

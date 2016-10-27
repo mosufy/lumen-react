@@ -17,10 +17,6 @@ class DashboardContainer extends React.Component {
     this.props.getTodos(this.props.auth.accessToken);
   }
 
-  componentDidMount() {
-    console.log('ToDo list updated');
-  }
-
   render() {
     return (
       <MyTodo items={this.props.todos}

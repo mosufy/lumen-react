@@ -10,8 +10,6 @@ import React from 'react';
 
 export default class MyTodoItems extends React.Component {
   render() {
-    var toggleCompleted = this.props.toggleCompleted;
-
     if (this.props.items.length == 0) {
       return (
         <div>
@@ -33,17 +31,19 @@ export default class MyTodoItems extends React.Component {
           }
 
           var itemText = item.text;
+          var defaultChecked;
 
           if (item.completed) {
             itemText = (
               <del>{item.text}</del>
             );
+            defaultChecked = 'defaultChecked';
           }
 
           return (
             <div className="checkbox" key={item.id}>
               <label>
-                <input id={item.id} type="checkbox" value={item.id} onClick={toggleCompleted} defaultChecked={item.completed ? 'defaultChecked' : ''}/>{itemText}
+                <input id={item.id} type="checkbox" value={item.id} onClick={this.props.toggleCompleted} defaultChecked={defaultChecked}/>{itemText}
               </label>
             </div>
           );
