@@ -11,16 +11,12 @@
 const todos = (state = [], action) => {
   switch (action.type) {
     case 'ADD_TODO':
-      if (action.text == '') {
-        return state;
-      }
-
       return [
         ...state,
         {
-          id: action.id,
-          text: action.text,
-          completed: false
+          id: action.payload.data.data[0].attributes.uid,
+          text: action.payload.data.data[0].attributes.title,
+          completed: action.payload.data.data[0].attributes.is_completed
         }
       ];
     case 'TOGGLE_COMPLETED':

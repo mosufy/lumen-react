@@ -6,11 +6,10 @@
  * @copyright Copyright (c) Mosufy
  */
 
-export const addTodo = (text) => {
+export const addTodo = (payload) => {
   return {
     type: 'ADD_TODO',
-    id: Math.random().toString(36).slice(2),
-    text
+    payload
   }
 };
 

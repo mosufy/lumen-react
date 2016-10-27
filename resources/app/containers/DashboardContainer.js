@@ -10,7 +10,7 @@ import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
-import {getTodos} from './../helpers/sdk';
+import {getTodos, addTodo} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
   componentWillMount() {
@@ -18,10 +18,11 @@ class DashboardContainer extends React.Component {
   }
 
   render() {
+    var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
     return (
       <MyTodo items={this.props.todos}
               visibilityFilter={this.props.visibilityFilter}
-              addTodo={this.props.addTodo}
+              addTodo={addTodo}
               toggleCompleted={this.props.toggleCompleted}
               setVisibilityFilter={this.props.setVisibilityFilter}
               resetTodo={this.props.resetTodo}/>
@@ -47,10 +48,21 @@ const mapDispatchToProps = (dispatch) => {
         console.log(error);
       });
     },
-    addTodo: (e) => {
+    addTodo: (accessToken, e) => {
       e.preventDefault();
       var todoName = $("#todo_name");
-      dispatch(actionCreators.addTodo(todoName.val()));
+
+      if (todoName.val() == '') {
+        return;
+      }
+
+      addTodo(accessToken, todoName.val()).then(function (response) {
+        dispatch(actionCreators.addTodo(response));
+      }).catch(function (error) {
+        console.log('Failed to add ToDo');
+        console.log(error);
+      });
+
       todoName.val('');
     },
     toggleCompleted: (e) => {

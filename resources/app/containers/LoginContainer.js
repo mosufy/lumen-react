@@ -30,7 +30,7 @@ class LoginContainer extends React.Component {
   render() {
     var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
     return (
-      <Login submitForm={submitForm} xt='asdasd'/>
+      <Login submitForm={submitForm}/>
     );
   }
 }

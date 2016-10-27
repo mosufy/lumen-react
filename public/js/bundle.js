@@ -29432,11 +29432,10 @@
 	 * @copyright Copyright (c) Mosufy
 	 */
 	
-	var addTodo = exports.addTodo = function addTodo(text) {
+	var addTodo = exports.addTodo = function addTodo(payload) {
 	  return {
 	    type: 'ADD_TODO',
-	    id: Math.random().toString(36).slice(2),
-	    text: text
+	    payload: payload
 	  };
 	};
 	
@@ -30177,7 +30176,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
-	      return _react2.default.createElement(_Login2.default, { submitForm: submitForm, onChange: this.props.onChange });
+	      return _react2.default.createElement(_Login2.default, { submitForm: submitForm });
 	    }
 	  }]);
 	
@@ -30192,16 +30191,6 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
-	    onChange: function onChange(e) {
-	      var field = e.target.id;
-	      var value = e.target.value;
-	
-	      var error = validateField(field, value);
-	
-	      if (error.length > 0) {
-	        console.log(error[0]);
-	      }
-	    },
 	    loginUser: function loginUser(clientAccessToken, e) {
 	      e.preventDefault();
 	
@@ -30233,25 +30222,6 @@
 	    }
 	  };
 	};
-	
-	var validateField = function validateField(field, value) {
-	  switch (field) {
-	    case 'email':
-	      if (!validateEmail(value)) {
-	        return ['The email address is not valid'];
-	      }
-	      break;
-	    default:
-	      console.log('FIELD NOT VALID');
-	  }
-	
-	  return [];
-	};
-	
-	function validateEmail(email) {
-	  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-	  return re.test(email);
-	}
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginContainer);
 
@@ -30314,8 +30284,8 @@
 	            _react2.default.createElement(
 	              'form',
 	              { className: 'form-signin', onSubmit: this.props.submitForm },
-	              _react2.default.createElement('input', { id: 'email', type: 'email', className: 'form-control', placeholder: 'Email', onChange: this.props.onChange, required: true, autoFocus: 'autoFocus' }),
-	              _react2.default.createElement('input', { id: 'password', type: 'password', className: 'form-control', placeholder: 'Password', onChange: this.props.onChange, required: true }),
+	              _react2.default.createElement('input', { id: 'email', type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
+	              _react2.default.createElement('input', { id: 'password', type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
@@ -30402,6 +30372,7 @@
 	exports.generateUserAccessToken = generateUserAccessToken;
 	exports.refreshToken = refreshToken;
 	exports.getTodos = getTodos;
+	exports.addTodo = addTodo;
 	
 	var _constant = __webpack_require__(285);
 	
@@ -30482,6 +30453,12 @@
 	
 	function getTodos(accessToken) {
 	  return _axios2.default.get(_constant2.default.apiUrl + '/todos', config(accessToken));
+	}
+	
+	function addTodo(accessToken, text) {
+	  return _axios2.default.post(_constant2.default.apiUrl + '/todos', {
+	    title: text
+	  }, config(accessToken));
 	}
 
 /***/ },
@@ -32328,9 +32305,10 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
 	        visibilityFilter: this.props.visibilityFilter,
-	        addTodo: this.props.addTodo,
+	        addTodo: addTodo,
 	        toggleCompleted: this.props.toggleCompleted,
 	        setVisibilityFilter: this.props.setVisibilityFilter,
 	        resetTodo: this.props.resetTodo });
@@ -32358,10 +32336,21 @@
 	        console.log(error);
 	      });
 	    },
-	    addTodo: function addTodo(e) {
+	    addTodo: function addTodo(accessToken, e) {
 	      e.preventDefault();
 	      var todoName = $("#todo_name");
-	      dispatch(actionCreators.addTodo(todoName.val()));
+	
+	      if (todoName.val() == '') {
+	        return;
+	      }
+	
+	      (0, _sdk.addTodo)(accessToken, todoName.val()).then(function (response) {
+	        dispatch(actionCreators.addTodo(response));
+	      }).catch(function (error) {
+	        console.log('Failed to add ToDo');
+	        console.log(error);
+	      });
+	
 	      todoName.val('');
 	    },
 	    toggleCompleted: function toggleCompleted(e) {
@@ -32932,14 +32921,10 @@
 	
 	  switch (action.type) {
 	    case 'ADD_TODO':
-	      if (action.text == '') {
-	        return state;
-	      }
-	
 	      return [].concat(_toConsumableArray(state), [{
-	        id: action.id,
-	        text: action.text,
-	        completed: false
+	        id: action.payload.data.data[0].attributes.uid,
+	        text: action.payload.data.data[0].attributes.title,
+	        completed: action.payload.data.data[0].attributes.is_completed
 	      }]);
 	    case 'TOGGLE_COMPLETED':
 	      return state.map(function (todo) {
