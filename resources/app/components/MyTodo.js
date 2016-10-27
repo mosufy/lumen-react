@@ -10,6 +10,7 @@ import React from 'react';
 import MyTodoItems from './MyTodoItems';
 import Clearfix from './common/Clearfix';
 import MyTodoVisibilityFilters from './MyTodoVisibilityFilters';
+import LaddaButton, {SLIDE_RIGHT} from 'react-ladda';
 
 export default class MyTodo extends React.Component {
   render() {
@@ -26,7 +27,11 @@ export default class MyTodo extends React.Component {
                 <div className="input-group">
                   <input type="text" id="todo_name" className="form-control" placeholder="Enter ToDo"/>
                   <span className="input-group-btn">
-                    <button className="btn btn-primary" onClick={this.props.addTodo}>Add ToDo</button>
+                    <LaddaButton
+                      className="btn btn-primary"
+                      onClick={this.props.addTodo}
+                      loading={this.props.loading}
+                      data-style={SLIDE_RIGHT}>Add ToDo</LaddaButton>
                   </span>
                 </div>
               </form>

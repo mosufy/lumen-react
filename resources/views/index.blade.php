@@ -13,6 +13,9 @@
   <link href="css/ie10-viewport-bug-workaround.css" rel="stylesheet">
   <link href="css/jumbotron-narrow.css" rel="stylesheet">
 
+  <!-- Custom CSS -->
+  <link rel="stylesheet" type="text/css" href="css/main.css">
+
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>

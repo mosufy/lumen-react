@@ -25,7 +25,8 @@ class DashboardContainer extends React.Component {
               addTodo={addTodo}
               toggleCompleted={this.props.toggleCompleted}
               setVisibilityFilter={this.props.setVisibilityFilter}
-              resetTodo={this.props.resetTodo}/>
+              resetTodo={this.props.resetTodo}
+              loading={this.props.loading}/>
     );
   }
 }
@@ -34,7 +35,8 @@ const mapStateToProps = (state) => {
   return {
     todos: state.todos,
     visibilityFilter: state.visibilityFilter,
-    auth: state.auth
+    auth: state.auth,
+    loading: !state.loading.completed
   }
 };
 
@@ -56,8 +58,11 @@ const mapDispatchToProps = (dispatch) => {
         return;
       }
 
+      dispatch(actionCreators.updateLoader(0.5));
+
       addTodo(accessToken, todoName.val()).then(function (response) {
         dispatch(actionCreators.addTodo(response));
+        dispatch(actionCreators.updateLoader(1));
       }).catch(function (error) {
         console.log('Failed to add ToDo');
         console.log(error);

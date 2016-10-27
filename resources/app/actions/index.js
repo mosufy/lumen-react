@@ -59,3 +59,10 @@ export const logout = () => {
     type: 'AUTH_LOGOUT'
   }
 };
+
+export const updateLoader = (progress) => {
+  return {
+    type: 'UPDATE_LOADER',
+    progress
+  }
+};
