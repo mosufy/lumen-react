@@ -27,8 +27,8 @@
 
 <div id="root"></div>
 
-<script type="text/javascript" src="js/dll/dll.vendor.js" charset="utf-8"></script>
-<script type="text/javascript" src="js/bundle.js" charset="utf-8"></script>
+<script type="text/javascript" src="js/dll/{{ $dllJS  }}" charset="utf-8"></script>
+<script type="text/javascript" src="js/{{ $bundleJS  }}" charset="utf-8"></script>
 
 <script src="js/jquery.min.js"></script>
 <script src="js/bootstrap.min.js"></script>

@@ -23,6 +23,22 @@ class HomeController
      */
     public function index()
     {
-        return view('index');
+        try {
+            // Get the correct hashed bundle JS file
+            // TODO: Find a better way to fetch hash bundle.js
+            $jsonBundle = json_decode(file_get_contents(base_path('webpack.manifest.json')), true);
+            $bundleJS   = $jsonBundle['bundle']['js'];
+
+            $jsonDll = json_decode(file_get_contents(base_path('webpack.dll.manifest.json')), true);
+            $dllJS   = $jsonDll['vendor']['js'];
+        } catch (\Exception $e) {
+            $bundleJS = 'bundle.js';
+            $dllJS    = 'dll.vendor.js';
+        }
+
+        return view('index', [
+            'bundleJS' => $bundleJS,
+            'dllJS'    => $dllJS
+        ]);
     }
 }

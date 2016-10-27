@@ -10,6 +10,7 @@
 
 var path = require("path");
 var webpack = require("webpack");
+var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   entry: {
@@ -17,7 +18,7 @@ module.exports = {
   },
   output: {
     path: path.join(__dirname, "public", "js", "dll"),
-    filename: "dll.[name].js",
+    filename: "dll.[name]-[hash].js",
     library: "[name]"
   },
   plugins: [
@@ -36,6 +37,9 @@ module.exports = {
       'process.env':{
         'NODE_ENV': JSON.stringify('production')
       }
+    }),
+    new AssetsPlugin({
+      filename: 'webpack.dll.manifest.json'
     })
   ],
   resolve: {

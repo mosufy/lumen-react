@@ -8,14 +8,17 @@
 
 var path = require("path");
 var webpack = require('webpack');
+var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   cache: true,
-  entry: "./resources/app/index.js",
+  entry: {
+    bundle: ["./resources/app/index.js"]
+  },
   devtool: 'cheap-module-source-map',
   output: {
-    path: __dirname,
-    filename: 'public/js/bundle.js'
+    path: path.join(__dirname, "public", "js"),
+    filename: '[name]-[hash].js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -50,6 +53,9 @@ module.exports = {
     new webpack.DllReferencePlugin({
       context: ".",
       manifest: require(path.join(__dirname, 'public', 'js', 'dll', 'vendor-manifest.json'))
+    }),
+    new AssetsPlugin({
+      filename: 'webpack.manifest.json'
     })
   ]
 };
