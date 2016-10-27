@@ -14,6 +14,7 @@ use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
 use App\Exceptions\TodoException;
 use App\Models\AppLog;
+use App\Models\Category;
 use App\Models\Todo;
 use App\Services\ElasticsearchService;
 use App\Traits\RepositoryTraits;
@@ -128,11 +129,17 @@ class TodoRepository
     public function createTodo($user, $params)
     {
         try {
+            if (empty($category_id)) {
+                $category_id = Category::where('user_id', $user->id)->value('id');
+            } else {
+                $category_id = $params['category_id'];
+            }
+
             $todo              = new Todo;
             $todo->uid         = Uuid::uuid4()->toString();
             $todo->title       = $params['title'];
-            $todo->description = $params['description'];
-            $todo->category_id = $params['category_id'];
+            $todo->description = !empty($params['description'])? $params['description'] : '';
+            $todo->category_id = $category_id;
             $todo->user_id     = $user->id;
             $todo->save();
 
