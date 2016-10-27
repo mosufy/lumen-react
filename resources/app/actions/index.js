@@ -21,6 +21,13 @@ export const toggleCompleted = (id) => {
   }
 };
 
+export const getTodos = (payload) => {
+  return {
+    type: 'GET_TODOS',
+    payload
+  }
+};
+
 export const setVisibilityFilter = (filter) => {
   return {
     type: 'SET_VISIBILITY_FILTER',

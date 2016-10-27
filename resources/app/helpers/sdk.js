@@ -65,3 +65,7 @@ export function refreshToken(clientAccessToken, refreshToken) {
     refresh_token: refreshToken
   }, config(clientAccessToken));
 }
+
+export function getTodos(accessToken) {
+  return axios.get(Constant.apiUrl + '/todos', config(accessToken));
+}

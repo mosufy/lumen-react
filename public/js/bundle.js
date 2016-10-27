@@ -29447,6 +29447,13 @@
 	  };
 	};
 	
+	var getTodos = exports.getTodos = function getTodos(payload) {
+	  return {
+	    type: 'GET_TODOS',
+	    payload: payload
+	  };
+	};
+	
 	var setVisibilityFilter = exports.setVisibilityFilter = function setVisibilityFilter(filter) {
 	  return {
 	    type: 'SET_VISIBILITY_FILTER',
@@ -30170,7 +30177,7 @@
 	    key: 'render',
 	    value: function render() {
 	      var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
-	      return _react2.default.createElement(_Login2.default, { submitForm: submitForm, xt: 'asdasd' });
+	      return _react2.default.createElement(_Login2.default, { submitForm: submitForm, onChange: this.props.onChange });
 	    }
 	  }]);
 	
@@ -30185,6 +30192,16 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch, ownProps) {
 	  return {
+	    onChange: function onChange(e) {
+	      var field = e.target.id;
+	      var value = e.target.value;
+	
+	      var error = validateField(field, value);
+	
+	      if (error.length > 0) {
+	        console.log(error[0]);
+	      }
+	    },
 	    loginUser: function loginUser(clientAccessToken, e) {
 	      e.preventDefault();
 	
@@ -30216,6 +30233,25 @@
 	    }
 	  };
 	};
+	
+	var validateField = function validateField(field, value) {
+	  switch (field) {
+	    case 'email':
+	      if (!validateEmail(value)) {
+	        return ['The email address is not valid'];
+	      }
+	      break;
+	    default:
+	      console.log('FIELD NOT VALID');
+	  }
+	
+	  return [];
+	};
+	
+	function validateEmail(email) {
+	  var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+	  return re.test(email);
+	}
 	
 	exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(LoginContainer);
 
@@ -30278,8 +30314,8 @@
 	            _react2.default.createElement(
 	              'form',
 	              { className: 'form-signin', onSubmit: this.props.submitForm },
-	              _react2.default.createElement('input', { id: 'email', type: 'email', className: 'form-control', placeholder: 'Email', required: true, autoFocus: 'autoFocus' }),
-	              _react2.default.createElement('input', { id: 'password', type: 'password', className: 'form-control', placeholder: 'Password', required: true }),
+	              _react2.default.createElement('input', { id: 'email', type: 'email', className: 'form-control', placeholder: 'Email', onChange: this.props.onChange, required: true, autoFocus: 'autoFocus' }),
+	              _react2.default.createElement('input', { id: 'password', type: 'password', className: 'form-control', placeholder: 'Password', onChange: this.props.onChange, required: true }),
 	              _react2.default.createElement(
 	                'button',
 	                { className: 'btn btn-lg btn-primary btn-block', type: 'submit' },
@@ -30365,6 +30401,7 @@
 	exports.generateClientAccessToken = generateClientAccessToken;
 	exports.generateUserAccessToken = generateUserAccessToken;
 	exports.refreshToken = refreshToken;
+	exports.getTodos = getTodos;
 	
 	var _constant = __webpack_require__(285);
 	
@@ -30441,6 +30478,10 @@
 	    client_secret: _constant2.default.clientSecret,
 	    refresh_token: refreshToken
 	  }, config(clientAccessToken));
+	}
+	
+	function getTodos(accessToken) {
+	  return _axios2.default.get(_constant2.default.apiUrl + '/todos', config(accessToken));
 	}
 
 /***/ },
@@ -32252,6 +32293,8 @@
 	
 	var actionCreators = _interopRequireWildcard(_actions);
 	
+	var _sdk = __webpack_require__(284);
+	
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
@@ -32278,6 +32321,16 @@
 	  }
 	
 	  _createClass(DashboardContainer, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.props.getTodos(this.props.auth.accessToken);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      console.log('ToDo list updated');
+	    }
+	  }, {
 	    key: 'render',
 	    value: function render() {
 	      return _react2.default.createElement(_MyTodo2.default, { items: this.props.todos,
@@ -32302,10 +32355,17 @@
 	
 	var mapDispatchToProps = function mapDispatchToProps(dispatch) {
 	  return {
+	    getTodos: function getTodos(accessToken) {
+	      (0, _sdk.getTodos)(accessToken).then(function (response) {
+	        dispatch(actionCreators.getTodos(response));
+	      }).catch(function (error) {
+	        console.log('Failed fetching ToDos');
+	        console.log(error);
+	      });
+	    },
 	    addTodo: function addTodo(e) {
-	      var todoName = $("#todo_name");
-	
 	      e.preventDefault();
+	      var todoName = $("#todo_name");
 	      dispatch(actionCreators.addTodo(todoName.val()));
 	      todoName.val('');
 	    },
@@ -32898,6 +32958,17 @@
 	      });
 	    case 'RESET_TODO':
 	      return [];
+	    case 'GET_TODOS':
+	      var todos = action.payload.data.data;
+	      var items = [];
+	      for (var i = 0; i < todos.length; i++) {
+	        items.push({
+	          id: todos[i].attributes.id,
+	          text: todos[i].attributes.title,
+	          completed: todos[i].attributes.isCompleted
+	        });
+	      }
+	      return items;
 	    default:
 	      return state;
 	  }

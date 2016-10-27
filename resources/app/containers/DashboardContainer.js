@@ -10,8 +10,17 @@ import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
 import * as actionCreators from './../actions';
+import {getTodos} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
+  componentWillMount() {
+    this.props.getTodos(this.props.auth.accessToken);
+  }
+
+  componentDidMount() {
+    console.log('ToDo list updated');
+  }
+
   render() {
     return (
       <MyTodo items={this.props.todos}
@@ -34,10 +43,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
+    getTodos: (accessToken) => {
+      getTodos(accessToken).then(function (response) {
+        dispatch(actionCreators.getTodos(response));
+      }).catch(function (error) {
+        console.log('Failed fetching ToDos');
+        console.log(error);
+      });
+    },
     addTodo: (e) => {
-      var todoName = $("#todo_name");
-
       e.preventDefault();
+      var todoName = $("#todo_name");
       dispatch(actionCreators.addTodo(todoName.val()));
       todoName.val('');
     },
