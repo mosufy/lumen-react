@@ -138,7 +138,7 @@ class TodoRepository
             $todo              = new Todo;
             $todo->uid         = Uuid::uuid4()->toString();
             $todo->title       = $params['title'];
-            $todo->description = !empty($params['description'])? $params['description'] : '';
+            $todo->description = !empty($params['description']) ? $params['description'] : '';
             $todo->category_id = $category_id;
             $todo->user_id     = $user->id;
             $todo->save();
@@ -205,6 +205,50 @@ class TodoRepository
                 'params'   => $params
             ]);
             throw new TodoException('Exception thrown while trying to update todo', 50001001);
+        } // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * Toggle ToDo
+     *
+     * @param string           $todo_uid
+     * @param \App\Models\User $user
+     * @throws TodoException
+     * @return Todo
+     */
+    public function toggleTodo($todo_uid, $user)
+    {
+        try {
+            $todo = $this->getTodoByUid($todo_uid, $user);
+
+            $todo->is_completed = $todo->is_completed ? false : true;
+            $todo->save();
+
+            event(new TodoUpdated($todo));
+
+            return $todo;
+        } catch (TodoException $e) {
+            AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id
+            ]);
+            throw $e;
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'todo_uid' => $todo_uid,
+                'user_id'  => $user->id
+            ]);
+            throw new TodoException('Exception thrown while trying to toggle todo', 50001001);
         } // @codeCoverageIgnoreEnd
     }
 
