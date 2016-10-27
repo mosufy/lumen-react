@@ -12,6 +12,7 @@ namespace App\Repositories;
 use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
 use App\Events\TodoUpdated;
+use App\Events\TodosDeleted;
 use App\Exceptions\TodoException;
 use App\Models\AppLog;
 use App\Models\Category;
@@ -295,6 +296,46 @@ class TodoRepository
     }
 
     /**
+     * Delete all Todos
+     *
+     * @param \App\Models\User $user
+     * @throws TodoException
+     * @return null
+     */
+    public function deleteAllTodos($user)
+    {
+        try {
+            Todo::where('user_id', $user->id)->delete();
+
+            // Get all deleted Todos
+            $deleted = Todo::onlyTrashed()->where('user_id', $user->id)->get();
+            event(new TodosDeleted($deleted));
+
+            return null;
+        } catch (TodoException $e) {
+            AppLog::debug(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'user_id'  => $user->id
+            ]);
+            throw $e;
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message'  => $e->getMessage(),
+                'code'     => $e->getCode(),
+                'file'     => $e->getFile(),
+                'line'     => $e->getLine(),
+                'user_id'  => $user->id
+            ]);
+            throw new TodoException('Exception thrown while trying to delete all todos', 50001001);
+        } // @codeCoverageIgnoreEnd
+    }
+
+    /**
      * Search todos by Elasticsearch
      *
      * @param array            $params
@@ -521,6 +562,30 @@ class TodoRepository
                 'todo_id' => $todo->id
             ]);
             throw new TodoException('Elasticsearch exception thrown while deleting todo search index', 50001001);
+        } // @codeCoverageIgnoreEnd
+    }
+
+    /**
+     * Batch delete existing index
+     *
+     * @param array $todos
+     * @throws TodoException
+     */
+    public function batchDeleteSearchIndex($todos)
+    {
+        try {
+            $elastic = new ElasticsearchService();
+            $elastic->delete($this->prepareIndexMeta($todos));
+        } catch (\Exception $e) { // @codeCoverageIgnoreStart
+            AppLog::error(__CLASS__ . ':' . __TRAIT__ . ':' . __FUNCTION__ . ':' . __FILE__ . ':' . __LINE__ . ':' .
+                get_class($e), [
+                'message' => $e->getMessage(),
+                'code'    => $e->getCode(),
+                'file'    => $e->getFile(),
+                'line'    => $e->getLine(),
+                'user_id' => $todos[0]->user_id
+            ]);
+            throw new TodoException('Elasticsearch exception thrown while batch deleting todo search index', 50001001);
         } // @codeCoverageIgnoreEnd
     }
 

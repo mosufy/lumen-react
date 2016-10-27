@@ -137,4 +137,21 @@ class TodoController extends Controller
             return $this->responseError('Failed to delete todo', $e->getMessage(), $e->getCode());
         }
     }
+
+    /**
+     * Delete all ToDos
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function destroyAll()
+    {
+        try {
+            $user = $this->userRepository->getCurrentUser();
+            $todo = $this->todoRepository->deleteAllTodos($user);
+
+            return $this->responseSuccess('todo', $todo);
+        } catch (\Exception $e) {
+            return $this->responseError('Failed to delete all todos', $e->getMessage(), $e->getCode());
+        }
+    }
 }

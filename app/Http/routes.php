@@ -30,6 +30,7 @@ $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () u
     $app->post('/todos', ['as' => 'todo.store', 'uses' => '\App\Http\Controllers\ToDoController@store']);
     $app->put('/todos/{todo_uid}/toggle', ['as' => 'todo.toggle', 'uses' => '\App\Http\Controllers\TodoController@toggle']);
     $app->put('/todos/{todo_uid}', ['as' => 'todo.update', 'uses' => '\App\Http\Controllers\TodoController@update']);
+    $app->delete('/todos', ['as' => 'todo.destroyAll', 'uses' => '\App\Http\Controllers\TodoController@destroyAll']);
     $app->delete('/todos/{todo_uid}', ['as' => 'todo.destroy', 'uses' => '\App\Http\Controllers\TodoController@destroy']);
 });
 
