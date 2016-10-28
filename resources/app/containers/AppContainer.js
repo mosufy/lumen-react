@@ -10,7 +10,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import App from './../components/App';
-import * as actionCreators from './../actions';
+import * as authActions from './../actions/authActions';
+import * as todoActions from './../actions/todoActions';
+import * as userActions from './../actions/userActions';
 
 class AppContainer extends React.Component {
   render() {
@@ -37,9 +39,9 @@ const mapDispatchToProps = (dispatch) => {
   return {
     logoutLink: (e) => {
       e.preventDefault();
-      dispatch(actionCreators.resetTodo());
-      dispatch(actionCreators.removeUserData());
-      dispatch(actionCreators.logout());
+      dispatch(todoActions.resetTodo());
+      dispatch(userActions.removeUserData());
+      dispatch(authActions.resetAccessToken());
       browserHistory.push('/');
     }
   };

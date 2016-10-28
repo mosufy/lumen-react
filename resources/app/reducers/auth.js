@@ -19,13 +19,13 @@ let initialState = {
 
 const auth = (state = initialState, action) => {
   switch (action.type) {
-    case 'AUTH_CLIENT_TOKEN':
+    case 'SAVE_CLIENT_ACCESS_TOKEN':
       return {
         ...state,
         clientAccessToken: action.payload.data.access_token,
         clientTokenExpiresAt: addTime(action.payload.data.expires_in)
       };
-    case 'AUTH_USER_TOKEN':
+    case 'SAVE_ACCESS_TOKEN':
       return {
         ...state,
         isAuthenticated: true,
@@ -33,7 +33,7 @@ const auth = (state = initialState, action) => {
         tokenExpiresAt: addTime(action.payload.data.expires_in),
         refreshToken: action.payload.data.refresh_token
       };
-    case 'AUTH_LOGOUT':
+    case 'RESET_ACCESS_TOKEN':
       return initialState;
     default:
       return state

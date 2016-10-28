@@ -10,7 +10,8 @@ import React from 'react';
 import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import Signup from './../components/Signup';
-import * as actionCreators from './../actions';
+import * as commonActions from './../actions/commonActions';
+import * as authActions from './../actions/authActions';
 import {signup, generateClientAccessToken, generateUserAccessToken} from './../helpers/sdk';
 
 class SignupContainer extends React.Component {
@@ -52,25 +53,25 @@ const mapDispatchToProps = (dispatch) => {
       var password = $("#password").val();
       var name = $("#name").val();
 
-      dispatch(actionCreators.updateLoader(0.25));
+      dispatch(commonActions.updateLoader(0.25));
 
       signup(clientAccessToken, email, password, name)
         .then(function (response) {
-          dispatch(actionCreators.updateLoader(0.5));
+          dispatch(commonActions.updateLoader(0.5));
           generateUserAccessToken(clientAccessToken, email, password)
             .then(function (response2) {
-              dispatch(actionCreators.storeAccessToken(response2));
-              dispatch(actionCreators.updateLoader(1));
+              dispatch(authActions.saveAccessToken(response2));
+              dispatch(commonActions.updateLoader(1));
               browserHistory.push('/dashboard');
             })
             .catch(function (error) {
-              dispatch(actionCreators.updateLoader(1));
+              dispatch(commonActions.updateLoader(1));
               console.log('Failed generating access token. Please try again');
               console.log(error);
             });
         })
         .catch(function (error) {
-          dispatch(actionCreators.updateLoader(1));
+          dispatch(commonActions.updateLoader(1));
           console.log('Failed signup. Please try again');
           console.log(error);
         });
@@ -79,7 +80,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     genClientAccessToken: () => {
       generateClientAccessToken().then(function (response) {
-        dispatch(actionCreators.storeClientToken(response));
+        dispatch(authActions.saveClientAccessToken(response));
       }).catch(function (error) {
         console.log('Failed generating client token. Please try again');
         console.log(error);

@@ -12,5 +12,6 @@ require("react-dom");
 require("react-redux");
 require("react-router");
 require("redux");
+require("redux-thunk");
 require("react-ladda");
 require("axios");

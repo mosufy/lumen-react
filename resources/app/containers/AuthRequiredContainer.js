@@ -9,7 +9,8 @@
 import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
-import * as actionCreators from './../actions';
+import * as authActions from './../actions/authActions';
+import * as userActions from './../actions/userActions';
 import {refreshToken, getUserData} from './../helpers/sdk';
 
 /**
@@ -58,7 +59,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     refreshToken: (clientAccessToken, refreshTokenStr) => {
       refreshToken(clientAccessToken, refreshTokenStr).then(function (response) {
-        dispatch(actionCreators.storeAccessToken(response));
+        dispatch(authActions.saveAccessToken(response));
       }).catch(function (error) {
         console.log('Failed refreshing access token. Please try again');
         console.log(error);
@@ -66,7 +67,7 @@ const mapDispatchToProps = (dispatch) => {
     },
     getUserData: (accessToken) => {
       getUserData(accessToken).then(function (response) {
-        dispatch(actionCreators.saveUserData(response));
+        dispatch(userActions.saveUserData(response));
       }).catch(function (error) {
         console.log('Failed getting user data');
         console.log(error);

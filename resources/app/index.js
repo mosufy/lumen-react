@@ -9,16 +9,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Provider} from 'react-redux';
-import {createStore} from 'redux';
+import {createStore, applyMiddleware} from 'redux';
 import {Router, browserHistory} from 'react-router';
 import routes from './routes';
 import TodoApp from './reducers/index';
 import {loadState, saveState} from './localStorage';
 import throttle from 'lodash/throttle';
+import thunk from 'redux-thunk';
 
 // create store with persisted state using localStorage
 let persistedState = loadState();
-let store = createStore(TodoApp, persistedState);
+let store = createStore(TodoApp, persistedState, applyMiddleware(thunk));
 
 // subscribe to todos state changes
 // throttle added to only persist to localStorage at 1s interval

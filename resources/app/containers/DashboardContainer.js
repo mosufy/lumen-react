@@ -9,7 +9,9 @@
 import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
-import * as actionCreators from './../actions';
+import * as todoActions from './../actions/todoActions';
+import * as authActions from './../actions/authActions';
+import * as commonActions from './../actions/commonActions';
 import {getTodos, addTodo, toggleTodo, deleteAllTodos} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
@@ -47,7 +49,7 @@ const mapDispatchToProps = (dispatch) => {
   return {
     getTodos: (accessToken) => {
       getTodos(accessToken).then(function (response) {
-        dispatch(actionCreators.getTodos(response));
+        dispatch(todoActions.getTodos(response));
       }).catch(function (error) {
         console.log('Failed fetching ToDos');
         console.log(error);
@@ -61,11 +63,11 @@ const mapDispatchToProps = (dispatch) => {
         return;
       }
 
-      dispatch(actionCreators.updateLoader(0.5));
+      dispatch(commonActions.updateLoader(0.5));
 
       addTodo(accessToken, todoName.val()).then(function (response) {
-        dispatch(actionCreators.addTodo(response));
-        dispatch(actionCreators.updateLoader(1));
+        dispatch(todoActions.addTodo(response));
+        dispatch(commonActions.updateLoader(1));
       }).catch(function (error) {
         console.log('Failed to add ToDo');
         console.log(error);
@@ -77,17 +79,17 @@ const mapDispatchToProps = (dispatch) => {
       var id = $(e.target).closest("input").attr('id');
 
       toggleTodo(accessToken, id).then(function (response) {
-        dispatch(actionCreators.toggleCompleted(id, response));
+        dispatch(todoActions.toggleCompleted(id, response));
       }).catch(function (error) {
         console.log('Failed to toggle ToDo');
         console.log(error);
       });
 
-      dispatch(actionCreators.toggleCompleted(id));
+      dispatch(todoActions.toggleCompleted(id));
     },
     setVisibilityFilter: (e) => {
       var filter = $(e.target).closest("button").attr('id');
-      dispatch(actionCreators.setVisibilityFilter(filter));
+      dispatch(todoActions.setVisibilityFilter(filter));
     },
     resetTodo: (accessToken) => {
       deleteAllTodos(accessToken).then(function (response) {
@@ -97,7 +99,7 @@ const mapDispatchToProps = (dispatch) => {
         console.log(error);
       });
 
-      dispatch(actionCreators.resetTodo());
+      dispatch(todoActions.resetTodo());
     }
   };
 };
