@@ -51,6 +51,23 @@ export function generateUserAccessToken(clientAccessToken, username, password) {
 }
 
 /**
+ * Signup
+ *
+ * @param clientAccessToken
+ * @param email
+ * @param password
+ * @param name
+ * @returns AxiosPromise
+ */
+export function signup(clientAccessToken, email, password, name) {
+  return axios.post(Constant.apiUrl + '/account', {
+    email,
+    password,
+    name
+  }, config(clientAccessToken));
+}
+
+/**
  * Refresh existing user access token
  *
  * @param clientAccessToken
