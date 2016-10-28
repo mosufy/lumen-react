@@ -10,7 +10,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {browserHistory} from 'react-router';
 import * as actionCreators from './../actions';
-import {refreshToken} from './../helpers/sdk';
+import {refreshToken, getUserData} from './../helpers/sdk';
 
 /**
  * class AuthRequiredContainer
@@ -30,6 +30,12 @@ class AuthRequiredContainer extends React.Component {
         this.props.refreshToken(this.props.clientAccessToken, this.props.refreshTokenStr);
       }
     }
+
+    // Check if user data exists
+    if (this.props.user.id == undefined) {
+      // Fetch user data
+      this.props.getUserData(this.props.accessToken);
+    }
   }
 
   render() {
@@ -42,7 +48,9 @@ const mapStateToProps = (state) => {
     isAuthenticated: state.auth.isAuthenticated,
     tokenExpiresAt: state.auth.tokenExpiresAt,
     clientAccessToken: state.auth.clientAccessToken,
-    refreshTokenStr: state.auth.refreshToken
+    accessToken: state.auth.accessToken,
+    refreshTokenStr: state.auth.refreshToken,
+    user: state.user
   }
 };
 
@@ -53,6 +61,14 @@ const mapDispatchToProps = (dispatch) => {
         dispatch(actionCreators.storeAccessToken(response));
       }).catch(function (error) {
         console.log('Failed refreshing access token. Please try again');
+        console.log(error);
+      });
+    },
+    getUserData: (accessToken) => {
+      getUserData(accessToken).then(function (response) {
+        dispatch(actionCreators.saveUserData(response));
+      }).catch(function (error) {
+        console.log('Failed getting user data');
         console.log(error);
       });
     }

@@ -67,3 +67,16 @@ export const updateLoader = (progress) => {
     progress
   }
 };
+
+export const saveUserData = (payload) => {
+  return {
+    type: 'SAVE_USER_DATA',
+    payload
+  }
+};
+
+export const removeUserData = () => {
+  return {
+    type: 'REMOVE_USER_DATA'
+  }
+};

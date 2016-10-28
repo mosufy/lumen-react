@@ -6,7 +6,7 @@ export default class App extends React.Component {
   render() {
     return (
       <div className="container">
-        <Header pageTemplate={this.props.pageTemplate} logoutLink={this.props.logoutLink}/>
+        <Header pageTemplate={this.props.pageTemplate} logoutLink={this.props.logoutLink} user={this.props.user}/>
         {this.props.children}
         <Footer/>
       </div>

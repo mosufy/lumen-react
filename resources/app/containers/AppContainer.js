@@ -22,20 +22,27 @@ class AppContainer extends React.Component {
     }
 
     return (
-      <App pageTemplate={pageTemplate} {...this.props}/>
+      <App pageTemplate={pageTemplate} user={this.props.user} {...this.props}/>
     )
   }
 }
+
+const mapStateToProps = (state) => {
+  return {
+    user: state.user
+  }
+};
 
 const mapDispatchToProps = (dispatch) => {
   return {
     logoutLink: (e) => {
       e.preventDefault();
       dispatch(actionCreators.resetTodo());
+      dispatch(actionCreators.removeUserData());
       dispatch(actionCreators.logout());
       browserHistory.push('/');
     }
   };
 };
 
-export default connect(null, mapDispatchToProps)(AppContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);

@@ -7,7 +7,7 @@ export default class Header extends React.Component {
     return (
       <div className="header clearfix">
         <NavBar pageTemplate={this.props.pageTemplate} logoutLink={this.props.logoutLink}/>
-        <SiteLogo pageTemplate={this.props.pageTemplate}/>
+        <SiteLogo pageTemplate={this.props.pageTemplate} user={this.props.user}/>
       </div>
     );
   }

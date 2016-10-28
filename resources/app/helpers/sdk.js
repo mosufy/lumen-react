@@ -68,6 +68,16 @@ export function signup(clientAccessToken, email, password, name) {
 }
 
 /**
+ * Get user data
+ *
+ * @param accessToken
+ * @returns AxiosPromise
+ */
+export function getUserData(accessToken) {
+  return axios.get(Constant.apiUrl + '/account', config(accessToken));
+}
+
+/**
  * Refresh existing user access token
  *
  * @param clientAccessToken

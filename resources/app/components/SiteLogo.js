@@ -7,7 +7,11 @@ export default class SiteLogo extends React.Component {
     if (this.props.pageTemplate == 'public') {
       logoTitle = 'My TODOs';
     } else {
-      logoTitle = 'Welcome, User';
+      if (this.props.user.name == undefined) {
+        logoTitle = 'Welcome, User';
+      } else {
+        logoTitle = 'Welcome, ' + this.props.user.name;
+      }
     }
 
     return (

@@ -10,16 +10,18 @@
  */
 
 import {combineReducers} from 'redux';
+import auth from './auth';
+import user from './user';
 import todos from './todos';
 import visibilityFilter from './visibilityFilter';
-import auth from './auth';
 import loading from './loading';
 
 const TodoApp = combineReducers({
+  auth,
+  user,
   todos,
   visibilityFilter,
-  auth,
-  loading
+  loading,
 });
 
 export default TodoApp;

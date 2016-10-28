@@ -25,8 +25,9 @@ let store = createStore(TodoApp, persistedState);
 store.subscribe(throttle(() => {
   saveState({
     // Add more state objects as required for persistence
-    todos: store.getState().todos,
-    auth: store.getState().auth
+    auth: store.getState().auth,
+    user: store.getState().user,
+    todos: store.getState().todos
   })
 }, 1000));
 
