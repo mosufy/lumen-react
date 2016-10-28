@@ -29,7 +29,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] Example TODO API resource endpoints
 - [x] [Facade-free implementation](http://taylorotwell.com/response-dont-use-facades/)
 - [ ] Eloquent-free implementation
-- [ ] ReactJS for views
+- [x] ReactJS for views
 - [x] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
 - [x] API access logs for possible rate limiting
