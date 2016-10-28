@@ -127,6 +127,17 @@ Ping test endpoint: http://api.lumenapi.local/v1/services/ping
 {"data":[{"type":"timestamp","id":null,"attributes":{"timestamp":{"date":"2016-08-29 17:38:37.000000","timezone_type":3,"timezone":"UTC"}}}]}
 ```
 
+## Accessing the Website (Front-End)
+
+You should now be able to access the local website by typing http://lumenapi.local.
+
+Login to manage ToDo with email: `email@mail.com` & password: `password`.
+
+You may also register for a new account.
+
+The front-end is powered by ReactJS. Learn ReactJS from the official
+documentation [here](https://facebook.github.io/react/).
+
 ## Accessing the Database
 
 It is recommended to download and use SequelPro to access the database.
