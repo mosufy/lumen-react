@@ -64,11 +64,13 @@ const mapDispatchToProps = (dispatch) => {
               browserHistory.push('/dashboard');
             })
             .catch(function (error) {
+              dispatch(actionCreators.updateLoader(1));
               console.log('Failed generating access token. Please try again');
               console.log(error);
             });
         })
         .catch(function (error) {
+          dispatch(actionCreators.updateLoader(1));
           console.log('Failed signup. Please try again');
           console.log(error);
         });

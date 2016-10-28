@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Clearfix from './common/Clearfix';
+import LaddaButton, {SLIDE_RIGHT} from 'react-ladda';
 
 export default class Login extends React.Component {
   render() {
@@ -12,7 +13,11 @@ export default class Login extends React.Component {
             <form className="form-signin" onSubmit={this.props.submitForm}>
               <input id="email" type="email" className="form-control" placeholder="Email" required autoFocus="autoFocus"/>
               <input id="password" type="password" className="form-control" placeholder="Password" required/>
-              <button className="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+              <LaddaButton
+                className="btn btn-lg btn-primary btn-block"
+                type="submit"
+                loading={this.props.loading}
+                data-style={SLIDE_RIGHT}>Sign in</LaddaButton>
             </form>
             <Clearfix/>
           </div>

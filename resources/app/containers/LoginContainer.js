@@ -30,14 +30,16 @@ class LoginContainer extends React.Component {
   render() {
     var submitForm = this.props.loginUser.bind(this, this.props.auth.clientAccessToken);
     return (
-      <Login submitForm={submitForm}/>
+      <Login submitForm={submitForm}
+             loading={this.props.loading}/>
     );
   }
 }
 
 const mapStateToProps = (state) => {
   return {
-    auth: state.auth
+    auth: state.auth,
+    loading: !state.loading.completed
   }
 };
 
@@ -49,6 +51,8 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       var email = $("#email").val();
       var password = $("#password").val();
 
+      dispatch(actionCreators.updateLoader(0.5));
+
       generateUserAccessToken(clientAccessToken, email, password)
         .then(function (response) {
           let nextUrl = 'dashboard';
@@ -57,9 +61,11 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
 
           dispatch(actionCreators.storeAccessToken(response));
+          dispatch(actionCreators.updateLoader(1));
           browserHistory.push('/' + nextUrl);
         })
         .catch(function (error) {
+          dispatch(actionCreators.updateLoader(1));
           console.log('Failed generating access token. Please try again');
           console.log(error);
         });
