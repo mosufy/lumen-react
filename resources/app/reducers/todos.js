@@ -39,7 +39,7 @@ const todos = (state = [], action) => {
       });
     case 'RESET_TODO':
       return [];
-    case 'GET_TODOS':
+    case 'POPULATE_TODOS':
       var todos = action.payload.data.data;
       var items = [];
       for (var i = 0; i < todos.length; i++) {

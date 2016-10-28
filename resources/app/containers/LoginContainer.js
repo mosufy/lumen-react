@@ -49,7 +49,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
       var email = $("#email").val();
       var password = $("#password").val();
 
-      dispatch(authActions.loginUser(email, password))
+      dispatch(authActions.login(email, password))
         .then(() => {
           let nextUrl = 'dashboard';
           if (ownProps.location.query.next != undefined) {
@@ -57,7 +57,7 @@ const mapDispatchToProps = (dispatch, ownProps) => {
           }
           browserHistory.push('/' + nextUrl);
         })
-        .catch(function (error) {
+        .catch((error) => {
           console.log('Failed to log in user. Please try again');
           console.log(error);
         });

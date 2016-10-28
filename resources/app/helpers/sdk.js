@@ -97,7 +97,7 @@ export function getTodos(accessToken) {
   return axios.get(Constant.apiUrl + '/todos', config(accessToken));
 }
 
-export function addTodo(accessToken, text) {
+export function insertTodo(accessToken, text) {
   return axios.post(Constant.apiUrl + '/todos', {
     title: text
   }, config(accessToken));

@@ -10,27 +10,20 @@ import React from 'react';
 import MyTodo from './../components/MyTodo';
 import {connect} from 'react-redux';
 import * as todoActions from './../actions/todoActions';
-import * as authActions from './../actions/authActions';
-import * as commonActions from './../actions/commonActions';
-import {getTodos, addTodo, toggleTodo, deleteAllTodos} from './../helpers/sdk';
 
 class DashboardContainer extends React.Component {
-  componentWillMount() {
-    this.props.getTodos(this.props.auth.accessToken);
+  componentDidMount() {
+    this.props.getTodos();
   }
 
   render() {
-    var addTodo = this.props.addTodo.bind(this, this.props.auth.accessToken);
-    var toggleCompleted = this.props.toggleCompleted.bind(this, this.props.auth.accessToken);
-    var resetTodo = this.props.resetTodo.bind(this, this.props.auth.accessToken);
-
     return (
       <MyTodo items={this.props.todos}
               visibilityFilter={this.props.visibilityFilter}
-              addTodo={addTodo}
-              toggleCompleted={toggleCompleted}
+              addTodo={this.props.addTodo}
+              toggleCompleted={this.props.toggleCompleted}
               setVisibilityFilter={this.props.setVisibilityFilter}
-              resetTodo={resetTodo}
+              resetTodo={this.props.resetTodo}
               loading={this.props.loading}/>
     );
   }
@@ -47,59 +40,27 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getTodos: (accessToken) => {
-      getTodos(accessToken).then(function (response) {
-        dispatch(todoActions.getTodos(response));
-      }).catch(function (error) {
-        console.log('Failed fetching ToDos');
-        console.log(error);
-      });
+    getTodos: () => {
+      dispatch(todoActions.getTodos());
     },
-    addTodo: (accessToken, e) => {
+    addTodo: (e) => {
       e.preventDefault();
       var todoName = $("#todo_name");
 
-      if (todoName.val() == '') {
-        return;
-      }
-
-      dispatch(commonActions.updateLoader(0.5));
-
-      addTodo(accessToken, todoName.val()).then(function (response) {
-        dispatch(todoActions.addTodo(response));
-        dispatch(commonActions.updateLoader(1));
-      }).catch(function (error) {
-        console.log('Failed to add ToDo');
-        console.log(error);
-      });
-
+      dispatch(todoActions.insertTodo(todoName.val()));
       todoName.val('');
     },
-    toggleCompleted: (accessToken, e) => {
+    toggleCompleted: (e) => {
       var id = $(e.target).closest("input").attr('id');
-
-      toggleTodo(accessToken, id).then(function (response) {
-        dispatch(todoActions.toggleCompleted(id, response));
-      }).catch(function (error) {
-        console.log('Failed to toggle ToDo');
-        console.log(error);
-      });
-
+      dispatch(todoActions.toggleTodo(id));
       dispatch(todoActions.toggleCompleted(id));
     },
     setVisibilityFilter: (e) => {
       var filter = $(e.target).closest("button").attr('id');
       dispatch(todoActions.setVisibilityFilter(filter));
     },
-    resetTodo: (accessToken) => {
-      deleteAllTodos(accessToken).then(function (response) {
-        // do nothing
-      }).catch(function (error) {
-        console.log('Failed to reset ToDo');
-        console.log(error);
-      });
-
-      dispatch(todoActions.resetTodo());
+    resetTodo: () => {
+      dispatch(todoActions.deleteTodos());
     }
   };
 };

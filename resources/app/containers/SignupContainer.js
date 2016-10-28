@@ -10,9 +10,7 @@ import React from 'react';
 import {browserHistory} from 'react-router';
 import {connect} from 'react-redux';
 import Signup from './../components/Signup';
-import * as commonActions from './../actions/commonActions';
 import * as authActions from './../actions/authActions';
-import {signup, generateClientAccessToken, generateUserAccessToken} from './../helpers/sdk';
 
 class SignupContainer extends React.Component {
   componentWillMount() {
@@ -29,9 +27,8 @@ class SignupContainer extends React.Component {
   }
 
   render() {
-    var submitForm = this.props.signup.bind(this, this.props.auth.clientAccessToken);
     return (
-      <Signup submitForm={submitForm}
+      <Signup submitForm={this.props.signup}
               loading={this.props.loading}/>
     );
   }
@@ -46,45 +43,24 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    signup: (clientAccessToken, e) => {
+    signup: (e) => {
       e.preventDefault();
 
       var email = $("#email").val();
       var password = $("#password").val();
       var name = $("#name").val();
 
-      dispatch(commonActions.updateLoader(0.25));
-
-      signup(clientAccessToken, email, password, name)
-        .then(function (response) {
-          dispatch(commonActions.updateLoader(0.5));
-          generateUserAccessToken(clientAccessToken, email, password)
-            .then(function (response2) {
-              dispatch(authActions.saveAccessToken(response2));
-              dispatch(commonActions.updateLoader(1));
-              browserHistory.push('/dashboard');
-            })
-            .catch(function (error) {
-              dispatch(commonActions.updateLoader(1));
-              console.log('Failed generating access token. Please try again');
-              console.log(error);
-            });
+      dispatch(authActions.signup(email, password, name))
+        .then(() => {
+          browserHistory.push('/dashboard');
         })
-        .catch(function (error) {
-          dispatch(commonActions.updateLoader(1));
-          console.log('Failed signup. Please try again');
+        .catch((error) => {
+          console.log('Failed to sign up. Please try again');
           console.log(error);
         });
-
-      // spinner
     },
     genClientAccessToken: () => {
-      generateClientAccessToken().then(function (response) {
-        dispatch(authActions.saveClientAccessToken(response));
-      }).catch(function (error) {
-        console.log('Failed generating client token. Please try again');
-        console.log(error);
-      });
+      dispatch(authActions.generateClientAccessToken());
     }
   };
 };

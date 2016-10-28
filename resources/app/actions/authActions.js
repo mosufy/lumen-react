@@ -29,7 +29,7 @@ export const resetAccessToken = () => {
   }
 };
 
-export const loginUser = (email, password) => {
+export const login = (email, password) => {
   return (dispatch, getState) => {
     dispatch(updateLoader(0.5));
     return sdk.generateUserAccessToken(getState().auth.clientAccessToken, email, password)
@@ -45,6 +45,21 @@ export const loginUser = (email, password) => {
   }
 };
 
+export const signup = (email, password, name) => {
+  return (dispatch, getState) => {
+    dispatch(updateLoader(0.25));
+    return sdk.signup(getState().auth.clientAccessToken, email, password, name)
+      .then(() => {
+        return dispatch(login(email, password));
+      })
+      .catch(function (error) {
+        dispatch(updateLoader(1));
+        console.log('Failed to sign up user');
+        console.log(error);
+      });
+  }
+};
+
 export const generateClientAccessToken = () => {
   return (dispatch) => {
     return sdk.generateClientAccessToken()
@@ -53,6 +68,19 @@ export const generateClientAccessToken = () => {
       })
       .catch(function (error) {
         console.log('Failed generating client access token');
+        console.log(error);
+      })
+  }
+};
+
+export const refreshToken = () => {
+  return (dispatch) => {
+    return sdk.refreshToken(getState().auth.clientAccessToken, getState().auth.refreshToken)
+      .then((response) => {
+        dispatch(saveAccessToken(response));
+      })
+      .catch(function (error) {
+        console.log('Failed refreshing access token. Please try again');
         console.log(error);
       })
   }
