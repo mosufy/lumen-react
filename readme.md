@@ -1,27 +1,32 @@
-# Lumen - API
+# Lumen - ReactJS
 
-[![Build Status](https://travis-ci.org/mosufy/lumen-api.svg?branch=master)](https://travis-ci.org/mosufy/lumen-api) 
-[![codecov](https://codecov.io/gh/mosufy/lumen-api/branch/master/graph/badge.svg)](https://codecov.io/gh/mosufy/lumen-api)
-[![GitHub release](https://img.shields.io/github/release/mosufy/lumen-api.svg?maxAge=2592000)](https://github.com/mosufy/lumen-api)
-[![GitHub tag](https://img.shields.io/github/tag/mosufy/lumen-api.svg?maxAge=2592000)](https://github.com/mosufy/lumen-api/releases)
+[![Build Status](https://travis-ci.org/mosufy/lumen-react.svg?branch=master)](https://travis-ci.org/mosufy/lumen-react) 
+[![codecov](https://codecov.io/gh/mosufy/lumen-react/branch/master/graph/badge.svg)](https://codecov.io/gh/mosufy/lumen-react)
+[![GitHub release](https://img.shields.io/github/release/mosufy/lumen-react.svg?maxAge=2592000)](https://github.com/mosufy/lumen-react)
+[![GitHub tag](https://img.shields.io/github/tag/mosufy/lumen-react.svg?maxAge=2592000)](https://github.com/mosufy/lumen-react/releases)
 
-Foundation for API-centric Architecture with Lumen.
+Foundation for API-Centric Architecture with Lumen and ReactJS.
+
+Try out the demo https://lumen-react.mosufy.com.
 
 Kick-start your development for an api-centric web application with 
 this repository! Built with OAuth2 for authorization and authentication.
 
-## Basic Features
+## Key Features
 
-- [x] [Built on Lumen 5.3](https://lumen.laravel.com/)
+- [Lumen](https://lumen.laravel.com/) for RESTful API
+- [OAuth2](https://en.wikipedia.org/wiki/OAuth) for API authorization
+- [ReactJS](https://facebook.github.io/react/) for web front-end
+
+## Other Features
+
 - [x] MVC with Repository Pattern
-- [x] RESTful API endpoints
 - [x] Event-driven design
 - [x] [Requests and Responses based on JSON API Specification](http://jsonapi.org/)
 - [ ] [PHPDocumentor](https://www.phpdoc.org/)
 - [x] [Codeception Code Coverage and API Tester](http://codeception.com/)
 - [x] Build status and Code Coverage Report with [Travis CI](https://travis-ci.org) and [Codecov](https://codecov.io)
 - [x] Mailgun transactional email integration with queues
-- [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
 - [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.3/cache)
 - [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.3/queues)
 - [x] [Elasticsearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
@@ -29,7 +34,6 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] Example TODO API resource endpoints
 - [x] [Facade-free implementation](http://taylorotwell.com/response-dont-use-facades/)
 - [ ] Eloquent-free implementation
-- [x] ReactJS for views
 - [x] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
 - [x] API access logs for possible rate limiting
