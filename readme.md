@@ -40,6 +40,8 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] App logs saved to daily log file & database
 - [x] Multi-tenant environment
 - [ ] PHP-7 Support
+- [ ] Socket.io integration for real-time bidirectional event-based communication
+- [ ] Multi-role gated user with OAuth2
 
 ## Installation Instructions
 
