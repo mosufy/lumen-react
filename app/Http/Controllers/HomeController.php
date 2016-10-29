@@ -26,7 +26,7 @@ class HomeController
         try {
             // Get the correct hashed bundle JS file
             // TODO: Find a better way to fetch hash bundle.js
-            $jsonBundle = json_decode(file_get_contents(base_path('webpack.manifest.json')), true);
+            $jsonBundle = json_decode(file_get_contents(base_path('webpack.' . app()->environment() . '.manifest.json')), true);
             $bundleJS   = $jsonBundle['bundle']['js'];
 
             $jsonDll = json_decode(file_get_contents(base_path('webpack.dll.manifest.json')), true);

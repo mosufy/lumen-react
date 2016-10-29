@@ -18,7 +18,7 @@ module.exports = {
   devtool: 'eval',
   output: {
     path: path.join(__dirname, "public", "js"),
-    filename: '[name]-dev-[hash].js'
+    filename: '[name]-staging-[hash].js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -42,7 +42,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'API_HOST': JSON.stringify('https://lumenapi.local/v1'),
+        'API_HOST': JSON.stringify('https://lumen.staging.mosufy.com/v1'),
         'API_CLIENT_ID': JSON.stringify('6fC2745co07D4yW7X9saRHpJcE0sm0MT'),
         'API_CLIENT_SECRET': JSON.stringify('KLqMw5D7g1c6KX23I72hx5ri9d16GJDW')
       }
@@ -52,7 +52,7 @@ module.exports = {
       manifest: require(path.join(__dirname, 'public', 'js', 'dll', 'vendor-manifest.json'))
     }),
     new AssetsPlugin({
-      filename: 'webpack.local.manifest.json'
+      filename: 'webpack.staging.manifest.json'
     })
   ]
 };

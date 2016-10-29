@@ -8,8 +8,11 @@
  * @copyright Copyright (c) Mosufy
  */
 
-import Constant from './../helpers/constant';
 import axios from 'axios';
+
+const apiHost = process.env.API_HOST || 'https://lumenapi.local/v1';
+const apiClientId = process.env.API_CLIENT_ID || '6fC2745co07D4yW7X9saRHpJcE0sm0MT';
+const apiClientSecret = process.env.API_CLIENT_SECRET || 'KLqMw5D7g1c6KX23I72hx5ri9d16GJDW';
 
 const config = (accessToken = '') => {
   return ({
@@ -23,10 +26,10 @@ const config = (accessToken = '') => {
  * @returns AxiosPromise
  */
 export function generateClientAccessToken() {
-  return axios.post(Constant.apiUrl + '/oauth/access_token/client', {
+  return axios.post(apiHost + '/oauth/access_token/client', {
     grant_type: 'client_credentials',
-    client_id: Constant.clientId,
-    client_secret: Constant.clientSecret,
+    client_id: apiClientId,
+    client_secret: apiClientSecret,
     scope: 'role.app'
   });
 }
@@ -40,10 +43,10 @@ export function generateClientAccessToken() {
  * @returns AxiosPromise
  */
 export function generateUserAccessToken(clientAccessToken, username, password) {
-  return axios.post(Constant.apiUrl + '/oauth/access_token', {
+  return axios.post(apiHost + '/oauth/access_token', {
     grant_type: 'password',
-    client_id: Constant.clientId,
-    client_secret: Constant.clientSecret,
+    client_id: apiClientId,
+    client_secret: apiClientSecret,
     username,
     password,
     scope: 'role.user'
@@ -60,7 +63,7 @@ export function generateUserAccessToken(clientAccessToken, username, password) {
  * @returns AxiosPromise
  */
 export function signup(clientAccessToken, email, password, name) {
-  return axios.post(Constant.apiUrl + '/account', {
+  return axios.post(apiHost + '/account', {
     email,
     password,
     name
@@ -74,7 +77,7 @@ export function signup(clientAccessToken, email, password, name) {
  * @returns AxiosPromise
  */
 export function getUserData(accessToken) {
-  return axios.get(Constant.apiUrl + '/account', config(accessToken));
+  return axios.get(apiHost + '/account', config(accessToken));
 }
 
 /**
@@ -85,28 +88,28 @@ export function getUserData(accessToken) {
  * @returns AxiosPromise
  */
 export function refreshToken(clientAccessToken, refreshToken) {
-  return axios.post(Constant.apiUrl + '/oauth/access_token', {
+  return axios.post(apiHost + '/oauth/access_token', {
     grant_type: 'refresh_token',
-    client_id: Constant.clientId,
-    client_secret: Constant.clientSecret,
+    client_id: apiClientId,
+    client_secret: apiClientSecret,
     refresh_token: refreshToken
   }, config(clientAccessToken));
 }
 
 export function getTodos(accessToken) {
-  return axios.get(Constant.apiUrl + '/todos', config(accessToken));
+  return axios.get(apiHost + '/todos', config(accessToken));
 }
 
 export function insertTodo(accessToken, text) {
-  return axios.post(Constant.apiUrl + '/todos', {
+  return axios.post(apiHost + '/todos', {
     title: text
   }, config(accessToken));
 }
 
 export function toggleTodo(accessToken, id) {
-  return axios.put(Constant.apiUrl + '/todos/' + id + '/toggle', null, config(accessToken));
+  return axios.put(apiHost + '/todos/' + id + '/toggle', null, config(accessToken));
 }
 
 export function deleteAllTodos(accessToken) {
-  return axios.delete(Constant.apiUrl + '/todos', config(accessToken));
+  return axios.delete(apiHost + '/todos', config(accessToken));
 }
