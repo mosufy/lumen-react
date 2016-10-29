@@ -239,7 +239,8 @@ class TodoCest
         ]);
     }
 
-    public function createTodoWithMissingCategoryId(ApiTester $I)
+    // TODO: category_id is no longer required
+    /*public function createTodoWithMissingCategoryId(ApiTester $I)
     {
         $I->wantTo('test create todo with missing category_id');
         $I->amBearerAuthenticated($this->user_access_token);
@@ -255,7 +256,7 @@ class TodoCest
             "code"   => 50001001,
             "detail" => "Exception thrown while trying to create todo"
         ]);
-    }
+    }*/
 
     public function updateTodo(ApiTester $I)
     {
