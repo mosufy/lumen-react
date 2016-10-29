@@ -38,6 +38,7 @@ class UpdateTodoSearchIndex extends Job
      * Execute the job.
      *
      * @param TodoRepository $todoRepository
+     * @param Cache $cache
      * @return void
      */
     public function handle(TodoRepository $todoRepository, Cache $cache)

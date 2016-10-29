@@ -22,6 +22,15 @@ class Todo extends Model
     protected $table = 'todos';
 
     /**
+     * The attributes that should be casted to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'is_completed' => 'boolean',
+    ];
+
+    /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function category()
@@ -34,6 +43,6 @@ class Todo extends Model
      */
     public function user()
     { // @codeCoverageIgnoreStart
-        return $this->belongsTo('App\Models\User'); // @codeCoverageIgnore
+        return $this->belongsTo('App\Models\User');
     } // @codeCoverageIgnoreEnd
 }
