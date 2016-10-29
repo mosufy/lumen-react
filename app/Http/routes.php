@@ -27,7 +27,7 @@ $app->group(['prefix' => 'v1', 'middleware' => 'oauth:role.user'], function () u
     // to-do resource endpoints
     $app->get('/todos[{param}]', ['as' => 'todo.index', 'uses' => '\App\Http\Controllers\TodoController@index']);
     $app->get('/todos/{todo_uid}', ['as' => 'todo.show', 'uses' => '\App\Http\Controllers\TodoController@show']);
-    $app->post('/todos', ['as' => 'todo.store', 'uses' => '\App\Http\Controllers\ToDoController@store']);
+    $app->post('/todos', ['as' => 'todo.store', 'uses' => '\App\Http\Controllers\TodoController@store']);
     $app->put('/todos/{todo_uid}/toggle', ['as' => 'todo.toggle', 'uses' => '\App\Http\Controllers\TodoController@toggle']);
     $app->put('/todos/{todo_uid}', ['as' => 'todo.update', 'uses' => '\App\Http\Controllers\TodoController@update']);
     $app->delete('/todos', ['as' => 'todo.destroyAll', 'uses' => '\App\Http\Controllers\TodoController@destroyAll']);
