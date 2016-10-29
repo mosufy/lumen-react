@@ -9,7 +9,6 @@
 
 namespace App\Traits;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Http\Request;
@@ -38,7 +37,7 @@ trait ResponseTrait
 
         $jsonapi = [];
 
-        $params = CommonHelper::unsetInternalParams($this->getRequest()->all());
+        $params = unsetInternalParams($this->getRequest()->all());
 
         if ($this->getRequest()->method() == 'GET' && !empty($params)) {
             $jsonapi['meta'] = [
@@ -162,7 +161,7 @@ trait ResponseTrait
         $data = $data->toArray();
 
         $jsonapi['meta'] = [
-            'filter' => CommonHelper::unsetInternalParams($this->getRequest()->all())
+            'filter' => unsetInternalParams($this->getRequest()->all())
         ];
 
         if (!empty($data['data'])) {

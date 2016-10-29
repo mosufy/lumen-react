@@ -216,11 +216,12 @@ sudo chmod -R o-rwx ${TARGETSTORAGE}
 sudo find ${TARGETSTORAGE} -type d -exec chmod g+ws {} \;
 
 #
-# Reload nginx and php-fpm
+# Reload nginx, php-fpm and supervisord
 #
-echo "Reloading nginx and php-fpm"
+echo "Reloading nginx, php-fpm and supervisord"
 sudo service nginx reload > /dev/null 2>&1
 sudo service php-fpm reload > /dev/null 2>&1
+sudo service supervisord restart > /dev/null 2>&1
 
 #
 # Import elasticsearch indexes

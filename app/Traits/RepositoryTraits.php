@@ -9,7 +9,6 @@
 
 namespace App\Traits;
 
-use App\Helpers\CommonHelper;
 use Illuminate\Contracts\Cache\Repository as Cache;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -109,11 +108,11 @@ trait RepositoryTraits
      * @param bool       $skipOffset Offset is usually not required if data is from Elasticsearch
      * @return LengthAwarePaginator
      */
-    protected function getPaginated($object, $params, $total = '', $skipOffset = false)
+    protected function paginate($object, $params, $total = '', $skipOffset = false)
     {
         $db = app('db');
 
-        $params = CommonHelper::unsetInternalParams($params);
+        $params = unsetInternalParams($params);
 
         $params['page']  = $this->getPage($params);
         $params['limit'] = $this->getLimit($params);

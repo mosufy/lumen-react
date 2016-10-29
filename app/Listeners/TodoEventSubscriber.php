@@ -11,6 +11,7 @@ namespace App\Listeners;
 
 use App\Events\TodoCreated;
 use App\Events\TodoDeleted;
+use App\Events\TodosDeleted;
 use App\Events\TodoUpdated;
 use App\Jobs\UpdateTodoSearchIndex;
 use Illuminate\Contracts\Cache\Repository as Cache;
@@ -67,7 +68,7 @@ class TodoEventSubscriber
     }
 
     /**
-     * Handle todos deleted events.
+     * Handle todox deleted event.
      *
      * @param TodoDeleted $event
      */
@@ -85,6 +86,22 @@ class TodoEventSubscriber
 
         // Clear user's Todos caches
         $this->cache->forget('todosByUserId_' . $event->todo->user_id);
+    }
+
+    /**
+     * Handle todos deleted events.
+     *
+     * @param TodosDeleted $event
+     */
+    public function onTodosDeleted($event)
+    {
+        // FIXME: Deleting queued job above does not seem to work. Will have to re-look into this.
+        foreach ($event as $todo) {
+            app(Dispatcher::class)->dispatchNow((new UpdateTodoSearchIndex($todo, 'delete')));
+        }
+
+        // Clear user's Todos caches
+        $this->cache->forget('todosByUserId_' . $event->todos[0]->user_id);
     }
 
     /**
@@ -107,6 +124,11 @@ class TodoEventSubscriber
         $events->listen(
             'App\Events\TodoDeleted',
             'App\Listeners\TodoEventSubscriber@onTodoDeleted'
+        );
+
+        $events->listen(
+            'App\Events\TodosDeleted',
+            'App\Listeners\TodoEventSubscriber@onTodosDeleted'
         );
     } // @codeCoverageIgnoreEnd
 }

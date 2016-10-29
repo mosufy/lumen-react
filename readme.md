@@ -12,7 +12,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 ## Basic Features
 
-- [x] [Built on Lumen 5.2](https://lumen.laravel.com/)
+- [x] [Built on Lumen 5.3](https://lumen.laravel.com/)
 - [x] MVC with Repository Pattern
 - [x] RESTful API endpoints
 - [x] Event-driven design
@@ -22,14 +22,14 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [x] Build status and Code Coverage Report with [Travis CI](https://travis-ci.org) and [Codecov](https://codecov.io)
 - [x] Mailgun transactional email integration with queues
 - [x] [OAuth2 for authorization](https://en.wikipedia.org/wiki/OAuth)
-- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.2/cache)
-- [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.2/queues)
+- [x] [In-memory cache with memcached](https://lumen.laravel.com/docs/5.3/cache)
+- [x] [Message queue service with Redis](https://lumen.laravel.com/docs/5.3/queues)
 - [x] [Elasticsearch for fast and real-time search](https://www.elastic.co/products/elasticsearch)
 - [ ] Elasticsearch distributed index with replication for fail-overs (sharding with replication)
 - [x] Example TODO API resource endpoints
 - [x] [Facade-free implementation](http://taylorotwell.com/response-dont-use-facades/)
 - [ ] Eloquent-free implementation
-- [ ] ReactJS for views
+- [x] ReactJS for views
 - [x] Jenkins-ready deployment
 - [x] Local setup using Vagrant and VirtualBox
 - [x] API access logs for possible rate limiting
@@ -127,6 +127,17 @@ Ping test endpoint: http://api.lumenapi.local/v1/services/ping
 {"data":[{"type":"timestamp","id":null,"attributes":{"timestamp":{"date":"2016-08-29 17:38:37.000000","timezone_type":3,"timezone":"UTC"}}}]}
 ```
 
+## Accessing the Website (Front-End)
+
+You should now be able to access the local website by typing http://lumenapi.local.
+
+Login to manage ToDo with email: `email@mail.com` & password: `password`.
+
+You may also register for a new account.
+
+The front-end is powered by ReactJS. Learn ReactJS from the official
+documentation [here](https://facebook.github.io/react/).
+
 ## Accessing the Database
 
 It is recommended to download and use SequelPro to access the database.
@@ -180,7 +191,21 @@ You will start to observe `Processed: App\Jobs\SendMailer`, indicating
 that the queued job has now been processed. No email has been sent out
 as the `MAIL_PRETEND` in .env is set to `true`.
 
-Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.2/queues) 
+The `build.sh` file for vagrant already comes with Supervisor to manage
+your queue workers. This will ensure that your queue listener will 
+always be running.
+
+To start/stop Supervisor, simply run these commands.
+
+```
+# Get the current status of Supervisor
+$ sudo service supervisord status
+
+# Start/Stop Supervisor
+$ sudo service supervisord start|stop
+```
+
+Refer to the [Lumen Queues](https://lumen.laravel.com/docs/5.3/queues) 
 to understand more of how Queue works.
 
 ## Codeception Testing
@@ -211,7 +236,7 @@ $ vendor/bin/codecept run
 
 ## Don't use Facades
 
-First commented as a Reddit post, and as agreed by Taylor Otwell himself 
+First brought up as a Reddit post, and as agreed by Taylor Otwell himself 
 as a bad practice, Laravel 5.0 and above are now having lesser dependence 
 on facades. Taylor now provides alternatives to Facades in its 
 Documentations. Read the [original content](https://www.reddit.com/r/PHP/comments/1v0p6h/stop_using_facades/) 
