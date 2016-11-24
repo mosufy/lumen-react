@@ -1,0 +1,14 @@
+---
+- name: Download apigen
+  get_url:
+    url: http://apigen.org/apigen.phar
+    dest: /tmp/apigen.phar
+
+- name: Rename apigen.phar to apigen
+  command: mv /tmp/apigen.phar /usr/local/bin/apigen
+
+- name: Make apigen executable
+  file:
+    path: /usr/local/bin/apigen
+    mode: a+x
+    state: file

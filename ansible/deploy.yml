@@ -1,0 +1,7 @@
+---
+- name: Deploy to webserver
+  hosts: webserver
+  become: true
+  become_method: sudo
+  roles:
+  - deploy

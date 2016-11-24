@@ -1,0 +1,15 @@
+---
+- name: Install some useful basic RPMs
+  yum: name={{ item }} state=present
+  with_items:
+  - sysstat
+  - wget
+  - ntp
+  - bind-utils
+  - zip
+  - unzip
+  - rsync
+  - openssh-clients
+  - mlocate
+  - telnet
+  - vim

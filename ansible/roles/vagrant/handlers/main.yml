@@ -1,0 +1,6 @@
+---
+- name: reboot webserver
+  shell: sleep 2 && shutdown -r now "Ansible reboot."
+  async: 1
+  poll: 0
+  ignore_errors: true

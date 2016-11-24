@@ -1,0 +1,7 @@
+---
+# Set MySQL root password
+mysql_root_password: "CCPQGcSV"
+
+# my.cnf config
+mysql_slow_query_log: 0
+mysql_long_query_time: 1

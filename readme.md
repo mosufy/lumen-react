@@ -42,6 +42,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 - [ ] PHP-7 Support
 - [ ] Socket.io integration for real-time bidirectional event-based communication
 - [ ] Multi-role gated user with OAuth2
+- [ ] [Ansible](https://www.ansible.com/) to manage environment configuration, build and deploy
 
 ## Installation Instructions
 

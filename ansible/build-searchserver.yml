@@ -1,0 +1,7 @@
+---
+- name: Build searchserver
+  hosts: searchservers
+  become: true
+  become_method: sudo
+  roles:
+  - searchserver

@@ -1,0 +1,15 @@
+---
+- include: lamp-base.yml
+- include: php-extensions.yml
+- include: composer.yml
+- include: npm.yml
+- include: nginx.yml
+- include: sendmail.yml
+
+- include: dev.yml
+  when: app_env != 'production'
+
+- name: Install all updates
+  yum: name=* state=latest
+
+- include: root.yml

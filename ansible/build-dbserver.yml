@@ -1,0 +1,7 @@
+---
+- name: Build dbserver
+  hosts: dbservers
+  become: true
+  become_method: sudo
+  roles:
+  - dbserver

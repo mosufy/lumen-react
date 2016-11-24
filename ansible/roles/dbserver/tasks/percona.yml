@@ -1,0 +1,20 @@
+---
+- name: Remove MariaDB
+  yum:
+    name: mariadb-libs*
+    state: absent
+
+- name: Install Percona yum repository
+  yum:
+    name: http://www.percona.com/downloads/percona-release/redhat/0.1-3/percona-release-0.1-3.noarch.rpm
+    state: present
+
+- name: Install Percona Client
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - Percona-Server-client-57
+  - Percona-Server-shared-57
+
+- include: percona-server.yml

@@ -1,0 +1,23 @@
+---
+- name: Install Sendmail
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - sendmail
+  - sendmail-cf
+  - make
+  - mailx
+
+- name: Remove Postfix
+  yum:
+    name: postfix
+    state: absent
+
+- name: Copy Sendmail config
+  copy:
+    src: /etc/aliases
+    dest: /etc/mail/aliases
+
+- name: Enable Sendmail service
+  service: name=sendmail enabled=yes

@@ -1,0 +1,8 @@
+---
+- name: Install nginx and Webtatic repos
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - http://nginx.org/packages/centos/7/noarch/RPMS/nginx-release-centos-7-0.el7.ngx.noarch.rpm
+    - https://mirror.webtatic.com/yum/el7/webtatic-release.rpm

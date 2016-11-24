@@ -1,0 +1,13 @@
+---
+- name: Install NPM software
+  yum:
+    name: npm
+    state: present
+
+- name: Install Bower and Gulp
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+  - bower
+  - gulp

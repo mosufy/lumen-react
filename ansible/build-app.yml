@@ -1,0 +1,7 @@
+---
+- name: Build app
+  hosts: webservers
+  become: true
+  become_method: sudo
+  roles:
+  - app

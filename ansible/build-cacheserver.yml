@@ -1,0 +1,7 @@
+---
+- name: Build cacheserver
+  hosts: cacheservers
+  become: true
+  become_method: sudo
+  roles:
+  - cacheserver

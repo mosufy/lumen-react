@@ -1,0 +1,43 @@
+---
+# Hardening mysql with mysql_secure_installation
+
+- name: Stop MySQL
+  service:
+    name: mysql
+    state: stopped
+
+- name: Skip root password requirement
+  command: systemctl set-environment MYSQLD_OPTS="--skip-grant-tables"
+
+- name: Start MySQL
+  service:
+    name: mysql
+    state: started
+
+- name: Hardening DB Update root password
+  command:  mysql -u root --execute="UPDATE mysql.user SET authentication_string = PASSWORD('{{ mysql_root_password }}') WHERE User = 'root';"
+
+- name: Hardening DB Remove root login from remote
+  command:  mysql -u root --execute="DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('localhost', '127.0.0.1', '::1');"
+
+- name: Hardening DB Remove anonymous user
+  command:  mysql -u root --execute="DELETE FROM mysql.user WHERE User='';"
+
+- name: Hardening DB Delete test database
+  command:  mysql -u root --execute="DELETE FROM mysql.db WHERE Db='test' OR Db='test\_%';"
+
+- name: sql query flush
+  command:  mysql -u root --execute="FLUSH PRIVILEGES"
+
+- name: Stop MySQL
+  service:
+    name: mysql
+    state: stopped
+
+- name: Unset skip root password requirement
+  command: systemctl unset-environment MYSQLD_OPTS
+
+- name: Start MySQL
+  service:
+    name: mysql
+    state: started

@@ -1,0 +1,8 @@
+---
+- name: Install some PHP extensions
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - php70w-pecl-apcu
+  - php70w-pecl-imagick

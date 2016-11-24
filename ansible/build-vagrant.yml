@@ -1,0 +1,7 @@
+---
+- name: Build on local vagrant
+  hosts: webservers
+  become: true
+  become_method: sudo
+  roles:
+    - vagrant

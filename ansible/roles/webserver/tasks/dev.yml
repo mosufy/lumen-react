@@ -1,0 +1,14 @@
+---
+# Only required for development webserver
+
+- name: Install Development tools
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - php70w-pecl-xdebug
+  - php70w-devel
+  - php-pear-PhpDocumentor
+  - php-phpunit-PHPUnit
+
+- include: dev-apigen.yml
