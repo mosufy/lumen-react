@@ -24,6 +24,7 @@ queue_name: "lumenreact_queue"
 # ansible config
 #
 deploy_type: "update"
+require_ssl: false
 
 #
 # DOTenv
