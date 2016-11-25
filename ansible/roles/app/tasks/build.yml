@@ -1,15 +1,20 @@
 ---
 - name: Fixing laravel app storage permissions
   file:
-    path: "../{{ playbook_dir }}/storage/logs"
+    path: "{{ app_path }}/storage/logs"
     mode: 0766
+    state: directory
 
 - name: Install composer vendor packages
   composer:
     command: install
-    working_dir: "../{{ playbook_dir }}"
+    working_dir: "{{ app_path }}"
+  become: true
+  become_user: "{{ web_user }}"
 
 - name: Creating .env file
   template:
     src: DOTenv.j2
-    dest: "../{{ playbook_dir }}/.env"
+    dest: "{{ app_path }}/.env"
+  become: true
+  become_user: "{{ web_user }}"

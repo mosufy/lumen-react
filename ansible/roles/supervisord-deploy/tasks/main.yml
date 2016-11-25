@@ -1,0 +1,34 @@
+---
+- name: Insert app queue config in /etc/supervisord.conf
+  blockinfile:
+    dest: /etc/supervisord.conf
+    insertafter: EOF
+    block: |
+      [program:{{ queue_name }}]
+      command=/usr/local/bin/run_{{ queue_name }}.sh
+      autostart=true
+      autorestart=true
+      stderr_logfile=/var/log/{{ queue_name }}.err.log
+      stdout_logfile=/var/log/{{ queue_name }}.out.log
+
+- name: Create shell script to run queue command
+  blockinfile:
+    dest: /usr/local/bin/run_{{ queue_name }}.sh
+    create: yes
+    block: |
+      #!/bin/bash
+      php {{ app_path}}/artisan --env={{ app_env }} --timeout=240 queue:work --queue:high,default,low
+
+- name: Update /usr/local/bin/run_{{ queue_name }}.sh to executable
+  file:
+    path: /usr/local/bin/run_{{ queue_name }}.sh
+    mode: a+x
+    state: file
+
+- name: Run Supervisord
+  command: /usr/local/bin/run_{{ queue_name }}.sh
+
+- name: Restart Supervisord
+  service:
+    name: supervisord
+    state: restarted

@@ -1,0 +1,6 @@
+---
+- name: Run artisan migration
+  command: "php {{ app_path }}/artisan migrate"
+
+- name: Run artisan db:seed
+  command: "php {{ app_path }}/artisan db:seed"

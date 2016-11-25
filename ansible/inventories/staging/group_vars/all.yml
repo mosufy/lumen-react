@@ -3,6 +3,8 @@ app_env: staging
 app_name: "lumen-react"
 app_path: "/var/www/sites/lumen-react"
 
+web_user: "vagrant"
+
 mysql_root_password: "mosufy"
 mysql_slow_query_log: 1
 
@@ -13,6 +15,8 @@ nginx_server_name: "lumen-react-staging.mosufy.com api-lumen-react-staging.mosuf
 nginx_ssl_cert: "lumen-react.crt"
 nginx_ssl_cert_key: "lumen-react.key"
 
+queue_name: "lumenreact_queue"
+
 #
 # DOTenv
 #
@@ -20,7 +24,7 @@ app_debug: true
 app_key: "FoNrCM7ZQo9Vvj7c5H8568m7xa81DI7P"
 
 db_connection: mysql
-db_host: "{{ group_names['dbservers'] }}"
+db_host: "{{ hostvars[groups['dbservers'][0]] }}"
 db_port: 3306
 db_database: "lumenreact"
 db_username: "lumenreact"
@@ -37,11 +41,11 @@ mail_pretend: true
 mailgun_domain:
 mailgun_secret:
 
-trusted_proxies: "{{ invetory_hostname }}"
+trusted_proxies: "{{ inventory_hostname }}"
 
 accesslog_switch: "on"
 queue_switch: "on"
 
-elasticsearch_host: "{{ group_names['searchservers'] }}:9200"
+elasticsearch_host: "{{ hostvars[groups['searchservers'][0]] }}:9200"
 elasticsearch_index: "todo_index"
 elasticsearch_type: "todo_type"

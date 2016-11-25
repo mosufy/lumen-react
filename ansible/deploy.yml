@@ -1,7 +1,14 @@
 ---
-- name: Deploy to webserver
-  hosts: webserver
+- name: Build app on single initializer webserver
+  hosts: webserver-init
   become: true
   become_method: sudo
   roles:
-  - deploy
+  - app-deploy
+
+- name: Deploy to supervisordservers
+  hosts: supervisordservers
+  become: true
+  become_method: sudo
+  roles:
+  - supervisord-deploy

@@ -1,0 +1,7 @@
+---
+- name: Build supervisord server
+  hosts: supervisordservers
+  become: true
+  become_method: sudo
+  roles:
+  - supervisord

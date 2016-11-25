@@ -5,3 +5,10 @@
   become_method: sudo
   roles:
   - app
+
+- name: Build app on single initializer webserver
+  hosts: webserver-init
+  become: true
+  become_method: sudo
+  roles:
+  - app-deploy

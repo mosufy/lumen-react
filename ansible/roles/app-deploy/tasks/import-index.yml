@@ -1,0 +1,3 @@
+---
+- name: Import Elasticsearch index
+  command: "php {{ app_path }}/artisan elasticsearch:importIndex"
