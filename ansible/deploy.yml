@@ -1,4 +1,11 @@
 ---
+- name: Prepare database
+  hosts: dbservers
+  become: true
+  become_method: sudo
+  tasks:
+  - include: roles/dbserver/tasks/deploy.yml
+
 - name: Deploy app to webservers
   hosts: webservers
   become: true
@@ -13,6 +20,7 @@
   tasks:
   - include: roles/app/tasks/migrate.yml
   - include: roles/app/tasks/import-index.yml
+  - include: roles/app/tasks/cron.yml
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers

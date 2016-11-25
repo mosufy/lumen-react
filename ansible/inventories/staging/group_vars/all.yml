@@ -29,7 +29,6 @@ db_port: 3306
 db_database: "lumenreact"
 db_username: "lumenreact"
 db_password: "password"
-dba_password: "rootpassword"
 
 cache_driver: "memcached"
 session_driver: "memcached"

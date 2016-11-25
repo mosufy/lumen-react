@@ -1,6 +1,7 @@
 ---
-- name: Run artisan migration
+- name: Run artisan migrate
   command: "php {{ app_path }}/artisan migrate"
 
 - name: Run artisan db:seed
   command: "php {{ app_path }}/artisan db:seed"
+  when: deploy_type == 'new'

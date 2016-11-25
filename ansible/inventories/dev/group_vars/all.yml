@@ -1,4 +1,7 @@
 ---
+#
+# app config
+#
 app_env: dev
 app_name: "lumen-react"
 app_path: "/var/www/lumen-react"
@@ -18,6 +21,11 @@ nginx_ssl_cert_key: "lumen-react.key"
 queue_name: "lumenreact_queue"
 
 #
+# ansible config
+#
+deploy_type: "new"
+
+#
 # DOTenv
 #
 app_debug: true
@@ -29,7 +37,6 @@ db_port: 3306
 db_database: "lumenreact"
 db_username: "lumenreact"
 db_password: "password"
-dba_password: "rootpassword"
 
 cache_driver: "memcached"
 session_driver: "memcached"
