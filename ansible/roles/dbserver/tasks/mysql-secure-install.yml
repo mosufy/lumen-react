@@ -41,3 +41,6 @@
   service:
     name: mysql
     state: started
+
+- name: Alter mysql root user password
+  command:  mysql -uroot -p{{ mysql_root_password }} --connect-expired-password --execute="ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_password }}';"

@@ -1,11 +1,14 @@
 ---
+#
+# app config
+#
 app_env: staging
 app_name: "lumen-react"
 app_path: "/var/www/sites/lumen-react"
 
 web_user: "vagrant"
 
-mysql_root_password: "mosufy"
+mysql_root_password: "Mosufy@123"
 mysql_slow_query_log: 1
 
 elasticsearch_network_host: "10.1.2.100"
@@ -18,6 +21,11 @@ nginx_ssl_cert_key: "lumen-react.key"
 queue_name: "lumenreact_queue"
 
 #
+# ansible config
+#
+deploy_type: "update"
+
+#
 # DOTenv
 #
 app_debug: true
@@ -28,7 +36,7 @@ db_host: "10.1.2.100"
 db_port: 3306
 db_database: "lumenreact"
 db_username: "lumenreact"
-db_password: "password"
+db_password: "P@ssw0rd"
 
 cache_driver: "memcached"
 session_driver: "memcached"
