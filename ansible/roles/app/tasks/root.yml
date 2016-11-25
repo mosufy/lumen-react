@@ -5,8 +5,3 @@
     dest: /etc/nginx/conf.d/{{ app_name }}.conf
   notify:
     - restart nginx
-
-- name: Deploying /etc/elasticsearch/elasticsearch.yml
-  template:
-    src: etc+elasticsearch+elasticsearch.yml.j2
-    dest: /etc/elasticsearch/elasticsearch.yml

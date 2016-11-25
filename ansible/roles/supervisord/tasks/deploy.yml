@@ -27,8 +27,4 @@
 
 - name: Run Supervisord
   command: /usr/local/bin/run_{{ queue_name }}.sh
-
-- name: Restart Supervisord
-  service:
-    name: supervisord
-    state: restarted
+  notify: restart supervisord

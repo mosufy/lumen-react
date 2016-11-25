@@ -1,0 +1,5 @@
+---
+- name: Deploy /etc/elasticsearch/elasticsearch.yml
+  template:
+    src: etc+elasticsearch+elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml

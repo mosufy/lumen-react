@@ -1,14 +1,29 @@
 ---
-- name: Build app on single initializer webserver
-  hosts: webserver-init
+- name: Deploy app to webservers
+  hosts: webservers
   become: true
   become_method: sudo
   roles:
-  - app-deploy
+  - app
+
+- name: Deploy to first webserver
+  hosts: webservers[0]
+  become: true
+  become_method: sudo
+  tasks:
+  - include: roles/app/tasks/migrate.yml
+  - include: roles/app/tasks/import-index.yml
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers
   become: true
   become_method: sudo
-  roles:
-  - supervisord-deploy
+  tasks:
+  - include: roles/supervisord/tasks/deploy.yml
+
+- name: Deploy to searchservers
+  hosts: searchservers
+  become: true
+  become_method: sudo
+  tasks:
+  - include: roles/searchserver/tasks/deploy.yml
