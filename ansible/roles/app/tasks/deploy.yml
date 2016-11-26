@@ -10,7 +10,7 @@
     src: ../files/etc+nginx+ssl+{{ app_name }}.key
     dest: /etc/nginx/ssl/{{ app_name }}.key
   when: require_ssl == true
-  
+
 - name: Remove storage logs
   file:
     path: "{{ app_path }}/storage/logs"
@@ -28,7 +28,7 @@
 - name: Re-create storage logs .gitignore
   file:
     path: "{{ app_path }}/storage/logs/.gitignore"
-    state: file
+    state: touch
   become: true
   become_user: "{{ web_user }}"
   when: deploy_type == 'new'
@@ -47,6 +47,8 @@
   become: true
   become_user: "{{ web_user }}"
   when: app_env != 'production'
+  notify:
+    composer dumpautoload
 
 - name: Install composer vendor packages for production
   composer:
@@ -55,17 +57,12 @@
   become: true
   become_user: "{{ web_user }}"
   when: app_env == 'production'
+  notify:
+    composer dumpautoload
 
 - name: Creating .env file
   template:
     src: DOTenv.j2
     dest: "{{ app_path }}/.env"
-  become: true
-  become_user: "{{ web_user }}"
-
-- name: Composer dumpautoload
-  composer:
-    command: dumpautoload
-    working_dir: "{{ app_path }}"
   become: true
   become_user: "{{ web_user }}"

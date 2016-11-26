@@ -28,3 +28,4 @@
 - name: Run Supervisord
   command: /usr/local/bin/run_{{ queue_name }}.sh
   notify: restart supervisord
+  when: queue_switch == 'on'

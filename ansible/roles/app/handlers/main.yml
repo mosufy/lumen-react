@@ -3,3 +3,10 @@
   service:
     name: nginx
     state: restarted
+
+- name: composer dumpautoload
+  composer:
+    command: dumpautoload
+    working_dir: "{{ app_path }}"
+  become: true
+  become_user: "{{ web_user }}"

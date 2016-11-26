@@ -29,9 +29,9 @@
   tasks:
   - include: roles/supervisord/tasks/deploy.yml
 
-- name: Deploy to elasticsearch servers
-  hosts: elasticsearchservers
-  become: true
-  become_method: sudo
-  tasks:
-  - include: roles/elasticsearchserver/tasks/deploy.yml
+#- name: Deploy to elasticsearch servers
+#  hosts: elasticsearchservers
+#  become: true
+#  become_method: sudo
+#  tasks:
+#  - include: roles/elasticsearchserver/tasks/deploy.yml
