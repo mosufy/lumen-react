@@ -7,7 +7,7 @@
 - include: sendmail.yml
 
 - include: dev.yml
-  when: app_env != 'production'
+  when: app_env == 'dev'
 
 - name: Install all updates
   yum: name=* state=latest
