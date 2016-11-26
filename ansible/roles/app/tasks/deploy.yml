@@ -11,28 +11,6 @@
     dest: /etc/nginx/ssl/{{ app_name }}.key
   when: require_ssl == true
 
-- name: Remove storage logs
-  file:
-    path: "{{ app_path }}/storage/logs"
-    state: absent
-  when: deploy_type == 'new'
-
-- name: Re-create storage logs
-  file:
-    path: "{{ app_path }}/storage/logs"
-    state: directory
-  become: true
-  become_user: "{{ web_user }}"
-  when: deploy_type == 'new'
-
-- name: Re-create storage logs .gitignore
-  file:
-    path: "{{ app_path }}/storage/logs/.gitignore"
-    state: touch
-  become: true
-  become_user: "{{ web_user }}"
-  when: deploy_type == 'new'
-
 - name: Fixing laravel app storage permissions
   file:
     path: "{{ app_path }}/storage/logs"
