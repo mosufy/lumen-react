@@ -42,7 +42,7 @@ module.exports = {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        'API_HOST': JSON.stringify('https://lumenapi.local/v1'),
+        'API_HOST': JSON.stringify('https://lumen-react.local/v1'),
         'API_CLIENT_ID': JSON.stringify('6fC2745co07D4yW7X9saRHpJcE0sm0MT'),
         'API_CLIENT_SECRET': JSON.stringify('KLqMw5D7g1c6KX23I72hx5ri9d16GJDW')
       }
