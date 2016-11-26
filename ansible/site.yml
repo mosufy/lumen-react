@@ -1,8 +1,9 @@
 ---
 - include: build-webserver.yml
-- include: build-cacheserver.yml
+- include: build-memcachedserver.yml
+- include: build-redisserver.yml
 - include: build-dbserver.yml
-- include: build-searchserver.yml
+- include: build-elasticsearchserver.yml
 - include: build-supervisord.yml
 - include: build-vagrant.yml
 - include: deploy.yml

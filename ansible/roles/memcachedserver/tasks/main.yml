@@ -1,4 +1,3 @@
 ---
 - include: memcached.yml
-- include: redis.yml
 #- include: php-extensions.yml

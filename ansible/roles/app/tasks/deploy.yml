@@ -1,24 +1,4 @@
 ---
-- name: Fixing laravel app storage permissions
-  file:
-    path: "{{ app_path }}/storage/logs"
-    mode: 0766
-    state: directory
-
-- name: Install composer vendor packages
-  composer:
-    command: install
-    working_dir: "{{ app_path }}"
-  become: true
-  become_user: "{{ web_user }}"
-
-- name: Creating .env file
-  template:
-    src: DOTenv.j2
-    dest: "{{ app_path }}/.env"
-  become: true
-  become_user: "{{ web_user }}"
-
 - name: Import SSL Cert
   copy:
     src: ../files/etc+nginx+ssl+{{ app_name }}.crt
@@ -30,3 +10,62 @@
     src: ../files/etc+nginx+ssl+{{ app_name }}.key
     dest: /etc/nginx/ssl/{{ app_name }}.key
   when: require_ssl == true
+  
+- name: Remove storage logs
+  file:
+    path: "{{ app_path }}/storage/logs"
+    state: absent
+  when: deploy_type == 'new'
+
+- name: Re-create storage logs
+  file:
+    path: "{{ app_path }}/storage/logs"
+    state: directory
+  become: true
+  become_user: "{{ web_user }}"
+  when: deploy_type == 'new'
+
+- name: Re-create storage logs .gitignore
+  file:
+    path: "{{ app_path }}/storage/logs/.gitignore"
+    state: file
+  become: true
+  become_user: "{{ web_user }}"
+  when: deploy_type == 'new'
+
+- name: Fixing laravel app storage permissions
+  file:
+    path: "{{ app_path }}/storage/logs"
+    mode: 0766
+    state: directory
+
+- name: Install composer vendor packages with require-dev
+  composer:
+    command: install
+    working_dir: "{{ app_path }}"
+    no_dev: no
+  become: true
+  become_user: "{{ web_user }}"
+  when: app_env != 'production'
+
+- name: Install composer vendor packages for production
+  composer:
+    command: install
+    working_dir: "{{ app_path }}"
+  become: true
+  become_user: "{{ web_user }}"
+  when: app_env == 'production'
+
+- name: Creating .env file
+  template:
+    src: DOTenv.j2
+    dest: "{{ app_path }}/.env"
+  become: true
+  become_user: "{{ web_user }}"
+
+- name: Composer dumpautoload
+  composer:
+    command: dumpautoload
+    working_dir: "{{ app_path }}"
+  become: true
+  become_user: "{{ web_user }}"
