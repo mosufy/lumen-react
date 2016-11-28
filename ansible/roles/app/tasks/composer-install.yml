@@ -1,0 +1,21 @@
+---
+- name: Install composer vendor packages with require-dev
+  composer:
+    command: install
+    working_dir: "{{ app_path }}"
+    no_dev: no
+  become: true
+  become_user: "{{ web_user }}"
+  when: app_env != 'production'
+  notify:
+    composer dumpautoload
+
+- name: Install composer vendor packages for production
+  composer:
+    command: install
+    working_dir: "{{ app_path }}"
+  become: true
+  become_user: "{{ web_user }}"
+  when: app_env == 'production'
+  notify:
+    composer dumpautoload

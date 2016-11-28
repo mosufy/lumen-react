@@ -1,10 +1,21 @@
 ---
+# To run a deployment, use this command, otherwise it will run the build script as well:
+# Vagrant: vagrant provision --provision-with deploy
+# VM: ansible-playbook deploy.yml --tags "deploy"
+
+- name: Deploy config to elasticsearch servers
+  hosts: elasticsearchservers
+  become: true
+  become_method: sudo
+  roles:
+  - elasticsearchserver
+
 - name: Prepare database
   hosts: dbservers
   become: true
   become_method: sudo
-  tasks:
-  - include: roles/dbserver/tasks/deploy.yml
+  roles:
+  - dbserver
 
 - name: Deploy app to webservers
   hosts: webservers
@@ -17,10 +28,8 @@
   hosts: webservers[0]
   become: true
   become_method: sudo
-  tasks:
-  - include: roles/app/tasks/migrate.yml
-  - include: roles/app/tasks/import-index.yml
-  - include: roles/app/tasks/cron.yml
+  roles:
+  - app
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers
@@ -28,10 +37,3 @@
   become_method: sudo
   tasks:
   - include: roles/supervisord/tasks/deploy.yml
-
-#- name: Deploy to elasticsearch servers
-#  hosts: elasticsearchservers
-#  become: true
-#  become_method: sudo
-#  tasks:
-#  - include: roles/elasticsearchserver/tasks/deploy.yml

@@ -1,0 +1,6 @@
+---
+- name: Fixing laravel app storage permissions
+  file:
+    path: "{{ app_path }}/storage/logs"
+    mode: 0766
+    state: directory
