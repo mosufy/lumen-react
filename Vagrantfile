@@ -19,9 +19,9 @@ Vagrant.configure(2) do |config|
     vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
   end
 
-  # Default provision
-  config.vm.provision "main", type:"ansible" do |ansible|
-    ansible.playbook = "ansible/site.yml"
+  # Build provision
+  config.vm.provision "build", type:"ansible" do |ansible|
+    ansible.playbook = "ansible/build.yml"
     ansible.inventory_path = "ansible/inventories/dev/hosts.ini"
     ansible.limit = 'all'
   end
@@ -31,7 +31,6 @@ Vagrant.configure(2) do |config|
     ansible.playbook = "ansible/deploy.yml"
     ansible.inventory_path = "ansible/inventories/dev/hosts.ini"
     ansible.limit = 'all'
-    ansible.tags = 'deploy'
   end
 
 end

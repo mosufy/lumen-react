@@ -25,6 +25,7 @@ queue_name: "lumenreact_queue"
 #
 deploy_type: "update"
 require_ssl: false
+php_version: 56 # or 70
 
 #
 # DOTenv

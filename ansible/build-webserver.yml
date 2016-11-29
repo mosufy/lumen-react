@@ -1,8 +1,0 @@
----
-- name: Build webserver
-  hosts: webservers
-  become: true
-  become_method: sudo
-  roles:
-  - base
-  - webserver

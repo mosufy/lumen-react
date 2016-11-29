@@ -1,7 +1,0 @@
----
-- name: Build memcached eserver
-  hosts: memcachedservers
-  become: true
-  become_method: sudo
-  roles:
-  - memcachedserver

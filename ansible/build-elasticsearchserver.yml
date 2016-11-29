@@ -1,7 +1,0 @@
----
-- name: Build elasticsearch server
-  hosts: elasticsearchservers
-  become: true
-  become_method: sudo
-  roles:
-  - elasticsearchserver

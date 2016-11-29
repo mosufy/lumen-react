@@ -1,0 +1,8 @@
+---
+# Set MySQL root password
+mysql_root_password: "CCPQGcSV"
+
+# Default database config
+db_database: "appname"
+db_username: "appname"
+db_password: "Appn@m3"

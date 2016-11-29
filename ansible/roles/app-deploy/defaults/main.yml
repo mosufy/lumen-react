@@ -1,0 +1,9 @@
+---
+# Default configs
+
+app_env: "production"
+app_name: "appname"
+app_path: "/var/www/appname"
+
+require_ssl: true
+web_user: "nginx"

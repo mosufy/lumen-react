@@ -1,5 +1,12 @@
 ---
 #
+# ansible config
+#
+deploy_type: "new"
+require_ssl: true
+php_version: 56
+
+#
 # app config
 #
 app_env: dev
@@ -21,12 +28,6 @@ nginx_ssl_cert_key: "lumen-react.key"
 queue_name: "lumenreact_queue"
 
 #
-# ansible config
-#
-deploy_type: "new"
-require_ssl: true
-
-#
 # DOTenv
 #
 app_debug: true
@@ -39,9 +40,9 @@ db_database: "lumenreact"
 db_username: "lumenreact"
 db_password: "P@ssw0rd"
 
-cache_driver: "array"
-session_driver: "array"
-queue_driver: "array"
+cache_driver: "memcached"
+session_driver: "memcached"
+queue_driver: "redis"
 
 mail_driver: "mailgun"
 mail_pretend: true

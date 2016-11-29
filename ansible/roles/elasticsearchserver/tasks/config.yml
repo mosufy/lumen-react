@@ -1,7 +1,0 @@
----
-- name: Deploy config /etc/elasticsearch/elasticsearch.yml
-  template:
-    src: ../templates/etc+elasticsearch+elasticsearch.yml.j2
-    dest: /etc/elasticsearch/elasticsearch.yml
-  tags:
-  - deploy

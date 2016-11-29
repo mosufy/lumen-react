@@ -1,0 +1,16 @@
+---
+- name: Install Memcached
+  yum:
+    name: memcached
+    state: present
+
+- name: Enable Memcached service
+  service:
+    name: memcached
+    enabled: yes
+
+- include: php56-extensions.yml
+  when: php_version == 56
+
+- include: php70-extensions.yml
+  when: php_version == 70

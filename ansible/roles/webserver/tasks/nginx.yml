@@ -5,7 +5,6 @@
     state: present
   with_items:
   - nginx16
-  - php70w-fpm
 
 - name: Make /var/lib/nginx/cache directory
   file:

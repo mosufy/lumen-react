@@ -52,7 +52,7 @@ module.exports = {
       manifest: require(path.join(__dirname, 'public', 'js', 'dll', 'vendor-manifest.json'))
     }),
     new AssetsPlugin({
-      filename: 'webpack.local.manifest.json'
+      filename: 'webpack.dev.manifest.json'
     })
   ]
 };

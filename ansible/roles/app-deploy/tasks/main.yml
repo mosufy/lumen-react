@@ -1,0 +1,6 @@
+---
+- include: import-nginxconf.yml
+- include: import-ssl.yml
+- include: storage-fixpermissions.yml
+- include: composer-install.yml
+- include: import-dotenv.yml

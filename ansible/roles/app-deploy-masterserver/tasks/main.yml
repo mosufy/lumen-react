@@ -1,0 +1,6 @@
+---
+# This role is to be run solely on a single master webserver
+
+- include: migrate.yml
+- include: import-index.yml
+- include: cron.yml

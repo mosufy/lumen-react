@@ -1,6 +1,6 @@
 ---
-- name: restart mysql
+- name: restart php-fpm
   service:
-    name: mysql
+    name: php-fpm
     state: restarted
     enabled: yes

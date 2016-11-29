@@ -1,3 +1,0 @@
----
-- include: memcached.yml
-#- include: php-extensions.yml

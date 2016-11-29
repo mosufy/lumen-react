@@ -1,6 +1,10 @@
 ---
-- include: lamp-base.yml
-- include: php-extensions.yml
+- include: lamp-php56.yml
+  when: php_version == 56
+
+- include: lamp-php70.yml
+  when: php_version == 70
+
 - include: composer.yml
 - include: npm.yml
 - include: nginx.yml
@@ -9,7 +13,7 @@
 - include: dev.yml
   when: app_env == 'dev'
 
+- include: root-config.yml
+
 - name: Install all updates
   yum: name=* state=latest
-
-- include: root.yml

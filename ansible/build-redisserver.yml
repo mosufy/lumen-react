@@ -1,7 +1,0 @@
----
-- name: Build redis server
-  hosts: redisservers
-  become: true
-  become_method: sudo
-  roles:
-  - redisserver

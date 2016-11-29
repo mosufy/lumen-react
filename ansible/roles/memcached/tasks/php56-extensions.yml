@@ -1,0 +1,8 @@
+---
+- name: Install some PHP extensions
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - php56w-pecl-memcache
+  - php56w-pecl-memcached
