@@ -7,4 +7,5 @@
 - name: Enable Redis service
   service:
     name: redis
+    state: started
     enabled: yes
