@@ -10,3 +10,5 @@
   template:
     src: ../templates/etc+elasticsearch+elasticsearch.yml.j2
     dest: /etc/elasticsearch/elasticsearch.yml
+  notify:
+  - start elasticsearch

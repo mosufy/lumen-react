@@ -3,24 +3,16 @@
   rpm_key:
     state: present
     key: https://packages.elastic.co/GPG-KEY-elasticsearch
-  tags:
-  - build
 
 - name: Add Elasticsearch repo
   copy:
     src: ../files/etc+yum.repos.d+elasticsearch.repo
     dest: /etc/yum.repos.d/elasticsearch.repo
-  tags:
-  - build
 
 - name: Install Elasticsearch
   yum:
     name: elasticsearch
     state: present
-  notify:
-  - restart elasticsearch
-  tags:
-  - build
 
 #- name: Install Elasticsearch plugin GUI
 #  command: /usr/share/elasticsearch/bin/plugin install jettro/elasticsearch-gui
