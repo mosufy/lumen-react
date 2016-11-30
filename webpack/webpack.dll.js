@@ -8,22 +8,21 @@
  * @copyright Copyright (c) Mosufy
  */
 
-var path = require("path");
 var webpack = require("webpack");
 var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   entry: {
-    vendor: [path.join(__dirname, "vendors.js")]
+    vendor: ['./vendors.js']
   },
   output: {
-    path: path.join(__dirname, "public", "js", "dll"),
+    path: '../public/js/dll',
     filename: "dll.[name]-[hash].js",
     library: "[name]"
   },
   plugins: [
     new webpack.DllPlugin({
-      path: path.join(__dirname, "public", "js", "dll", "[name]-manifest.json"),
+      path: '../public/js/dll/[name]-manifest.json',
       name: "[name]",
       context: __dirname
     }),
@@ -43,7 +42,7 @@ module.exports = {
     })
   ],
   resolve: {
-    root: path.resolve(__dirname, "public"),
+    root: 'public',
     modulesDirectories: ["node_modules"]
   }
 };

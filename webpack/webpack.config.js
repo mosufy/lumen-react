@@ -1,7 +1,7 @@
 /**
- * webpack.production.config.js
+ * webpack.config.js
  *
- * @date 27/10/2016
+ * @date 14/10/2016
  * @author Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
  */
@@ -13,12 +13,12 @@ var AssetsPlugin = require('assets-webpack-plugin');
 module.exports = {
   cache: true,
   entry: {
-    bundle: ["./resources/app/index.js"]
+    bundle: ["./../resources/app/index.js"]
   },
-  devtool: 'cheap-module-source-map',
+  devtool: 'eval',
   output: {
-    path: path.join(__dirname, "public", "js"),
-    filename: '[name]-production-[hash].js'
+    path: path.join(__dirname, '../', 'public', 'js'),
+    filename: '[name]-dev-[hash].js'
   },
   resolve: {
     extensions: ['', '.js', '.jsx']
@@ -40,25 +40,19 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false
-      }
-    }),
     new webpack.DefinePlugin({
       'process.env': {
-        'NODE_ENV': JSON.stringify('production'),
-        'API_HOST': JSON.stringify('https://lumen-react.mosufy.com/v1'),
+        'API_HOST': JSON.stringify('https://lumen-react.local/v1'),
         'API_CLIENT_ID': JSON.stringify('6fC2745co07D4yW7X9saRHpJcE0sm0MT'),
         'API_CLIENT_SECRET': JSON.stringify('KLqMw5D7g1c6KX23I72hx5ri9d16GJDW')
       }
     }),
     new webpack.DllReferencePlugin({
       context: ".",
-      manifest: require(path.join(__dirname, 'public', 'js', 'dll', 'vendor-manifest.json'))
+      manifest: require(path.join(__dirname, '../', 'public', 'js', 'dll', 'vendor-manifest.json'))
     }),
     new AssetsPlugin({
-      filename: 'webpack.production.manifest.json'
+      filename: 'webpack.dev.manifest.json'
     })
   ]
 };
