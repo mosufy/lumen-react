@@ -17,7 +17,7 @@ module.exports = {
   },
   devtool: 'eval',
   output: {
-    path: path.join(__dirname, '../', 'public', 'js'),
+    path: '../public/js',
     filename: '[name]-dev-[hash].js'
   },
   resolve: {
@@ -49,7 +49,7 @@ module.exports = {
     }),
     new webpack.DllReferencePlugin({
       context: ".",
-      manifest: require(path.join(__dirname, '../', 'public', 'js', 'dll', 'vendor-manifest.json'))
+      manifest: require('../public/js/dll/vendor-manifest.json')
     }),
     new AssetsPlugin({
       filename: 'webpack.dev.manifest.json'
