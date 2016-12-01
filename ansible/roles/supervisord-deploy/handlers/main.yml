@@ -1,0 +1,6 @@
+---
+- name: start supervisord process
+  supervisorctl:
+    name: "{{ queue_name }}"
+    state: started
+  when: queue_switch == 'on'

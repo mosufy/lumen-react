@@ -33,21 +33,21 @@ return [
 
         'redis' => [
             'driver'     => env('QUEUE_DRIVER', 'redis'),
-            'connection' => 'queue',
+            'connection' => 'default',
             'queue'      => 'default',
             'expire'     => 86400,
         ],
 
         'redis_high' => [
             'driver'     => env('QUEUE_DRIVER', 'redis'),
-            'connection' => 'queue',
+            'connection' => 'default',
             'queue'      => 'high',
             'expire'     => 86400,
         ],
 
         'redis_low' => [
             'driver'     => env('QUEUE_DRIVER', 'redis'),
-            'connection' => 'queue',
+            'connection' => 'default',
             'queue'      => 'low',
             'expire'     => 86400,
         ],

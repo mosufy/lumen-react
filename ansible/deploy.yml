@@ -3,26 +3,26 @@
 # Vagrant: vagrant provision --provision-with deploy
 # VM: ansible-playbook deploy.yml
 
-- name: Prepare database
-  hosts: dbservers
-  become: true
-  become_method: sudo
-  roles:
-  - dbserver-deploy
-
-- name: Deploy app to webservers
-  hosts: webservers
-  become: true
-  become_method: sudo
-  roles:
-  - app-deploy
-
-- name: Deploy to first webserver
-  hosts: webservers[0]
-  become: true
-  become_method: sudo
-  roles:
-  - app-deploy-masterserver
+#- name: Prepare database
+#  hosts: dbservers
+#  become: true
+#  become_method: sudo
+#  roles:
+#  - dbserver-deploy
+#
+#- name: Deploy app to webservers
+#  hosts: webservers
+#  become: true
+#  become_method: sudo
+#  roles:
+#  - app-deploy
+#
+#- name: Deploy to first webserver
+#  hosts: webservers[0]
+#  become: true
+#  become_method: sudo
+#  roles:
+#  - app-deploy-masterserver
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers

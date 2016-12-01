@@ -17,7 +17,7 @@
     create: yes
     block: |
       #!/bin/bash
-      php {{ app_path}}/artisan --env={{ app_env }} --timeout=240 queue:work --queue:high,default,low
+      php {{ app_path}}/artisan --env={{ app_env }} --timeout=240 queue:work --queue=high,default,low
 
 - name: Update /usr/local/bin/run_{{ queue_name }}.sh to executable
   file:
@@ -25,7 +25,8 @@
     mode: a+x
     state: file
 
-- name: Run Supervisord
-  command: /usr/local/bin/run_{{ queue_name }}.sh
-  notify: restart supervisord
-  when: queue_switch == 'on'
+- name: update config
+  service:
+    name: supervisord
+    state: restarted
+  notify: start supervisord process
