@@ -51,4 +51,9 @@
   args:
     chdir: /tmp/php-memcached
 
-# Copy /etc/php.d/z-memcached.ini from seeking to this repo for memcached configuration
+- name: Enable memcached php extension
+  copy:
+    src: ../files/etc+php.d+z-memcached.ini
+    dest: /etc/php.d/z-memcached.ini
+  notify:
+  - restart php-fpm

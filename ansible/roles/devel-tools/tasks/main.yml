@@ -30,12 +30,12 @@
   - php56w-devel
   when: php_version == 56
 
-- name: Install PHP Development tools
-  yum:
-    name: "{{ item }}"
-    state: present
-  with_items:
-  - php-pear-PhpDocumentor
-  - php-phpunit-PHPUnit
-
-- include: dev-apigen.yml
+#- name: Install PHP Development tools
+#  yum:
+#    name: "{{ item }}"
+#    state: present
+#  with_items:
+#  - php-pear-PhpDocumentor
+#  - php-phpunit-PHPUnit
+#
+#- include: dev-apigen.yml

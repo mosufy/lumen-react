@@ -14,3 +14,9 @@
 
 - name: Install all updates
   yum: name=* state=latest
+
+- include: php56-extensions.yml
+  when: php_version == 56
+
+- include: php70-extensions.yml
+  when: php_version == 70
