@@ -1,6 +1,17 @@
 ---
 # Only required for development webserver
 
+- name: Group install development tools
+  command: yum -y groupinstall 'Development tools'
+
+- name: Install zlib development tools
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - zlib
+  - zlib-devel
+
 - name: Install PHP70 Development tools
   yum:
     name: "{{ item }}"

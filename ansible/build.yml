@@ -26,6 +26,7 @@
   become_method: sudo
   roles:
   - basic-rpm
+  - { role: devel-tools, when: app_env == 'dev'}
   - memcached
 
 - name: Build redis server

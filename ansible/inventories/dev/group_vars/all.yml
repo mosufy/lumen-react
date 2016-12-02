@@ -4,7 +4,7 @@
 #
 deploy_type: "new"
 require_ssl: true
-php_version: 56
+php_version: 70
 
 #
 # app config
@@ -42,7 +42,7 @@ db_password: "P@ssw0rd"
 
 cache_driver: "memcached"
 session_driver: "memcached"
-queue_driver: "redis"
+queue_driver: "array"
 
 mail_driver: "mailgun"
 mail_pretend: true
@@ -53,7 +53,7 @@ mailgun_secret:
 trusted_proxies: "{{ inventory_hostname }}"
 
 accesslog_switch: "on"
-queue_switch: "on"
+queue_switch: "off"
 
 elasticsearch_host: "10.1.2.100"
 elasticsearch_index: "todo_index"

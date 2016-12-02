@@ -10,9 +10,6 @@
 - include: nginx.yml
 - include: sendmail.yml
 
-- include: dev.yml
-  when: app_env == 'dev'
-
 - include: root-config.yml
 
 - name: Install all updates

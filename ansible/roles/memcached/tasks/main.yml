@@ -7,6 +7,7 @@
 - name: Enable Memcached service
   service:
     name: memcached
+    state: started
     enabled: yes
 
 - include: php56-extensions.yml
