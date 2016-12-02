@@ -4,3 +4,8 @@
 - include: storage-fixpermissions.yml
 - include: composer-install.yml
 - include: import-dotenv.yml
+
+- name: restart php-fpm
+  service:
+    name: php-fpm
+    state: restarted
