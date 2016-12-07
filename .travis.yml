@@ -3,6 +3,7 @@ language: php
 php:
   - 5.6
   - 7.0
+  - hhvm
 
 branches:
   only:
@@ -24,13 +25,15 @@ before_script:
   - sleep 10 # give artisan and elasticsearch some time to start
   - php artisan elasticsearch:importIndex
   - vendor/bin/codecept build
+  - phpenv config-rm xdebug.ini
 
 script:
-  - if [ "`phpenv version-name`" != "hhvm" ]; then vendor/bin/codecept run api,functional,unit --coverage --coverage-xml; fi
-  - if [ "`phpenv version-name`" == "hhvm" ]; then vendor/bin/codecept run api,functional,unit; fi
+  - vendor/bin/codecept run api,functional,unit
+  #- if [ "`phpenv version-name`" != "hhvm" ]; then vendor/bin/codecept run api,functional,unit --coverage --coverage-xml; fi
+  #- if [ "`phpenv version-name`" == "hhvm" ]; then vendor/bin/codecept run api,functional,unit; fi
 
-after_success:
-  - if [ "`phpenv version-name`" != "hhvm" ]; then bash <(curl -s https://codecov.io/bash); fi
+#after_success:
+#  - if [ "`phpenv version-name`" != "hhvm" ]; then bash <(curl -s https://codecov.io/bash); fi
 
 after_failure:
   - cat storage/logs/lumen.log
