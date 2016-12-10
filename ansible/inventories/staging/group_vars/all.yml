@@ -6,12 +6,12 @@ app_env: staging
 app_name: "lumen-react"
 app_path: "/var/www/sites/lumen-react"
 
-web_user: "vagrant"
+web_user: "nginx"
 
 mysql_root_password: "Mosufy@123"
 mysql_slow_query_log: 1
 
-elasticsearch_network_host: "10.1.2.100"
+elasticsearch_network_host: "10.130.44.99"
 elasticsearch_http_port: 9200
 
 nginx_server_name: "lumen-react-staging.mosufy.com api-lumen-react-staging.mosufy.com"
@@ -23,9 +23,9 @@ queue_name: "lumenreact_queue"
 #
 # ansible config
 #
-deploy_type: "update"
+deploy_type: "new"
 require_ssl: false
-php_version: 56 # or 70
+php_version: 70
 
 #
 # DOTenv
@@ -55,6 +55,6 @@ trusted_proxies: "{{ inventory_hostname }}"
 accesslog_switch: "on"
 queue_switch: "on"
 
-elasticsearch_host: "10.1.2.100:9200"
+elasticsearch_host: "10.130.44.99:9200"
 elasticsearch_index: "todo_index"
 elasticsearch_type: "todo_type"
