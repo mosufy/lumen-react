@@ -1,0 +1,61 @@
+---
+# Build playbook should only be run on a new set of servers.
+# Be sure to already prepare the required servers beforehand.
+# Vagrant: vagrant provision --provision-with main
+# VM: ansible-playbook build.yml
+
+- name: Build webserver
+  hosts: webservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - { role: mosufy.devel-tools, when: app_env == 'dev'}
+  - mosufy.webserver
+
+- name: Build dbserver
+  hosts: dbservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - mosufy.dbserver
+
+- name: Build memcached server
+  hosts: memcachedservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - mosufy.memcached
+
+- name: Build redis server
+  hosts: redisservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - mosufy.redis
+
+- name: Build elasticsearch server
+  hosts: elasticsearchservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - mosufy.elasticsearch
+
+- name: Build supervisord server
+  hosts: supervisordservers
+  become: true
+  become_method: sudo
+  roles:
+  - mosufy.basic-rpm
+  - mosufy.supervisord
+
+- name: Update kernel-devel
+  hosts: webservers
+  become: true
+  become_method: sudo
+  roles:
+  - { role: mosufy.kernel-devel, when: app_env == 'dev'}

@@ -1,0 +1,12 @@
+---
+- name: Import SSL Cert
+  copy:
+    src: ../files/etc+nginx+ssl+app.crt
+    dest: /etc/nginx/ssl/{{ app_name }}.crt
+  when: require_ssl == true
+
+- name: Import SSL Key
+  copy:
+    src: ../files/etc+nginx+ssl+app.key
+    dest: /etc/nginx/ssl/{{ app_name }}.key
+  when: require_ssl == true

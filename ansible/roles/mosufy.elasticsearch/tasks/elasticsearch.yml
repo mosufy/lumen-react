@@ -1,0 +1,19 @@
+---
+- name: Import public GPG-Key
+  rpm_key:
+    state: present
+    key: https://packages.elastic.co/GPG-KEY-elasticsearch
+
+- name: Add Elasticsearch repo
+  copy:
+    src: ../files/etc+yum.repos.d+elasticsearch.repo
+    dest: /etc/yum.repos.d/elasticsearch.repo
+
+- name: Install Elasticsearch
+  yum:
+    name: elasticsearch
+    state: present
+
+#- name: Install Elasticsearch plugin GUI
+#  command: /usr/share/elasticsearch/bin/plugin install jettro/elasticsearch-gui
+#  when: app_env != 'production'

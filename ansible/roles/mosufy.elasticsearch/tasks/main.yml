@@ -1,0 +1,14 @@
+---
+- name: Install OpenJDK
+  yum:
+    name: java-1.7.0-openjdk
+    state: present
+
+- include: elasticsearch.yml
+
+- name: Deploy config /etc/elasticsearch/elasticsearch.yml
+  template:
+    src: ../templates/etc+elasticsearch+elasticsearch.yml.j2
+    dest: /etc/elasticsearch/elasticsearch.yml
+  notify:
+  - start elasticsearch

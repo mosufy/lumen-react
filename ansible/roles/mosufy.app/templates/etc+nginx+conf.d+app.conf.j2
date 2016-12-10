@@ -1,0 +1,44 @@
+server {
+    listen 80;
+    listen 443 {% if require_ssl == true %}ssl{% endif %};
+    server_name {{ nginx_server_name }};
+    access_log /var/log/nginx/{{ app_name }}-access.log;
+    error_log /var/log/nginx/{{ app_name }}-error.log;
+
+{% if require_ssl == true %}
+    ssl_certificate /etc/nginx/ssl/{{ nginx_ssl_cert }};
+    ssl_certificate_key /etc/nginx/ssl/{{ nginx_ssl_cert_key }};
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers "HIGH:!aNULL:!MD5 or HIGH:!aNULL:!MD5:!3DES";
+    ssl_prefer_server_ciphers on;
+{% endif %}
+
+    set $root_path '/var/www/{{ app_name }}/public';
+    root $root_path;
+
+    index index.php;
+
+    try_files $uri $uri/ @rewrite;
+
+    location @rewrite {
+        rewrite ^/(.*)$ /index.php?_url=/$1;
+    }
+
+    location ~ \.php {
+        fastcgi_pass 127.0.0.1:9000;
+        fastcgi_index /index.php;
+        include /etc/nginx/fastcgi_params;
+        fastcgi_split_path_info       ^(.+\.php)(/.+)$;
+        fastcgi_param PATH_INFO       $fastcgi_path_info;
+        fastcgi_param PATH_TRANSLATED $document_root$fastcgi_path_info;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+    }
+
+    location ~* ^/(css|img|js|flv|swf|download)/(.+)$ {
+        root $root_path;
+    }
+
+    location ~ /\.ht {
+        deny all;
+    }
+}

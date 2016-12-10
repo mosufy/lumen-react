@@ -1,0 +1,30 @@
+[mysqld]
+
+datadir                         = /var/lib/mysql
+socket                          = /var/lib/mysql/mysql.sock
+user                            = mysql
+bind-address                    = 0.0.0.0
+
+default_storage_engine          = InnoDB
+symbolic-links                  = 0
+
+# LOGGING #
+log_error                       = /var/log/mysql/mysql-error.log
+log_queries_not_using_indexes   = 0
+slow_query_log                  = {{ mysql_slow_query_log }}
+slow_query_log_file             = /var/log/mysql/mysql-slow.log
+long_query_time                 = {{ mysql_long_query_time }}
+
+# PERFORMANCE #
+
+innodb_log_file_size            = 64M
+thread_stack                    = 3M
+max_allowed_packet              = 16M
+sort_buffer_size                = 1M
+read_buffer_size                = 1M
+read_rnd_buffer_size            = 16M
+key_buffer_size                 = 64M
+innodb_buffer_pool_size         = 256M
+thread_cache_size               = 100
+query_cache_size                = 128M
+max_connect_errors              = 1000000

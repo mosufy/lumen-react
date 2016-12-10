@@ -1,0 +1,22 @@
+---
+- include: lamp-php56.yml
+  when: php_version == 56
+
+- include: lamp-php70.yml
+  when: php_version == 70
+
+- include: composer.yml
+- include: npm.yml
+- include: nginx.yml
+- include: sendmail.yml
+
+- include: root-config.yml
+
+- name: Install all updates
+  yum: name=* state=latest
+
+- include: php56-extensions.yml
+  when: php_version == 56
+
+- include: php70-extensions.yml
+  when: php_version == 70

@@ -1,0 +1,7 @@
+---
+- name: Importing .env file
+  template:
+    src: DOTenv.j2
+    dest: "{{ app_path }}/.env"
+  become: true
+  become_user: "{{ web_user }}"

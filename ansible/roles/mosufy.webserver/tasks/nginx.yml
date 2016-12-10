@@ -1,0 +1,31 @@
+---
+- name: Install nginx
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+  - nginx16
+
+- name: Make /var/lib/nginx/cache directory
+  file:
+    path: /var/lib/nginx/cache
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 700
+
+- name: Make /etc/nginx/ssl directory
+  file:
+    path: /etc/nginx/ssl
+    state: directory
+    owner: nginx
+    group: nginx
+    mode: 700
+
+- name: Enable nginx and php-fpm services
+  service:
+    name: "{{ item }}"
+    enabled: yes
+  with_items:
+  - nginx
+  - php-fpm

@@ -1,0 +1,59 @@
+---
+- name: Download libmemcached
+  get_url:
+    url: https://launchpad.net/libmemcached/1.0/1.0.18/+download/libmemcached-1.0.18.tar.gz
+    dest: /tmp/libmemcached-1.0.18.tar.gz
+
+- name: Extract libmemcached
+  unarchive:
+    src: /tmp/libmemcached-1.0.18.tar.gz
+    dest: /tmp
+    remote_src: yes
+
+- name: Configure libmemcached
+  command: ./configure
+  args:
+    chdir: /tmp/libmemcached-1.0.18
+
+- name: Run make for libmemcached
+  command: make
+  args:
+    chdir: /tmp/libmemcached-1.0.18
+
+- name: Run make install for libmemcached
+  command: make install
+  args:
+    chdir: /tmp/libmemcached-1.0.18
+
+- name: git clone php-memcached-dev
+  git:
+    repo: https://github.com/php-memcached-dev/php-memcached
+    dest: /tmp/php-memcached
+    version: php7
+
+- name: Run phpize install
+  command: phpize
+  args:
+    chdir: /tmp/php-memcached
+
+- name: Configure php-memcached
+  command: ./configure --disable-memcached-sasl
+  args:
+    chdir: /tmp/php-memcached
+
+- name: Run make for php-memcached
+  command: make
+  args:
+    chdir: /tmp/php-memcached
+
+- name: Run make install for php-memcached
+  command: make install
+  args:
+    chdir: /tmp/php-memcached
+
+- name: Enable memcached php extension
+  copy:
+    src: ../files/etc+php.d+z-memcached.ini
+    dest: /etc/php.d/z-memcached.ini
+  notify:
+  - restart php-fpm

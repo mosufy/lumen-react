@@ -1,0 +1,7 @@
+---
+# Default configs
+
+deploy_type: "new"
+app_path: "/var/www/appname"
+app_name: "appname"
+web_user: "nginx"

@@ -1,0 +1,41 @@
+---
+# Default configs
+
+app_env: "dev"
+app_name: "appname"
+app_path: "/var/www/appname"
+
+require_ssl: true
+web_user: "nginx"
+
+#
+# DOTenv
+#
+app_debug: true
+app_key: "FoNrCM7ZQo9Vvj7c5H8568m7xa81DI7P"
+
+db_connection: "mysql"
+db_host: "localhost"
+db_port: 3306
+db_database: "lumenreact"
+db_username: "lumenreact"
+db_password: "P@ssw0rd"
+
+cache_driver: "memcached"
+session_driver: "memcached"
+queue_driver: "redis"
+
+mail_driver: "mailgun"
+mail_pretend: true
+
+mailgun_domain:
+mailgun_secret:
+
+trusted_proxies: "{{ inventory_hostname }}"
+
+accesslog_switch: "on"
+queue_switch: "on"
+
+elasticsearch_host: "10.1.2.100"
+elasticsearch_index: "todo_index"
+elasticsearch_type: "todo_type"

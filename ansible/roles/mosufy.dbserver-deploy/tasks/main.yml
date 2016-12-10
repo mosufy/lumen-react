@@ -1,0 +1,12 @@
+---
+- name: Dropping database if exists
+  command:  mysql -uroot -p{{ mysql_root_password }} --execute="DROP DATABASE IF EXISTS {{ db_database }};"
+  when: deploy_type == 'new'
+
+- name: Create database
+  command: mysql -uroot -p{{ mysql_root_password }} --execute="CREATE DATABASE {{ db_database }};"
+  when: deploy_type == 'new'
+
+- name: Grant db_user access to database
+  command: mysql -uroot -p{{ mysql_root_password }} --execute="GRANT ALL PRIVILEGES on {{ db_database }}.* to '{{ db_username }}'@'localhost' IDENTIFIED BY '{{ db_password }}';"
+  when: deploy_type == 'new'
