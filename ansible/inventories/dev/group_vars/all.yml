@@ -42,7 +42,7 @@ db_password: "P@ssw0rd"
 
 cache_driver: "memcached"
 session_driver: "memcached"
-queue_driver: "array"
+queue_driver: "redis"
 
 mail_driver: "mailgun"
 mail_pretend: true
@@ -53,7 +53,7 @@ mailgun_secret:
 trusted_proxies: "{{ inventory_hostname }}"
 
 accesslog_switch: "on"
-queue_switch: "off"
+queue_switch: "on"
 
 elasticsearch_host: "10.1.2.100"
 elasticsearch_index: "todo_index"
