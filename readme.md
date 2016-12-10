@@ -1,11 +1,11 @@
-# Lumen - ReactJS
+# Lumen - React
 
 [![Build Status](https://travis-ci.org/mosufy/lumen-react.svg?branch=master)](https://travis-ci.org/mosufy/lumen-react) 
 [![codecov](https://codecov.io/gh/mosufy/lumen-react/branch/master/graph/badge.svg)](https://codecov.io/gh/mosufy/lumen-react)
 [![GitHub release](https://img.shields.io/github/release/mosufy/lumen-react.svg?maxAge=2592000)](https://github.com/mosufy/lumen-react)
 [![GitHub tag](https://img.shields.io/github/tag/mosufy/lumen-react.svg?maxAge=2592000)](https://github.com/mosufy/lumen-react/releases)
 
-Foundation for API-Centric Architecture with Lumen and ReactJS.
+Foundation for API-Centric Architecture with Lumen and React.
 
 Try out the demo https://lumen-react.mosufy.com.
 
@@ -16,7 +16,7 @@ this repository! Built with OAuth2 for authorization and authentication.
 
 - [Lumen](https://lumen.laravel.com/) for RESTful API
 - [OAuth2](https://en.wikipedia.org/wiki/OAuth) for API authorization
-- [ReactJS](https://facebook.github.io/react/) for web front-end
+- [React](https://facebook.github.io/react/) for web front-end
 
 ## Other Features
 
@@ -142,7 +142,7 @@ Login to manage ToDo with email: `email@mail.com` & password: `password`.
 
 You may also register for a new account.
 
-The front-end is powered by ReactJS. Learn ReactJS from the official
+The front-end is powered by React. Learn React from the official
 documentation [here](https://facebook.github.io/react/).
 
 ## Accessing the Database
