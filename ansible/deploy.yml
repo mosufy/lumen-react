@@ -8,25 +8,25 @@
   become: true
   become_method: sudo
   roles:
-  - dbserver-deploy
+  - mosufy.dbserver-deploy
 
 - name: Deploy app to webservers
   hosts: webservers
   become: true
   become_method: sudo
   roles:
-  - app-deploy
+  - mosufy.app
 
 - name: Deploy to first webserver
   hosts: webservers[0]
   become: true
   become_method: sudo
   roles:
-  - app-deploy-masterserver
+  - mosufy.app-master
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers
   become: true
   become_method: sudo
   roles:
-  - supervisord-deploy
+  - mosufy.supervisord-deploy

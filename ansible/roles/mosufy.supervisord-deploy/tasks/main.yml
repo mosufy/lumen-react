@@ -17,7 +17,7 @@
     create: yes
     block: |
       #!/bin/bash
-      php {{ app_path}}/artisan --env={{ app_env }} --timeout=240 queue:work --queue=high,default,low
+      php {{ app_path }}/artisan --env={{ app_env }} --timeout=240 queue:work --queue=high,default,low
 
 - name: Update /usr/local/bin/run_{{ queue_name }}.sh to executable
   file:

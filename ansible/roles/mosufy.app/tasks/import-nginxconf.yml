@@ -1,0 +1,7 @@
+---
+- name: Deploying /etc/nginx/conf.d/app.conf
+  template:
+    src: etc+nginx+conf.d+app.conf.j2
+    dest: /etc/nginx/conf.d/{{ app_name }}.conf
+  notify:
+    - restart nginx

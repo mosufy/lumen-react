@@ -1,4 +1,7 @@
 ---
+# Deploy as new or otherwise
+deploy_type: "new"
+
 # Set MySQL root password
 mysql_root_password: "CCPQGcSV"
 

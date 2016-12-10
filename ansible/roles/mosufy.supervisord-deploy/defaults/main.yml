@@ -1,0 +1,6 @@
+---
+# defaults file for supervisord-deploy
+
+queue_name: "queue"
+app_path: "/var/www/app"
+app_env: "dev"
