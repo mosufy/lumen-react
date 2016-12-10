@@ -27,9 +27,3 @@
     name: "*"
     state: latest
     disablerepo: epel
-
-#- name: Clean all
-#  shell: yum clean all
-
-#- name: Makecache
-#  shell: yum makecache

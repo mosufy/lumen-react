@@ -1,0 +1,10 @@
+#
+# Install all roles required
+#
+# To install roles in ansible/roles dir:
+#
+# $ cd ansible/
+# $ ansible-galaxy install -r install_roles.yml -p roles/
+#
+
+- src: mosufy.basic-rpm

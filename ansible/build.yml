@@ -9,7 +9,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - { role: devel-tools, when: app_env == 'dev'}
   - webserver
 
@@ -18,7 +18,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - dbserver
 
 - name: Build memcached server
@@ -26,7 +26,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - memcached
 
 - name: Build redis server
@@ -34,7 +34,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - redis
 
 - name: Build elasticsearch server
@@ -42,7 +42,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - elasticsearch
 
 - name: Build supervisord server
@@ -50,7 +50,7 @@
   become: true
   become_method: sudo
   roles:
-  - basic-rpm
+  - mosufy.basic-rpm
   - supervisord
 
 - name: Install guest additions for Vagrant
