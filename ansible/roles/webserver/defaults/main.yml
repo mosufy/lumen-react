@@ -1,5 +1,0 @@
----
-# Define defaults if not available in environment config
-
-php_version: 56
-app_env: dev

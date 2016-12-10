@@ -1,0 +1,13 @@
+---
+# Update kernel-devel for updated vbox guests addition
+
+- name: Update kernel for vbox guests additions
+  yum:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - gcc
+    - make
+    - kernel-devel
+  notify:
+    - reboot webserver

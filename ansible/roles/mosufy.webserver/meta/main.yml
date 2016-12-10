@@ -1,0 +1,18 @@
+galaxy_info:
+  author: mosufy
+  description: Build web server
+  company: mosufy
+
+  license: MIT
+
+  min_ansible_version: 1.2
+
+  platforms:
+  - name: EL
+    versions:
+    - 6
+    - 7
+
+  galaxy_tags: []
+
+dependencies: []

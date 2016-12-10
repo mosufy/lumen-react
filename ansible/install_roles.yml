@@ -8,3 +8,11 @@
 #
 
 - src: mosufy.basic-rpm
+- src: mosufy.devel-tools
+- src: mosufy.webserver
+- src: mosufy.dbserver
+- src: mosufy.memcached
+- src: mosufy.redis
+- src: mosufy.elasticsearch
+- src: mosufy.supervisord
+- src: mosufy.kernel-devel
