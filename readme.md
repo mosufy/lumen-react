@@ -61,20 +61,14 @@ this repository! Built with OAuth2 for authorization and authentication.
    - Install [xcode](https://developer.apple.com/xcode/)
    - Install [ansible](http://docs.ansible.com/ansible/intro_installation.html#latest-releases-via-pip)
 
-3. Install playbook roles
-
-   ```bash
-   $ ansible-galaxy install -r ansible/install_roles.yml -p ansible/roles/
-   ```
-
-4. Go to project root and type `vagrant up`
+3. Go to project root and type `vagrant up`
    
    ```bash
-   $ cd Documents/webapps/lumen-api
+   $ cd Documents/webapps/lumen-react
    $ vagrant up
    ```
 
-5. Vagrant will now begin setting up on your machine
+4. Vagrant will now begin setting up on your machine
    - Setting up headless VM on VirtualBox
    - Install required software on the VM based on `ansible/build.yml` and `ansible/deploy.yml` (ansible playbooks)
    - Install the application
@@ -87,13 +81,13 @@ this repository! Built with OAuth2 for authorization and authentication.
    $ vagrant provision
    ```
     
-6. Type `vagrant ssh` to SSH into the VM
+5. Type `vagrant ssh` to SSH into the VM
 
    ```bash
    $ vagrant ssh
    ```
     
-7. Confirm that you are now able to access the local folder from VM
+6. Confirm that you are now able to access the local folder from VM
     
    ```bash
    $ vagrant ssh
