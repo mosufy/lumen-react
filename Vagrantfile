@@ -23,7 +23,7 @@ Vagrant.configure(2) do |config|
   config.vm.provision "build", type:"ansible" do |ansible|
     ansible.playbook = "ansible/build.yml"
     ansible.inventory_path = "ansible/inventories/dev/hosts.ini"
-    ansible.galaxy_role_file = "ansible/install_roles.yml"
+    ansible.galaxy_role_file = "ansible/build_install_roles.yml"
     ansible.galaxy_roles_path = "ansible/roles"
     # Using custom galaxy_command so that it will not --force install when role already exists
     ansible.galaxy_command = "ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}"
@@ -34,6 +34,10 @@ Vagrant.configure(2) do |config|
   config.vm.provision "deploy", type:"ansible" do |ansible|
     ansible.playbook = "ansible/deploy.yml"
     ansible.inventory_path = "ansible/inventories/dev/hosts.ini"
+    ansible.galaxy_role_file = "ansible/deploy_install_roles.yml"
+    ansible.galaxy_roles_path = "ansible/roles"
+    # Using custom galaxy_command so that it will not --force install when role already exists
+    ansible.galaxy_command = "ansible-galaxy install --role-file=%{role_file} --roles-path=%{roles_path}"
     ansible.limit = 'all'
   end
 

@@ -1,0 +1,13 @@
+#
+# Install all roles required
+#
+# To install roles in ansible/roles dir, run the command below from project root folder.
+#
+# $ ansible-galaxy install -r ansible/deploy_install_roles.yml -p ansible/roles/
+#
+
+# Deploy roles
+- src: mosufy.dbserver-deploy
+- src: mosufy.app
+- src: mosufy.app-master
+- src: mosufy.supervisord-deploy
