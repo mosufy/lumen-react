@@ -10,7 +10,7 @@
   become_method: sudo
   roles:
   - mosufy.basic-rpm
-  - { role: mosufy.devel-tools, when: app_env == 'dev'}
+  - { role: mosufy.devel-tools, when: app_env != 'production'}
   - mosufy.webserver
 
 - name: Build dbserver

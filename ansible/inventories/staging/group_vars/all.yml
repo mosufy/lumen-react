@@ -1,4 +1,12 @@
 ---
+
+#
+# ansible config
+#
+deploy_type: "new"
+require_ssl: false
+php_version: 70
+
 #
 # app config
 #
@@ -19,13 +27,6 @@ nginx_ssl_cert: "lumen-react.crt"
 nginx_ssl_cert_key: "lumen-react.key"
 
 queue_name: "lumenreact_queue"
-
-#
-# ansible config
-#
-deploy_type: "new"
-require_ssl: false
-php_version: 70
 
 #
 # DOTenv
