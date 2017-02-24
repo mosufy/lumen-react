@@ -6,23 +6,33 @@
 deploy_type: "new"
 require_ssl: true
 php_version: 70
+install_php_memcached: false
+
 
 #
 # app config
 #
 app_env: dev
 app_name: "lumen-react"
-app_path: "/var/www/lumen-react"
+app_path_parent: "/var/www/sites/{{ app_name }}"
+app_path: "{{ app_path_parent }}/html"
+app_deploy_path: "{{ app_path_parent }}/html"
+app_url: "https://lumen-react.dev"
 
-web_user: "vagrant"
+web_user_become: "vagrant:"
+web_user:
+web_group:
 
 mysql_root_password: "Mosufy@123"
 mysql_slow_query_log: 1
 
 elasticsearch_network_host: "10.1.2.100"
 elasticsearch_http_port: 9200
+elasticsearch_host: "10.1.2.100"
+elasticsearch_index: "todo_index"
+elasticsearch_type: "todo_type"
 
-nginx_server_name: "lumen-react.local api.lumen-react.local"
+nginx_server_name: "lumen-react.dev api.lumen-react.dev"
 nginx_ssl_cert: "lumen-react.crt"
 nginx_ssl_cert_key: "lumen-react.key"
 
@@ -55,7 +65,3 @@ trusted_proxies: "{{ inventory_hostname }}"
 
 accesslog_switch: "on"
 queue_switch: "on"
-
-elasticsearch_host: "10.1.2.100"
-elasticsearch_index: "todo_index"
-elasticsearch_type: "todo_type"

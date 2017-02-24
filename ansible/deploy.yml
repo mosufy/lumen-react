@@ -8,25 +8,31 @@
   become: true
   become_method: sudo
   roles:
-  - mosufy.dbserver-deploy
+    - mosufy.dbserver-deploy
+
+- name: Setting fact for webservers
+  hosts: webservers
+  tasks:
+    - set_fact:
+        datetime: "{{ lookup('pipe','date +%Y%m%d_%H%M') }}"
 
 - name: Deploy app to webservers
   hosts: webservers
   become: true
   become_method: sudo
   roles:
-  - mosufy.app
+    - mosufy.app
 
 - name: Deploy to first webserver
   hosts: webservers[0]
   become: true
   become_method: sudo
   roles:
-  - mosufy.app-master
+    - mosufy.app-master
 
 - name: Deploy to supervisordservers
   hosts: supervisordservers
   become: true
   become_method: sudo
   roles:
-  - mosufy.supervisord-deploy
+    - mosufy.supervisord-deploy
