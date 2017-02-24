@@ -4,6 +4,9 @@
  * @date 14/10/2016
  * @author Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
+ *
+ * To build webpack bundle, simply run this command
+ * $ node_modules/.bin/webpack --config=webpack/webpack.staging.config.js
  */
 
 var path = require("path");
@@ -12,30 +15,28 @@ var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   cache: true,
+  context: path.resolve(__dirname, '../resources/app'),
   entry: {
-    bundle: ["./../resources/app/index.js"]
+    bundle: ["./index.js"]
   },
   devtool: 'eval',
   output: {
-    path: '../public/js',
-    filename: '[name]-staging-[hash].js'
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
+    filename: '[name]-staging-[hash].js',
+    path: path.resolve(__dirname, '../public/js'),
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        // include: [
-        //   path.join(__dirname, "public")
-        // ],
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'stage-0', 'react']
-        }
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['es2015', 'stage-0', 'react']
+            }
+          }
+        ]
       }
     ]
   },
@@ -48,11 +49,11 @@ module.exports = {
       }
     }),
     new webpack.DllReferencePlugin({
-      context: ".",
       manifest: require('../public/js/dll/vendor-manifest.json')
     }),
     new AssetsPlugin({
-      filename: 'webpack.staging.manifest.json'
+      filename: 'webpack.staging.manifest.json',
+      path: path.resolve(__dirname)
     })
   ]
 };

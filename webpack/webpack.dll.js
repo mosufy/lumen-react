@@ -18,7 +18,7 @@ var AssetsPlugin = require('assets-webpack-plugin');
 module.exports = {
   context: path.resolve(__dirname),
   entry: {
-    vendor: './vendors.js'
+    vendor: ['./vendors.js']
   },
   output: {
     path: path.resolve(__dirname, '../public/js/dll'),
@@ -26,11 +26,10 @@ module.exports = {
     library: "[name]"
   },
   plugins: [
-    // FIXME: Not able to generate vendor manifest for dll file.
-    // new webpack.DllPlugin({
-    //   path: path.resolve(__dirname, '../public/js/dll/[name]-manifest.json'),
-    //   name: "[name]"
-    // }),
+    new webpack.DllPlugin({
+      path: path.resolve(__dirname, '../public/js/dll/[name]-manifest.json'),
+      name: "[name]"
+    }),
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({
       compress: {

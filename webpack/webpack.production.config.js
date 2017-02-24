@@ -4,6 +4,9 @@
  * @date 27/10/2016
  * @author Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
+ *
+ * To build webpack bundle, simply run this command
+ * $ node_modules/.bin/webpack --config=webpack/webpack.production.config.js
  */
 
 var path = require("path");
@@ -12,30 +15,28 @@ var AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = {
   cache: true,
+  context: path.resolve(__dirname, '../resources/app'),
   entry: {
-    bundle: ['./../resources/app/index.js']
+    bundle: ['./index.js']
   },
   devtool: 'cheap-module-source-map',
   output: {
-    path: '../public/js',
-    filename: '[name]-production-[hash].js'
-  },
-  resolve: {
-    extensions: ['', '.js', '.jsx']
+    filename: '[name]-production-[hash].js',
+    path: path.resolve(__dirname, '../public/js'),
   },
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.jsx?$/,
-        exclude: /node_modules/,
-        loader: 'babel',
-        // include: [
-        //   path.join(__dirname, "public")
-        // ],
-        query: {
-          cacheDirectory: true,
-          presets: ['es2015', 'stage-0', 'react']
-        }
+        exclude: [/node_modules/],
+        use: [
+          {
+            loader: 'babel-loader',
+            options: {
+              presets: ['es2015', 'stage-0', 'react']
+            }
+          }
+        ]
       }
     ]
   },
@@ -54,11 +55,11 @@ module.exports = {
       }
     }),
     new webpack.DllReferencePlugin({
-      context: ".",
       manifest: require('../public/js/dll/vendor-manifest.json')
     }),
     new AssetsPlugin({
-      filename: 'webpack.production.manifest.json'
+      filename: 'webpack.production.manifest.json',
+      path: path.resolve(__dirname)
     })
   ]
 };
