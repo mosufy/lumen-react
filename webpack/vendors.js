@@ -4,6 +4,9 @@
  * @date 27/10/2016
  * @author Mosufy <mosufy@gmail.com>
  * @copyright Copyright (c) Mosufy
+ *
+ * To generate new dll file, simply run this command
+ * $ node_modules/.bin/webpack --config=webpack/webpack.dll.js
  */
 
 require("lodash/throttle");

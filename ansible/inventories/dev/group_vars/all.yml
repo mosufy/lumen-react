@@ -17,7 +17,12 @@ app_name: "lumen-react"
 app_path_parent: "/var/www/sites/{{ app_name }}"
 app_path: "{{ app_path_parent }}/html"
 app_deploy_path: "{{ app_path_parent }}/html"
+app_public_path: "{{ app_deploy_path }}/public"
 app_url: "https://lumen-react.dev"
+
+basic_auth: false
+basic_auth_username: mosufy
+basic_auth_password: $apr1$BZMafPDI$oQ4PM/RYFsedg76umr3l7/ # agency88
 
 web_user_become: "vagrant:"
 web_user:

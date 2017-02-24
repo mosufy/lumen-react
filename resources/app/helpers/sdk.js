@@ -10,7 +10,7 @@
 
 import axios from 'axios';
 
-const apiHost = process.env.API_HOST || 'https://lumen-react.local/v1';
+const apiHost = process.env.API_HOST || 'https://lumen-react.dev/v1';
 const apiClientId = process.env.API_CLIENT_ID || '6fC2745co07D4yW7X9saRHpJcE0sm0MT';
 const apiClientSecret = process.env.API_CLIENT_SECRET || 'KLqMw5D7g1c6KX23I72hx5ri9d16GJDW';
 
