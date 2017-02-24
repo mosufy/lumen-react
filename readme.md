@@ -237,6 +237,28 @@ $ vendor/bin/codecept run
    ```
    
    To view code coverage report, the file is located in `tests/_output/coverage/index.html`
+   
+## Updating React Components
+
+React files exists within `resources/app` directory.
+
+Any changes made will have to be re-built via webpack.
+
+### Re-build bundle.js with Webpack
+
+The React codes are written in ES6. To build the javascript files to ES5, you need to build it with webpack.
+
+```bash
+$ node_modules/.bin/webpack --config=webpack/webpack.config.js
+```
+
+The application code and vendor packages are currently separated files for optimal performance. 
+When you have new vendor packages to load, include the package into `webpack/vendors.js` and
+simply run
+
+```bash
+$ node_modules/.bin/webpack --config=webpack/webpack.dll.js
+```
 
 ## Don't use Facades
 
