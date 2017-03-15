@@ -1,21 +1,21 @@
 import React from 'react';
 
-export default class SiteLogo extends React.Component {
-  render() {
-    var logoTitle;
+const SiteLogo = (props) => {
+  let logoTitle;
 
-    if (this.props.pageTemplate == 'public') {
-      logoTitle = 'My TODOs';
+  if (props.pageTemplate == 'public') {
+    logoTitle = 'My TODOs';
+  } else {
+    if (props.user.name == undefined) {
+      logoTitle = 'Welcome, User';
     } else {
-      if (this.props.user.name == undefined) {
-        logoTitle = 'Welcome, User';
-      } else {
-        logoTitle = 'Welcome, ' + this.props.user.name;
-      }
+      logoTitle = 'Welcome, ' + props.user.name;
     }
-
-    return (
-      <h3 className="text-muted">{logoTitle}</h3>
-    );
   }
-}
+
+  return (
+    <h3 className="text-muted">{logoTitle}</h3>
+  );
+};
+
+export default SiteLogo;

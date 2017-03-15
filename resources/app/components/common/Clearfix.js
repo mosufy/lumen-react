@@ -1,7 +1,7 @@
 import React from 'react';
 
-export default class Clearfix extends React.Component {
-  render() {
-    return <span className="clearfix">&nbsp;</span>;
-  }
-}
+const Clearfix = () => {
+  return <span className="clearfix">&nbsp;</span>;
+};
+
+export default Clearfix;

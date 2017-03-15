@@ -12,7 +12,7 @@ export default class NavBar extends React.Component {
   };
 
   render() {
-    var navlinks;
+    let navlinks;
 
     if (this.props.pageTemplate == 'public') {
       navlinks = (

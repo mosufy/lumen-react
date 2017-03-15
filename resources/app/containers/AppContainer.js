@@ -16,8 +16,8 @@ import * as userActions from './../actions/userActions';
 
 class AppContainer extends React.Component {
   render() {
-    var path = this.props.location.pathname;
-    var pageTemplate = 'public';
+    let path = this.props.location.pathname;
+    let pageTemplate = 'public';
 
     if (path && path.substring(0, 9) == 'dashboard') {
       pageTemplate = 'dashboard';
